@@ -1,0 +1,604 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Lilita+One&family=Poppins:wght@400;500;600&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    /* Colors Foundation Var */
+    --primary-brand-red: #f23d3d;
+    --accent-cheese-yellow: #ffca28;
+    --charcoal-grey: #545454;
+    --clean-white: #ffffff;
+
+    --fdn-red-light: #feecec;
+    --fdn-red-light-hover: #fde2e2;
+    --fdn-red-light-active: #fbc3c3;
+    --fdn-red-normal: #f23d3d;
+    --fdn-red-normal-hover: #da3737;
+    --fdn-red-normal-active: #c23131;
+    --fdn-red-dark: #b62e2e;
+    --fdn-red-dark-hover: #912525;
+    --fdn-red-dark-active: #6d1b1b;
+    --fdn-red-darker: #551515;
+
+    --fdn-yellow-light: #fffaea;
+    --fdn-yellow-light-hover: #fff7df;
+    --fdn-yellow-light-active: #ffefbc;
+    --fdn-yellow-normal: #ffca28;
+    --fdn-yellow-normal-hover: #e6b624;
+    --fdn-yellow-normal-active: #cca220;
+    --fdn-yellow-dark: #bf981e;
+    --fdn-yellow-dark-hover: #997918;
+    --fdn-yellow-dark-active: #735b12;
+    --fdn-yellow-darker: #59470e;
+
+    --fdn-grey-light: #eeeeee;
+    --fdn-grey-light-hover: #e5e5e5;
+    --fdn-grey-light-active: #cacaca;
+    --fdn-grey-normal: #545454;
+    --fdn-grey-normal-hover: #4c4c4c;
+    --fdn-grey-normal-active: #434343;
+    --fdn-grey-dark: #3f3f3f;
+    --fdn-grey-dark-hover: #323232;
+    --fdn-grey-dark-active: #262626;
+    --fdn-grey-darker: #1d1d1d;
+
+    --fdn-white-light: #ffffff;
+    --fdn-white-light-hover: #ffffff;
+    --fdn-white-light-active: #ffffff;
+    --fdn-white-normal: #ffffff;
+    --fdn-white-normal-hover: #e6e6e6;
+    --fdn-white-normal-active: #cccccc;
+    --fdn-white-dark: #bfbfbf;
+    --fdn-white-dark-hover: #999999;
+    --fdn-white-dark-active: #737373;
+    --fdn-white-darker: #595959;
+
+    /* Font Family Var */
+    --font-display: "Lilita One", sans-serif;
+    --font-subheading: "Fredoka", sans-serif;
+    --font-body: "Poppins", sans-serif;
+
+    /* Font Size Var */
+    --fs-hero: 64px;
+    --fs-h1: 48px;
+    --fs-h2: 32px;
+    --fs-h3: 24px;
+    --fs-h4: 20px;
+    --fs-body-lg: 18px;
+    --fs-body-main: 16px;
+    --fs-caption: 14px;
+    --fs-button: 18px;
+
+    /* Font Weight Var */
+    --fw-regular: 400;
+    --fw-medium: 500;
+    --fw-semibold: 600;
+
+    /* Effect Var*/
+    --shadow-main: 0px 8px 26px rgba(84, 84, 84, 0.25);
+    --shadow-lighter: 0px 0px 12px rgba(84, 84, 84, 0.25);
+
+    /* GAP/PADDING/ICON Responsive Var */
+    --gap-micro: 8px;
+    --gap-small: 16px;
+    --gap-medium: 32px;
+    --gap-large: 64px;
+
+    /* Breakpoint Var */
+    --breakpoint: 1200px;
+}
+
+body {
+    font-family: var(--font-body);
+}
+
+/* Breakpoint Class */
+.breakpoint {
+    max-width: var(--breakpoint);
+    width: 100%;
+}
+
+/* Button Primary Class */
+.btnPrimary {
+    display: inline-flex;
+    padding: var(--gap-small) var(--gap-medium);
+    justify-content: center;
+    align-items: center;
+    gap: var(--gap-micro);
+    border-radius: 100px;
+    background: var(--primary-brand-red);
+    color: var(--clean-white);
+    font-family: var(--font-body);
+    font-size: var(--fs-button);
+    font-weight: var(--fw-semibold);
+    transition: 0.115s;
+}
+
+.btnPrimary .btnIcon {
+    width: 20px;
+    height: 20px;
+    aspect-ratio: 1/1;
+}
+
+.btnPrimary:hover {
+    background: var(primary --fdn-red-normal-hover);
+    color: var(--fdn-white-light-hover);
+}
+
+.btnPrimary:active {
+    background: var(primary --fdn-red-dark-active);
+    color: var(--fdn-grey-light-active);
+}
+
+/* Button Soft Class */
+.btnSoft {
+    display: inline-flex;
+    padding: var(--gap-small) var(--gap-medium);
+    justify-content: center;
+    align-items: center;
+    gap: var(--gap-micro);
+    border-radius: 100px;
+    background: var(--fdn-grey-light);
+    color: var(--charcoal-grey);
+    font-family: var(--font-body);
+    font-size: var(--fs-button);
+    font-weight: var(--fw-semibold);
+    transition: 0.115s;
+}
+
+.btnSoft:hover {
+    background: var(--fdn-grey-light-hover);
+    color: var(--fdn-grey-normal-hover);
+}
+
+.btnSoft:active {
+    background: var(--fdn-grey-light-active);
+    color: var(--fdn-grey-normal-active);
+}
+
+/* Button Outline Class */
+.btnOutline {
+    display: inline-flex;
+    padding: var(--gap-small) var(--gap-medium);
+    justify-content: center;
+    align-items: center;
+    gap: var(--gap-micro);
+    border-radius: 100px;
+    border: 1px solid var(--primary-brand-red);
+    background: var(--clean-white);
+    color: var(--primary-brand-red);
+    font-family: var(--font-body);
+    font-size: var(--fs-button);
+    font-weight: var(--fw-semibold);
+    transition: 0.115s;
+}
+
+.btnOutline:hover {
+    background: var(--fdn-white-normal-hover);
+    color: var(--fdn-red-normal-hover);
+}
+
+.btnOutline:active {
+    background: var(--fdn-white-normal-active);
+    color: var(--fdn-red-normal-active);
+}
+
+/* More Button Class */
+.btnPlay {
+    border-radius: 100%;
+    max-width: 64px;
+    min-width: 64px;
+    box-shadow: 0 15px 30px 0 rgba(223, 105, 81, 0.30);
+    transition: 0.115s;
+}
+
+.btnPlay:hover {
+    scale: 1.044;
+}
+
+.btnSearch {
+    display: flex;
+    justify-content: center;
+    position: relative;
+
+    /* button size + micro gap*/
+    cursor: pointer;
+    max-width: 40px;
+    min-width: 40px;
+    max-height: 40px;
+    min-height: 40px;
+    width: 100%;
+    border-radius: 100%;
+    background-color: var(--primary-brand-red);
+    aspect-ratio: 1/1;
+}
+
+.btnSearch img {
+    max-width: 20px;
+}
+
+.btnSearch:hover {
+    background-color: var(--fdn-red-normal-hover);
+}
+
+.btnSearch:active {
+    background-color: var(--fdn-red-normal-active);
+}
+
+/* Flex Classes */
+.flexCol {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-medium);
+    height: fit-content;
+}
+
+.flexRow {
+    display: flex;
+    height: fit-content;
+}
+
+/* Input Classes */
+input {
+    height: 40px;
+    color: var(--charcoal-grey);
+    font-size: var(--fs-body-main);
+    font-weight: var(--fw-semibold);
+    padding: var(--gap-micro) var(--gap-micro) var(--gap-micro) 24px;
+    transition: 0.115s;
+}
+
+input::placeholder {
+    color: rgba(84, 84, 84, 0.4);
+    font-size: var(--fs-body-main);
+    font-weight: var(--fw-semibold);
+}
+
+input:focus {
+    outline: 2px solid var(--charcoal-grey);
+}
+
+/* Search Bar Class */
+.flexRow .searchBar {
+    justify-content: center;
+}
+
+.searchBar {
+    display: flex;
+    max-width: 480px;
+    width: 100%;
+    border-radius: 100px;
+    border: 1px solid var(--charcoal-grey);
+    background: var(--clean-white);
+}
+
+/* Typography Classes */
+.displayHero {
+    font-family: var(--font-display);
+    font-size: var(--fs-hero);
+    font-weight: 400;
+}
+
+.displayH1 {
+    font-family: var(--font-display);
+    font-size: var(--fs-h1);
+    font-weight: 400;
+}
+
+.displayH2 {
+    font-family: var(--font-display);
+    font-size: var(--fs-h2);
+    font-weight: 400;
+}
+
+.subH3 {
+    font-family: var(--font-subheading);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+}
+
+.subH4 {
+    font-family: var(--font-subheading);
+    font-size: var(--fs-h4);
+    font-weight: var(--fw-medium);
+}
+
+.bodyLg {
+    font-family: var(--font-body);
+    font-size: var(--fs-body-lg);
+    font-weight: var(--fw-medium);
+}
+
+.bodyMain {
+    font-family: var(--font-body);
+    font-size: var(--fs-body-main);
+    font-weight: var(--fw-regular);
+}
+
+.caption {
+    font-family: var(--font-body);
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-regular);
+}
+
+.btnText {
+    font-family: var(--font-body);
+    font-size: var(--fs-button);
+    font-weight: var(--fw-semibold);
+}
+
+/* Effects Classes */
+.shadow {
+    box-shadow: var(--shadow-main);
+}
+
+.shadowLight {
+    box-shadow: var(--shadow-lighter);
+}
+
+/* Color Classes */
+.primaryBrandRed {
+    color: var(--primary-brand-red);
+}
+
+.accentCheeseYellow {
+    color: var(--accent-cheese-yellow);
+}
+
+.charcoalGrey {
+    color: var(--charcoal-grey);
+}
+
+.cleanWhite {
+    color: var(--clean-white);
+}
+
+.fdnRedLight {
+    color: var(--fdn-red-light);
+}
+
+.fdnRedLightHover {
+    color: var(--fdn-red-light-hover);
+}
+
+.fdnRedLightActive {
+    color: var(--fdn-red-light-active);
+}
+
+.fdnRedNormal {
+    color: var(--fdn-red-normal);
+}
+
+.fdnRedNormalHover {
+    color: var(--fdn-red-normal-hover);
+}
+
+.fdnRedNormalActive {
+    color: var(--fdn-red-normal-active);
+}
+
+.fdnRedDark {
+    color: var(--fdn-red-dark);
+}
+
+.fdnRedDarkHover {
+    color: var(--fdn-red-dark-hover);
+}
+
+.fdnRedDarkActive {
+    color: var(--fdn-red-dark-active);
+}
+
+.fdnRedDarker {
+    color: var(--fdn-red-darker);
+}
+
+.fdnYellowLight {
+    color: var(--fdn-yellow-light);
+}
+
+.fdnYellowLightHover {
+    color: var(--fdn-yellow-light-hover);
+}
+
+.fdnYellowLightActive {
+    color: var(--fdn-yellow-light-active);
+}
+
+.fdnYellowNormal {
+    color: var(--fdn-yellow-normal);
+}
+
+.fdnYellowNormalHover {
+    color: var(--fdn-yellow-normal-hover);
+}
+
+.fdnYellowNormalActive {
+    color: var(--fdn-yellow-normal-active);
+}
+
+.fdnYellowDark {
+    color: var(--fdn-yellow-dark);
+}
+
+.fdnYellowDarkHover {
+    color: var(--fdn-yellow-dark-hover);
+}
+
+.fdnYellowDarkActive {
+    color: var(--fdn-yellow-dark-active);
+}
+
+.fdnYellowDarker {
+    color: var(--fdn-yellow-darker);
+}
+
+.fdnGreyLight {
+    color: var(--fdn-grey-light);
+}
+
+.fdnGreyLightHover {
+    color: var(--fdn-grey-light-hover);
+}
+
+.fdnGreyLightActive {
+    color: var(--fdn-grey-light-active);
+}
+
+.fdnGreyNormal {
+    color: var(--fdn-grey-normal);
+}
+
+.fdnGreyNormalHover {
+    color: var(--fdn-grey-normal-hover);
+}
+
+.fdnGreyNormalActive {
+    color: var(--fdn-grey-normal-active);
+}
+
+.fdnGreyDark {
+    color: var(--fdn-grey-dark);
+}
+
+.fdnGreyDarkHover {
+    color: var(--fdn-grey-dark-hover);
+}
+
+.fdnGreyDarkActive {
+    color: var(--fdn-grey-dark-active);
+}
+
+.fdnGreyDarker {
+    color: var(--fdn-grey-darker);
+}
+
+.fdnWhiteLight {
+    color: var(--fdn-white-light);
+}
+
+.fdnWhiteLightHover {
+    color: var(--fdn-white-light-hover);
+}
+
+.fdnWhiteLightActive {
+    color: var(--fdn-white-light-active);
+}
+
+.fdnWhiteNormal {
+    color: var(--fdn-white-normal);
+}
+
+.fdnWhiteNormalHover {
+    color: var(--fdn-white-normal-hover);
+}
+
+.fdnWhiteNormalActive {
+    color: var(--fdn-white-normal-active);
+}
+
+.fdnWhiteDark {
+    color: var(--fdn-white-dark);
+}
+
+.fdnWhiteDarkHover {
+    color: var(--fdn-white-dark-hover);
+}
+
+.fdnWhiteDarkActive {
+    color: var(--fdn-white-dark-active);
+}
+
+.fdnWhiteDarker {
+    color: var(--fdn-white-darker);
+}
+
+/* Visibillity Classes */
+.forMobile {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    :root {
+        --fs-hero: 48px;
+        --fs-h1: 40px;
+        --fs-button: 16px;
+
+        /* GAP/Padding Tablet */
+        --gap-micro: 8px;
+        --gap-small: 16px;
+        --gap-medium: 24px;
+        --gap-large: 48px;
+
+        /* Breakpoint Tablet */
+        --breakpoint: 768px;
+    }
+
+    /* Search Bar Tablet */
+    .searchBar {
+        min-width: 95%;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --fs-hero: 40px;
+        --fs-h1: 32px;
+        --fs-h2: 24px;
+        --fs-h3: 20px;
+        --fs-h4: 18px;
+
+        /* GAP/Padding Mobile */
+        --gap-micro: 8px;
+        --gap-small: 16px;
+        --gap-medium: 24px;
+        --gap-large: 40px;
+
+        /* Breakpoint Mobile */
+        --breakpoint: 768px;
+    }
+
+    /* Search Bar Tablet */
+    .searchBar {
+        min-width: 90%;
+    }
+
+    /* More Button Class */
+    .btnPlay {
+        max-width: 54px;
+        min-width: 54px;
+    }
+
+    /* Visibillity Classes Mobile */
+    .forMobile {
+        display: block;
+    }
+}
+
+@media (max-width: 367px) {
+    :root {
+        --fs-hero: 32px;
+        --fs-h1: 24px;
+        --fs-h2: 16px;
+        --fs-h3: 12px;
+        --fs-h4: 10px;
+
+        /* GAP/Padding Mobile */
+        --gap-micro: 5px;
+        --gap-small: 11px;
+        --gap-medium: 19px;
+        --gap-large: 35px;
+
+        /* Breakpoint Mobile */
+        --breakpoint: 360px;
+    }
+
+    /* More Button Class */
+    .btnPlay {
+        max-width: 46px;
+        min-width: 46px;
+    }
+}
