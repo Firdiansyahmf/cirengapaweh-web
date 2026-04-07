@@ -42,13 +42,13 @@
   gap: var(--gap-small);
 }
 
-.templateHero .btnSearch {
+.hero .btnSearch {
   top: 8px;
   right: 48px;
 }
 
 @media (max-width: 1024px) {
-  .templateHero {
+  .hero {
     padding-top: 102px;
     align-content: baseline;
   }
@@ -107,7 +107,7 @@
     max-width: 114.6px;
   }
 
-  .templateHero .btnSearch {
+  .hero .btnSearch {
     top: 6px;
     right: 48px;
   }

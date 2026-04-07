@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const emailInput = document.getElementById('email');
 
   togglePasswordBtn.addEventListener('click', function (e) {
-    e.preventDefault();
+    // e.preventDefault();
 
     if (passwordInput.type === 'password') {
       passwordInput.type = 'text';
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   loginForm.addEventListener('submit', function (e) {
-    e.preventDefault();
+    // e.preventDefault();
 
     const email = emailInput.value.trim();
     const password = passwordInput.value.trim();

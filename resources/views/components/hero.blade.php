@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="flexRow">
-                    <input type="text" class="searchBar" placeholder="Cari menu favoritmu di sini..." maxlength="56">
+                    <input type="text" id="searchBar" class="searchBar" placeholder="Cari menu favoritmu di sini..." maxlength="56">
                     <div class="btnSearch">
                         <img src="{{ asset('assets/icon/btnCari.svg') }}" alt="Cari">
                     </div>

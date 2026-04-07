@@ -1,8 +1,8 @@
-@extends('layouts.admin')
+@extends("layouts.admin")
 
-@section('title', 'Dashboard Utama - Cireng A\'paweh')
+@section("title", "Dashboard Utama - Cireng A'paweh")
 
-@section('content')
+@section("content")
     <div id="beranda" class="pageActive">
         <div class="berandaHeader">
             <div class="berandaTitle">
