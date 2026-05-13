@@ -38,6 +38,35 @@ Karena tim pengembang menggunakan sistem operasi yang berbeda (Linux & Windows),
 
 ---
 
+## 🔄 Panduan Git Workflow (Push & Pull)
+Untuk mencegah konflik kode (merge conflict), seluruh anggota tim DIWAJIBKAN bekerja di branch masing-masing (misal: `ansyah`, `cahya`, `anaqi`, `ilyas`). Jangan pernah ngoding langsung di branch `master`!
+
+A. Cara Push (Menyimpan & Menggabungkan Pekerjaanmu ke Master)
+Jalankan perintah ini saat kamu selesai mengerjakan suatu fitur di branch kamu:
+1. `git add .` (Menyimpan semua perubahan)
+2. `git commit -m "tipe: deskripsi perubahan kamu"` (Memberi pesan update)
+   Gunakan awalan (tipe) berikut agar history rapi:
+   * `feat:` (feature) - Jika menambah fitur/halaman baru. (Contoh: feat: tambah halaman login)
+   * `fix:` (bug fix) - Jika memperbaiki error/bug. (Contoh: fix: perbaiki tabel yang hilang)
+   * `chore:` (chore) - Jika mengurus hal teknis/maintenance seperti install library, update gitignore.
+   * `docs:` (documentation) - Jika mengubah README atau dokumentasi.
+   * `style:` (style) - Jika hanya merapikan CSS, spasi, atau format kode tanpa ubah logika.
+3. `git push origin nama-branch-kamu` (Mengunggah branch kamu ke GitHub)
+4. `git checkout master` (Pindah ke branch utama)
+5. `git merge nama-branch-kamu` (Menggabungkan kodemu ke master)
+6. `git push origin master` (Mengunggah master terbaru ke GitHub)
+7. `git checkout nama-branch-kamu` (Kembali ke branch-mu untuk siap ngoding lagi)
+
+B. Cara Pull (Mengambil Update Terbaru Teman dari Master)
+Jalankan perintah ini SEBELUM kamu mulai ngoding agar kodemu tidak tertinggal:
+1. `git checkout master` (Pindah ke branch utama)
+2. `git pull origin master` (Menarik kode terbaru dari GitHub)
+3. `php artisan view:clear` (WAJIB! Membersihkan cache tampilan Laravel)
+4. `git checkout nama-branch-kamu` (Kembali ke branch kamu)
+5. `git merge master` (Memasukkan update terbaru tadi ke dalam branch kamu)
+
+---
+
 ## ⚙️ Panduan Instalasi (Local Environment)
 
 Ikuti langkah-langkah berikut secara berurutan untuk menjalankan proyek ini di laptop masing-masing:
@@ -77,6 +106,45 @@ php artisan key:generate
 ### 5. Jalankan Server
 php artisan serve
 Aplikasi sekarang dapat diakses melalui http://localhost:8000.
+
+---
+
+## 📚 LARAVEL COURSE GoDigi Dev
+Panduan arsitektur proyek untuk memudahkan anggota tim memahami alur kerja aplikasi.
+
+1. Konsep Utama:
+Menggunakan arsitektur MVC (Model - View - Controller) dengan Routes sebagai pintu gerbangnya.
+
+2. Analogi Proyek = Restoran:
+A. routes/web.php (Sang Pelayan)
+- Pelayan yang menerima pesanan (URL) dari pengunjung, lalu mengarahkannya ke tempat yang tepat.
+
+B. app/Http/Controllers (Sang Koki di Dapur)
+- Pelayan menyerahkan pesanan ke Koki (Controller).
+- Di sinilah tempat menulis logika bisnis, seperti: "Ambil data cireng dari database, lalu hitung pembayarannya, baru kirim ke halaman".
+
+C. resources/views (Piring & Presentasi Makanan)
+- Menampilkan hasil akhir ke pembeli (HTML, CSS, JS) dengan akhiran .blade.php.
+- Koki (Controller) akan memberikan data (misal daftar menu), dan views ini yang menyusun agar rapi lewat komponen-komponen.
+- Pembagian Folder Views:
+  * layouts/: Tempat menyimpan file master layout (app.blade.php untuk pelanggan, admin.blade.php untuk CMS). Tugasnya menyediakan kerangka HTML dan ruang kosong dengan perintah @yield('content') yang nanti diisi halaman lain.
+  * pages/: Tempat menyimpan halaman utuh yang dilihat pelanggan (misal index.blade.php, produk.blade.php). File di sini tidak butuh tag HTML dasar lagi, cukup meminjam kerangka dari layouts pakai @extends('layouts.app') lalu mengisi ruang spesifik pakai @section('content').
+  * components/: Tempat potongan UI kecil (Template) yang bisa dipakai berulang (contoh: navbar.blade.php, footer.blade.php). Dipanggil di dalam pages menggunakan perintah @include('components.namaKomponen').
+  * admin/: Berfungsi seperti pages namun dipisah khusus untuk ekosistem admin, yang dilihat oleh penjual/karyawan setelah login.
+
+D. app/Models & database/ (Gudang Bahan Baku)
+- app/Models/: Ibarat buku catatan yang mengenali struktur tabel MySQL (misal: Model Product untuk tabel produk).
+- database/migrations/: Fitur keren Laravel. Tanpa buka phpMyAdmin untuk bikin tabel, cukup nulis struktur tabel pakai kode PHP di sini, lalu run `php artisan migrate`, dan tabel otomatis tercipta di MySQL.
+
+E. Folder Penting Lainnya
+- public/: Ibarat etalase depan. Semua file gambar, maskot, global.css, ikon, dll harus ditaruh di dalam public/assets atau public/css.
+- .env: Ibarat brankas rahasia. Tempat menyimpan password database dan Key Midtrans.
+
+3. Aturan Emas Tanda Kutip (Quotes) di Laravel Blade:
+- Untuk mencegah error layar putih (ParseError), JANGAN mencampuradukkan tanda kutip ganda (") secara sembarangan.
+- ATURAN: Jika Anda sedang berada di dalam atribut HTML yang menggunakan kutip ganda (contoh: class="..."), maka semua logika PHP di dalam {{ }} WAJIB 100% menggunakan kutip tunggal (').
+- Contoh Salah: <a class="navItem {{ request()->is("admin/dashboard") ? "active" : "" }}">
+- Contoh Benar: <a class="navItem {{ request()->is('admin/dashboard') ? 'active' : '' }}">
 
 ---
 
