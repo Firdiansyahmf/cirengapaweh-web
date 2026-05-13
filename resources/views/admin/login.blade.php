@@ -24,7 +24,7 @@
         <div class="loginCard">
             <h2 class="loginTitle">Silakan log in untuk mengakses admin dashboard</h2>
 
-            <form class="loginForm" id="loginForm" method="GET" action="{{ url("admin/dashboard') }}">
+            <form class="loginForm" id="loginForm" method="GET" action="{{ url('admin/dashboard') }}">
                 @csrf
 
                 <div class="formGroup">

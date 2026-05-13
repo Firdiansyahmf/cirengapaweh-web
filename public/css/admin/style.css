@@ -12,7 +12,7 @@ body {
 /* ====== HEADER ====== */
 .header {
     background-color: var(--fdn-red-normal);
-    color: var(--fdn-white-normal);
+    color: var(--clean-white);
     padding: 15px 30px;
     display: flex;
     justify-content: space-between;
@@ -26,15 +26,15 @@ body {
 
 .headerTitle {
     font-family: var(--font-display);
-    font-size: 24px;
-    font-weight: 700;
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-regular);
     letter-spacing: 0.5px;
 }
 
 .headerRight {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: var(--gap-medium);
 }
 
 /* Notification Button */
@@ -43,15 +43,12 @@ body {
     border: none;
     cursor: pointer;
     font-size: 24px;
+    color: var(--clean-white);
     transition: transform 0.2s;
 }
 
 .notificationBtn:hover {
     transform: scale(1.1);
-}
-
-.bellIcon {
-    display: inline-block;
 }
 
 /* Profile */
@@ -72,9 +69,9 @@ body {
 
 .profileName {
     font-family: var(--font-subheading);
-    font-weight: 600;
-    color: var(--fdn-grey-dark);
-    font-size: 14px;
+    font-weight: var(--fw-semibold);
+    color: var(--fdn-grey-darker);
+    font-size: var(--fs-caption);
 }
 
 .profileRole {
@@ -92,8 +89,8 @@ body {
 /* ====== SIDEBAR ====== */
 .sidebar {
     width: 240px;
-    background-color: var(--fdn-white-normal);
-    border-right: 1px solid var(--fdn-grey-light);
+    background-color: var(--clean-white);
+    border-right: 1px solid var(--fdn-grey-light-hover);
     padding: 20px 12px;
     display: flex;
     flex-direction: column;
@@ -109,7 +106,7 @@ body {
 
 .navbarBottom {
     margin-top: auto;
-    border-top: 1px solid var(--fdn-grey-light);
+    border-top: 1px solid var(--fdn-grey-light-hover);
     padding-top: 20px;
 }
 
@@ -135,9 +132,9 @@ body {
 
 .navItem.active {
     background-color: var(--fdn-yellow-normal);
-    color: var(--fdn-grey-dark);
+    color: var(--fdn-grey-darker);
     border-left-color: transparent;
-    font-weight: 600;
+    font-weight: var(--fw-semibold);
 }
 
 .navItem.logout {
@@ -148,36 +145,15 @@ body {
     background-color: var(--fdn-red-light);
 }
 
-.material-symbols-outlined {
-    font-family: 'Material Symbols Outlined';
-    font-weight: 400;
-    font-style: normal;
-    font-size: 24px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 24px;
-    letter-spacing: normal;
-    text-transform: none;
-    white-space: nowrap;
-    word-wrap: normal;
-    direction: ltr;
-}
-
-.navIcon {
-    font-size: 18px;
-    min-width: 24px;
-}
-
 .navText {
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: var(--fs-caption);
 }
 
 /* ====== MAIN ====== */
 .mainContent {
     flex: 1;
-    background-color: var(--fdn-grey-light-hover);
+    background-color: var(--fdn-grey-light);
     overflow-y: auto;
 }
 
@@ -185,84 +161,49 @@ body {
     padding: 30px;
 }
 
-.page {
-    display: none;
-    animation: fadeIn 0.3s ease;
-}
-
-.pageActive {
-    display: block;
-}
-
-.beranda h2 {
-    font-size: 42px;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.page h2,
-.pageActive h2 {
+h2 {
     font-family: var(--font-display);
-    color: var(--fdn-grey-dark);
-    font-size: 28px;
+    color: var(--fdn-grey-darker);
+    font-size: var(--fs-h2);
     margin-bottom: 10px;
 }
 
-.page p,
-.pageActive p {
+p {
     font-family: var(--font-body);
     color: var(--charcoal-grey);
-    font-size: 16px;
+    font-size: var(--fs-body-main);
 }
 
 /* ====== BERANDA/DASHBOARD PAGE ====== */
-
 .berandaHeader {
     margin-bottom: 40px;
 }
 
 .berandaTitle h2 {
-    font-family: var(--font-display);
-    font-size: 40px;
-    font-weight: 700;
-    color: var(--fdn-grey-dark);
+    font-size: var(--fs-h1);
+    color: var(--fdn-grey-darker);
     margin-bottom: 8px;
-}
-
-.berandaTitle p {
-    font-family: var(--font-body);
-    font-size: 16px;
-    color: #666;
 }
 
 /* Stats Cards Grid */
 .statsCardsGrid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: var(--gap-medium);
     margin-bottom: 40px;
 }
 
 .statCard {
-    background: white;
-    border: 1px solid #e0e0e0;
+    background: var(--clean-white);
+    border: 1px solid var(--fdn-grey-light-hover);
     border-radius: 16px;
     padding: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-lighter);
     transition: all 0.3s ease;
 }
 
 .statCard:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--shadow-main);
     transform: translateY(-2px);
 }
 
@@ -285,7 +226,7 @@ body {
 .statIcon .material-symbols-outlined {
     font-size: 48px;
     font-weight: 700;
-    color: white;
+    color: var(--clean-white);
 }
 
 .statInfo {
@@ -295,17 +236,16 @@ body {
 
 .statLabel {
     font-family: var(--font-body);
-    font-size: 14px;
-    color: #666;
-    font-weight: 500;
+    font-size: var(--fs-caption);
+    color: var(--charcoal-grey);
+    font-weight: var(--fw-medium);
     margin: 0;
 }
 
 .statNumber {
     font-family: var(--font-display);
     font-size: 36px;
-    font-weight: 700;
-    color: var(--fdn-grey-dark);
+    color: var(--fdn-grey-darker);
     margin: 0;
     line-height: 1;
 }
@@ -314,24 +254,24 @@ body {
 .dashboardContentGrid {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
-    gap: 20px;
+    gap: var(--gap-medium);
     margin-bottom: 40px;
 }
 
 /* Chart Section */
-.chartSection {
-    background: white;
-    border: 1px solid #e0e0e0;
+.chartSection, .activitySection {
+    background: var(--clean-white);
+    border: 1px solid var(--fdn-grey-light-hover);
     border-radius: 16px;
     padding: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-lighter);
 }
 
-.chartTitle {
+.chartTitle, .activityTitle {
     font-family: var(--font-body);
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--fdn-grey-dark);
+    font-size: var(--fs-body-main);
+    font-weight: var(--fw-semibold);
+    color: var(--fdn-grey-darker);
     margin: 0 0 20px 0;
 }
 
@@ -349,27 +289,10 @@ body {
 }
 
 /* Activity Section */
-.activitySection {
-    background: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.activityTitle {
-    font-family: var(--font-body);
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--fdn-grey-dark);
-    margin: 0 0 4px 0;
-}
-
 .activitySubtitle {
-    font-family: var(--font-body);
     font-size: 13px;
-    color: #999;
-    margin: 0 0 16px 0;
+    color: var(--fdn-white-dark-hover);
+    margin: -16px 0 16px 0;
 }
 
 .activityList {
@@ -382,7 +305,7 @@ body {
     display: flex;
     gap: 12px;
     padding-bottom: 16px;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--fdn-grey-light);
 }
 
 .activityItem:last-child {
@@ -399,24 +322,17 @@ body {
     margin-top: 6px;
 }
 
-.activityContent {
-    flex: 1;
-}
-
 .activityText {
-    font-family: var(--font-body);
-    font-size: 14px;
-    color: var(--fdn-grey-dark);
+    font-size: var(--fs-caption);
+    color: var(--fdn-grey-darker);
     margin: 0 0 4px 0;
-    line-height: 1.4;
 }
 
 .activityTime {
-    font-family: var(--font-body);
     font-size: 12px;
-    color: #999;
+    color: var(--fdn-white-dark-hover);
     margin: 0;
-    font-weight: 500;
+    font-weight: var(--fw-medium);
 }
 
 /* Promo Aktif Section */
@@ -426,29 +342,29 @@ body {
 
 .promoSectionTitle {
     font-family: var(--font-body);
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--fdn-grey-dark);
+    font-size: var(--fs-body-lg);
+    font-weight: var(--fw-semibold);
+    color: var(--fdn-grey-darker);
     margin: 0 0 20px 0;
 }
 
 .promoCardsGrid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: var(--gap-medium);
 }
 
 .promoCard {
-    background: white;
-    border: 1px solid #e0e0e0;
+    background: var(--clean-white);
+    border: 1px solid var(--fdn-grey-light-hover);
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-lighter);
     transition: all 0.3s ease;
 }
 
 .promoCard:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--shadow-main);
     transform: translateY(-2px);
 }
 
@@ -460,13 +376,13 @@ body {
 
 .promoBadge {
     display: inline-block;
-    background-color: white;
+    background-color: var(--clean-white);
     color: var(--fdn-red-normal);
     padding: 6px 12px;
     border-radius: 20px;
     font-family: var(--font-body);
     font-size: 12px;
-    font-weight: 600;
+    font-weight: var(--fw-semibold);
 }
 
 .promoCardBody {
@@ -475,18 +391,16 @@ body {
 
 .promoCardTitle {
     font-family: var(--font-body);
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--fdn-grey-dark);
+    font-size: var(--fs-body-main);
+    font-weight: var(--fw-semibold);
+    color: var(--fdn-grey-darker);
     margin: 0 0 12px 0;
 }
 
 .promoCardDate {
-    font-family: var(--font-body);
     font-size: 13px;
-    color: #666;
+    color: var(--charcoal-grey);
     margin: 0 0 16px 0;
-    line-height: 1.4;
 }
 
 .promoDetailLink {
@@ -499,7 +413,7 @@ body {
     border-radius: 20px;
     padding: 8px 16px;
     transition: all 0.3s ease;
-    font-weight: 500;
+    font-weight: var(--fw-medium);
 }
 
 .promoDetailLink:hover {
@@ -508,7 +422,6 @@ body {
 }
 
 /* ====== PRODUCT MANAGEMENT PAGE ====== */
-
 .pageHeader {
     display: flex;
     justify-content: flex-start;
@@ -516,10 +429,10 @@ body {
     gap: 30px;
     margin-bottom: 30px;
     padding: 20px 30px;
-    background-color: var(--fdn-white-normal);
-    border: 1px solid var(--fdn-grey-light);
+    background-color: var(--clean-white);
+    border: 1px solid var(--fdn-grey-light-hover);
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-lighter);
 }
 
 .headerContent {
@@ -532,18 +445,15 @@ body {
 
 .headerContent h2 {
     margin-bottom: 2px;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--fdn-grey-dark);
+    font-size: var(--fs-body-main);
+    font-weight: var(--fw-semibold);
     font-family: var(--font-body);
 }
 
 .headerContent p {
     margin-bottom: 0;
     font-size: 12px;
-    color: #999;
-    font-family: var(--font-body);
-    font-weight: 400;
+    color: var(--fdn-white-dark-hover);
 }
 
 .headerSearchBox {
@@ -557,22 +467,17 @@ body {
     border: 1px solid var(--fdn-grey-light);
     transition: all 0.3s ease;
     min-width: 250px;
-    max-width: 100%;
 }
 
 .headerSearchBox:focus-within {
     border-color: var(--fdn-red-normal);
-    background-color: var(--fdn-white-normal);
+    background-color: var(--clean-white);
     box-shadow: 0 0 0 3px rgba(242, 61, 61, 0.1);
 }
 
 .headerSearchBox .material-symbols-outlined {
     font-size: 20px;
     color: var(--charcoal-grey);
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .headerSearchBox .searchBox {
@@ -581,357 +486,105 @@ body {
     border: none;
     background: none;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: var(--fs-caption);
     color: var(--charcoal-grey);
-    font-weight: 400;
     width: 100%;
+    height: auto;
 }
 
 .headerSearchBox .searchBox:focus {
     outline: none;
 }
 
-.headerSearchBox .searchBox::placeholder {
-    color: #999;
-    font-family: var(--font-body);
-    font-weight: 400;
-}
-
-.btnAddProduct {
+.btnAddProduct, .btnAddLocation, .btnAddPromo, .btnAddAdmin {
     background-color: var(--fdn-red-normal);
-    color: var(--fdn-white-normal);
+    color: var(--clean-white);
     border: none;
     padding: 10px 24px;
     border-radius: 50px;
-    font-weight: 500;
+    font-weight: var(--fw-medium);
     display: flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: var(--font-body);
-    font-size: 14px;
-    flex-shrink: 0;
-    white-space: nowrap;
-}
-
-.btnAddProduct:hover {
-    background-color: var(--fdn-red-normal-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(242, 61, 61, 0.3);
-}
-
-.btnAddProduct .material-symbols-outlined {
-    font-size: 20px;
-}
-
-.btnAddLocation {
-    background-color: var(--fdn-red-normal);
-    color: var(--fdn-white-normal);
-    border: none;
-    padding: 10px 24px;
-    border-radius: 50px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: var(--font-body);
-    font-size: 14px;
-    flex-shrink: 0;
-    white-space: nowrap;
-}
-
-.btnAddLocation:hover {
-    background-color: var(--fdn-red-normal-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(242, 61, 61, 0.3);
-}
-
-.btnAddLocation .material-symbols-outlined {
-    font-size: 20px;
-}
-
-.btnAddPromo {
-    background-color: var(--fdn-red-normal);
-    color: var(--fdn-white-normal);
-    border: none;
-    padding: 10px 24px;
-    border-radius: 50px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: var(--font-body);
-    font-size: 14px;
-    flex-shrink: 0;
-    white-space: nowrap;
-}
-
-.btnAddPromo:hover {
-    background-color: var(--fdn-red-normal-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(242, 61, 61, 0.3);
-}
-
-.btnAddPromo .material-symbols-outlined {
-    font-size: 20px;
-}
-
-.btnAddAdmin {
-    background-color: var(--fdn-red-normal);
-    color: var(--fdn-white-normal);
-    border: none;
-    padding: 10px 24px;
-    border-radius: 50px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: var(--font-body);
-    font-size: 14px;
-    flex-shrink: 0;
-    white-space: nowrap;
-}
-
-.btnAddAdmin:hover {
-    background-color: var(--fdn-red-normal-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(242, 61, 61, 0.3);
-}
-
-.btnAddAdmin .material-symbols-outlined {
-    font-size: 20px;
-}
-
-/* Stats Grid - Promo Page */
-.statsGrid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-bottom: 30px;
-}
-
-.statCard {
-    background-color: var(--fdn-white-normal);
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-}
-
-.statCard:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-    transform: translateY(-2px);
-}
-
-.statIcon {
-    width: 100px;
-    height: 100px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.statIcon .material-symbols-outlined {
-    font-size: 64px;
-    font-weight: 300;
-}
-
-.statContent {
-    flex: 1;
-}
-
-.statLabel {
     font-family: var(--font-body);
     font-size: var(--fs-caption);
-    color: var(--fdn-grey-normal);
-    font-weight: 500;
-    margin-bottom: 8px;
+    white-space: nowrap;
 }
 
-.statValue {
-    font-family: var(--font-display);
-    font-size: 36px;
-    color: var(--fdn-charcoal);
-    font-weight: 700;
-}
-
-/* Search & Filter Section */
-.searchFilterSection {
-    display: none;
-}
-
-.searchBox {
-    flex: 1;
-    max-width: 500px;
-    padding: 12px 20px;
-    border: 1px solid #ddd;
-    border-radius: 50px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    background-color: white;
-    transition: border-color 0.3s ease;
-}
-
-.searchBox:focus {
-    outline: none;
-    border-color: #F23D3D;
-    box-shadow: 0 0 0 3px rgba(242, 61, 61, 0.1);
-}
-
-.searchBox::placeholder {
-    color: #ccc;
+.btnAddProduct:hover, .btnAddLocation:hover, .btnAddPromo:hover, .btnAddAdmin:hover {
+    background-color: var(--fdn-red-normal-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(242, 61, 61, 0.3);
 }
 
 /* Table Section */
 .tableWrapper {
-    background-color: white;
-    border: 1px solid #ddd;
+    background-color: var(--clean-white);
+    border: 1px solid var(--fdn-grey-light-hover);
     border-radius: 12px;
     overflow: hidden;
     margin-bottom: 25px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-lighter);
 }
 
-.productTable {
+.productTable, .locationTable, .promoTable, .adminTable {
     width: 100%;
     border-collapse: collapse;
 }
 
-.productTable thead {
+.productTable thead, .locationTable thead, .promoTable thead, .adminTable thead {
     background-color: var(--fdn-grey-light);
     border-bottom: 2px solid var(--fdn-grey-light-hover);
 }
 
-.productTable th {
+.productTable th, .locationTable th, .promoTable th, .adminTable th {
     padding: 16px 12px;
     text-align: left;
     font-family: var(--font-body);
     font-size: 13px;
-    font-weight: 600;
+    font-weight: var(--fw-semibold);
     color: var(--fdn-grey-dark);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.productTable td {
+.productTable td, .locationTable td, .promoTable td, .adminTable td {
     padding: 16px 12px;
-    border-bottom: 1px solid #f0f0f0;
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    color: #545454;
-}
-
-.productTable tbody tr:hover {
-    background-color: #fafafa;
-}
-
-/* Foto Cell */
-.fotoCell {
-    width: 80px;
-}
-
-.productThumb {
-    width: 60px;
-    height: 60px;
-    border-radius: 8px;
-    object-fit: cover;
-    background-color: #f0f0f0;
-}
-
-/* Nama Produk Cell */
-.namaProduk {
-    font-weight: 600;
-    color: #3F3F3F;
-    max-width: 150px;
-}
-
-/* ====== LOCATION TABLE ====== */
-
-.locationTable {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.locationTable thead {
-    background-color: var(--fdn-grey-light);
-    border-bottom: 2px solid var(--fdn-grey-light-hover);
-}
-
-.locationTable th {
-    padding: 16px 12px;
-    text-align: left;
+    border-bottom: 1px solid var(--fdn-grey-light-hover);
     font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--fdn-grey-dark);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.locationTable td {
-    padding: 16px 12px;
-    border-bottom: 1px solid #f0f0f0;
-    font-family: var(--font-body);
-    font-size: 14px;
+    font-size: var(--fs-caption);
     color: var(--charcoal-grey);
 }
 
-.locationTable tbody tr:hover {
+.productTable tbody tr:hover, .locationTable tbody tr:hover, .promoTable tbody tr:hover, .adminTable tbody tr:hover {
     background-color: #fafafa;
 }
 
-/* Nama Lokasi Cell */
-.namaLokasi {
-    font-weight: 600;
-    color: var(--fdn-grey-dark);
-    max-width: 150px;
+/* Cell specifics */
+.fotoCell { width: 80px; text-align: center; }
+.productThumb, .locationThumb, .promoThumb {
+    width: 60px; height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+    background-color: var(--fdn-grey-light);
 }
 
-/* Alamat Cell */
-.alamat {
+.namaProduk, .namaLokasi, .namaAdmin, .judulPromo {
+    font-weight: var(--fw-semibold);
+    color: var(--fdn-grey-darker);
+}
+
+.deskripsi, .alamat {
     max-width: 400px;
-    color: #666;
-    font-size: 13px;
+    line-height: 1.5;
 }
 
-/* Jam Operasional Cell */
 .jamOperasional {
     display: flex;
     align-items: center;
     gap: 8px;
-    white-space: nowrap;
-}
-
-/* Location Thumb */
-.locationThumb {
-    width: 60px;
-    height: 60px;
-    border-radius: 8px;
-    object-fit: cover;
-    background-color: #f0f0f0;
-}
-
-/* Deskripsi Cell */
-.deskripsi {
-    max-width: 400px;
-    color: #666;
-    font-size: 13px;
-    line-height: 1.5;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 /* Badge Styling */
@@ -940,44 +593,24 @@ body {
     padding: 6px 12px;
     border-radius: 20px;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: var(--fw-semibold);
     white-space: nowrap;
 }
 
-.badgeCategory {
+.badgeCategory, .badgeAdministrator {
     background-color: var(--fdn-red-normal);
-    color: var(--fdn-white-normal);
+    color: var(--clean-white);
 }
 
-.badgeCategory.badgeYellow {
+.badgeCategory.badgeYellow, .badgeStaff {
     background-color: var(--fdn-yellow-normal);
-    color: var(--fdn-grey-dark);
+    color: var(--fdn-grey-darker);
 }
 
-.badgeAktif {
-    background-color: #c8e6c9;
-    color: #2e7d32;
-}
-
-.badgeNonaktif {
-    background-color: #f8bbd0;
-    color: #c2185b;
-}
-
-.badgeExpired {
-    background-color: #e0e0e0;
-    color: #616161;
-}
-
-.badgeAdministrator {
-    background-color: var(--fdn-red-normal);
-    color: var(--fdn-white-normal);
-}
-
-.badgeStaff {
-    background-color: var(--fdn-yellow-normal);
-    color: var(--fdn-grey-dark);
-}
+/* Keeping these custom colors as they indicate specific statuses not in global */
+.badgeAktif { background-color: #c8e6c9; color: #2e7d32; }
+.badgeNonaktif { background-color: #f8bbd0; color: #c2185b; }
+.badgeExpired { background-color: var(--fdn-grey-light-hover); color: var(--charcoal-grey); }
 
 /* Action Cell */
 .aksiCell {
@@ -991,137 +624,20 @@ body {
     cursor: pointer;
     padding: 6px;
     display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: 6px;
     transition: all 0.3s ease;
 }
 
-.btnEdit {
-    color: #666;
-}
-
+.btnEdit { color: var(--charcoal-grey); }
 .btnEdit:hover {
-    background-color: #f0f0f0;
-    color: var(--fdn-red-normal);
+    background-color: var(--fdn-grey-light-hover);
+    color: var(--fdn-yellow-dark);
 }
 
-.btnDelete {
-    color: #999;
-}
-
+.btnDelete { color: var(--fdn-white-dark-hover); }
 .btnDelete:hover {
     background-color: var(--fdn-red-light);
-    color: var(--fdn-red-normal-active);
-}
-
-.btnIcon .material-symbols-outlined {
-    font-size: 32px;
-}
-
-/* Promo Table */
-.promoTable {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.promoTable thead {
-    background-color: var(--fdn-grey-light);
-    border-bottom: 2px solid var(--fdn-grey-light-hover);
-}
-
-.promoTable th {
-    padding: 16px 12px;
-    text-align: left;
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--fdn-grey-dark);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.promoTable td {
-    padding: 16px 12px;
-    border-bottom: 1px solid #f0f0f0;
-    font-family: var(--font-body);
-    font-size: 14px;
-    color: var(--charcoal-grey);
-}
-
-.promoTable tbody tr:hover {
-    background-color: #fafafa;
-}
-
-/* Admin Table */
-.adminTable {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.adminTable thead {
-    background-color: var(--fdn-grey-light);
-    border-bottom: 2px solid var(--fdn-grey-light-hover);
-}
-
-.adminTable th {
-    padding: 16px 12px;
-    text-align: left;
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--fdn-grey-dark);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.adminTable td {
-    padding: 16px 12px;
-    border-bottom: 1px solid #f0f0f0;
-    font-family: var(--font-body);
-    font-size: 14px;
-    color: var(--charcoal-grey);
-}
-
-.adminTable tbody tr:hover {
-    background-color: #fafafa;
-}
-
-.namaAdmin {
-    font-weight: 500;
-    color: var(--fdn-grey-dark);
-}
-
-.emailAdmin {
-    color: #666;
-    font-size: 13px;
-}
-
-/* Foto Cell */
-.fotoCell {
-    text-align: center;
-}
-
-/* Promo Thumbnail */
-.promoThumb {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 6px;
-}
-
-/* Judul Promo Cell */
-.judulPromo {
-    font-weight: 600;
-    color: var(--fdn-grey-dark);
-    max-width: 200px;
-}
-
-/* Durasi Cell */
-.durasi {
-    white-space: nowrap;
-    color: #666;
-    font-size: 13px;
+    color: var(--fdn-red-normal);
 }
 
 /* Pagination */
@@ -1133,22 +649,17 @@ body {
 }
 
 .paginationBtn {
-    background-color: white;
-    border: 1px solid #ddd;
+    background-color: var(--clean-white);
+    border: 1px solid var(--fdn-grey-light-hover);
     padding: 8px 12px;
     border-radius: 6px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    color: #545454;
+    color: var(--charcoal-grey);
 }
 
 .paginationBtn:hover {
     border-color: var(--fdn-red-normal);
     color: var(--fdn-red-normal);
-}
-
-.paginationBtn .material-symbols-outlined {
-    font-size: 18px;
 }
 
 .paginationNumbers {
@@ -1157,20 +668,18 @@ body {
 }
 
 .paginationNumber {
-    background-color: white;
+    background-color: var(--clean-white);
     border: 2px solid var(--fdn-grey-light);
     width: 40px;
     height: 40px;
     border-radius: 50%;
     cursor: pointer;
     font-family: var(--font-body);
-    font-weight: 500;
-    transition: all 0.3s ease;
+    font-weight: var(--fw-medium);
     color: var(--charcoal-grey);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
 }
 
 .paginationNumber:hover {
@@ -1180,48 +689,6 @@ body {
 
 .paginationNumber.active {
     background-color: var(--fdn-red-normal);
-    color: var(--fdn-white-normal);
+    color: var(--clean-white);
     border-color: var(--fdn-red-normal);
-}
-
-
-@media (max-width: 768px) {
-    .sidebar {
-        width: 200px;
-    }
-
-    .headerTitle {
-        font-size: 18px;
-    }
-
-    .profileSection {
-        padding: 6px 12px;
-    }
-
-    .profileName {
-        font-size: 12px;
-    }
-
-    .profileRole {
-        font-size: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .sidebar {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        left: -100%;
-        transition: left 0.3s;
-        z-index: 100;
-    }
-
-    .sidebar.open {
-        left: 0;
-    }
-
-    .header {
-        flex-wrap: wrap;
-    }
 }
