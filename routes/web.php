@@ -30,14 +30,14 @@ Route::prefix('admin')->group(function () {
     });
 
     Route::get('/lokasi', function () {
-        //return view('admin.lokasi');
+        return view('admin.lokasi');
     });
 
     Route::get('/promo', function () {
-        //return view('admin.promo');
+        return view('admin.promo');
     });
 
     Route::get('/pengguna', function () {
-        //return view('admin.pengguna');
+        return view('admin.pengguna');
     });
 });
