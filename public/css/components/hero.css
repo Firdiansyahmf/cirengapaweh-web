@@ -50,36 +50,30 @@
 @media (max-width: 1024px) {
     .hero {
         padding-top: 102px;
-        align-content: baseline;
     }
 
     .breakpoint {
         flex-direction: column;
     }
 
-    .breakpoint .flexCol {
-        align-content: center !important;
-    }
-
     .inlineFlex img {
         left: -5px;
         max-width: 167px;
     }
+
+    .box1 {
+        width: 100%;
+    }
 }
 
 @media (max-width: 768px) {
-    .breakpoint .flexCol {
-        align-content: left;
-    }
-
     .flexCol .flexRow:nth-of-type(4) .btnText {
         font-size: var(--fs-caption);
     }
 
 
     .box1 {
-        align-self: baseline;
-        right: var(--gap-medium);
+
     }
 
     #maskot {
