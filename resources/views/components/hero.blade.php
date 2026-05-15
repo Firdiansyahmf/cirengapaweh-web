@@ -1,11 +1,13 @@
 <div class="hero">
     <div class="breakpoint">
+
         <div class="box1">
             <img id="maskot" src="{{ asset('assets/img/dekorasi/maskot.png') }}" alt="Maskot Cireng A'paweh" />
         </div>
 
         <div class="box2">
             <div class="flexCol">
+                
                 <div class="displayHero">
                     Lapar? <br class="forMobile">
                     <span class="primaryBrandRed">Cireng A'paweh</span> Siap
@@ -25,9 +27,12 @@
                 </div>
 
                 <div class="flexRow">
-                    <input type="text" id="searchBar" class="searchBar" placeholder="Cari menu favoritmu di sini..." maxlength="56">
-                    <div class="btnSearch">
-                        <img src="{{ asset('assets/icon/btnCari.svg') }}" alt="Cari">
+                    <div class="searchBarContain">
+                        <input type="text" id="searchBar" class="searchBar"
+                            placeholder="Cari menu favoritmu di sini..." maxlength="56">
+                        <div class="btnSearch">
+                            <img src="{{ asset('assets/icon/btnCari.svg') }}" alt="Cari">
+                        </div>
                     </div>
                 </div>
 
