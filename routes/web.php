@@ -7,6 +7,10 @@ Route::get('/', function () {
     return view('pages.index');
 });
 
+Route::get('/detail-produk', function () {
+    return view('pages.produk');
+});
+
 // buat halaman tentang-kami jika sudah dipecah:
 // Route::get("/tentang-kami", function () {
 //     return view("pages.tentang-kami");

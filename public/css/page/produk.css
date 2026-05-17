@@ -1,0 +1,8 @@
+main {
+    display: flex;
+    justify-content: center;
+    padding: 0px var(--gap-medium);
+    background: linear-gradient(220deg,
+            var(--fdn-yellow-light) 0.69%,
+            var(--clean-white, #fff) 57.53%);
+}

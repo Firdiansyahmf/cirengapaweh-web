@@ -1,0 +1,227 @@
+.detail {
+    width: 100%;
+    height: auto;
+    margin-top: var(--gap-large);
+    margin-bottom: var(--gap-large);
+    display: flex;
+    justify-content: center;
+    color: var(--charcoal-grey);
+}
+
+.breakpoint {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--gap-medium);
+}
+
+/* .product-visual {
+    flex-grow: 1;
+    position: relative;
+} */
+
+.product-visual { 
+    flex: 1 1 0;
+    min-width: 0;
+    align-self: stretch;
+    overflow: hidden;
+}
+
+/* .main-product-img {
+    max-width: 584px;
+    border-radius: 32px;
+    align-self: stretch;
+    position: relative;
+    object-fit: cover;
+    overflow: hidden;
+    box-shadow: var(--shadow-main);
+} */
+
+.main-product-img {
+    display: block; 
+    width: 100%; 
+    height: 100%;
+    object-fit: cover;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: var(--shadow-main);
+}
+
+.product-info-content {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--gap-medium);
+    align-self: stretch;
+}
+
+.quote-box {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-small);
+}
+
+.quote {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    size: 32px;
+    padding: 12px;
+    border-radius: 64px;
+    background: var(--primary-brand-red);
+}
+
+.seller-message {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-small);
+    background: var(--clean-white);
+    border-left: 6px solid var(--primary-brand-red);
+    padding: 32px;
+    border-radius: 24px;
+    box-shadow: var(--shadow-main);
+}
+
+.social-proof-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-self: stretch;
+    gap: var(--gap-small);
+    padding: 18px 25px;
+    border: 2px dashed var(--accent-cheese-yellow);
+    background-color: #FFFDE7;
+    border-radius: 20px;
+}
+
+.product-buy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-small);
+    align-items: flex-start;
+    align-self: stretch;
+    background: var(--clean-white);
+    padding: 32px;
+    border-radius: 24px;
+    box-shadow: var(--shadow-main);
+}
+
+.quantity {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    padding: 8px;
+    gap: 24px;
+    border-radius: 16px;
+    border: 1px solid var(--charcoal-grey);
+}
+
+.quantity button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.quantity button:hover {
+    opacity: 0.7;
+    transform: scale(1.1);
+}
+
+.quantity button:active {
+    transform: scale(0.95);
+}
+
+.quantity input {
+    padding: 0;
+    border: none;
+    background: transparent;
+    text-align: center;
+    width: 32px;
+    height: 32px;
+    outline: none;
+    border-bottom: 2px solid rgb(from var(--charcoal-grey) r g b / 0.5);
+    transition: border-color 0.12s, color 0.12s;
+    color: var(--primary-brand-red);
+    cursor: text;
+}
+
+.quantity input:focus {
+    border-bottom: 2px solid var(--primary-brand-red);
+}
+
+.quantity input[type="number"]::-webkit-outer-spin-button,
+.quantity input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.subtotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    align-self: stretch;
+}
+
+@media (max-width: 1024px) {
+    
+    .breakpoint {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .product-visual {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: none;
+        align-self: stretch;
+        overflow: hidden;
+    }
+
+    .main-product-img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+        max-height: 420px;
+        object-fit: cover;
+        border-radius: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    
+}
+
+@media (max-width: 480px) {
+    .breakpoint {
+        flex-direction: column;
+        gap: var(--gap-medium);
+        align-items: stretch;
+    }
+
+    .product-visual {
+        width: 100%;
+        flex: 0 0 auto;
+        overflow: hidden;
+        align-self: stretch;
+    }
+
+    .main-product-img {
+        width: 100%;
+        height: auto !important;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: var(--shadow-main);
+        max-height: none;
+    }
+
+    .product-info-content {
+        padding-top: var(--gap-medium);
+    }
+}
