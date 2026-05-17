@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
 // >____________RUTE PELANGGAN (WEB UTAMA)
 Route::get('/', function () {
@@ -25,9 +26,11 @@ Route::prefix('admin')->group(function () {
         return view('admin.dashboard');
     });
 
-    Route::get('/produk', function () {
-        return view('admin.produk');
-    });
+    // Produk Routes
+    Route::get('/produk', [ProductController::class, 'index'])->name('produk.index');
+    Route::post('/produk', [ProductController::class, 'store'])->name('produk.store');
+    Route::put('/produk/{product}', [ProductController::class, 'update'])->name('produk.update');
+    Route::delete('/produk/{product}', [ProductController::class, 'destroy'])->name('produk.destroy');
 
     Route::get('/lokasi', function () {
         return view('admin.lokasi');
