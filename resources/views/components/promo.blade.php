@@ -54,8 +54,9 @@
                     </article>
                 </div>
 
-            </div>
-        </div>
-    </div>
+            </div> <!-- end flexRow -->
 
-</div>
+        </div> <!-- end breakpoint -->
+
+    </div> <!-- end promo -->
+</div> <!-- end promoContain -->

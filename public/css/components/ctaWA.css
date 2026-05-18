@@ -1,0 +1,10 @@
+.ctaWA {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background: var(--accent-cheese-yellow);
+}
+
+/* Start : base global.css */
+
+/* end base : global.css */

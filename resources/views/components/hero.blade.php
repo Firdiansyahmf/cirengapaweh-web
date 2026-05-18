@@ -45,7 +45,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+
+            </div> <!-- end flexCol -->
         </div>
-    </div>
-</div>
+
+    </div> <!-- end breakpoint -->
+</div> <!-- end hero -->

@@ -466,6 +466,12 @@ input:focus {
         min-width: 480px;
     }
 
+    /* Section Header Tablet */
+    .sectionHeader {
+        padding-inline: var(--gap-medium);
+        align-self: center;
+    }
+
     /* Card Class Tablet */
     .cardContain {
         padding-top: 110px;
@@ -510,7 +516,7 @@ input:focus {
         width: 100%;
     }
 
-    /* Section Class */
+    /* Section Header Mobile */
     .sectionHeader {
         max-width: 342px;
     }
