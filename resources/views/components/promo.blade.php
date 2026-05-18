@@ -48,21 +48,7 @@
                         <h3 class="subH3">Cireng Isi Ayam Suwir Kuah Keju Creamy</h3>
                         <p class="bodyMain">
                             Sensasi dobel nikmat! Cireng montok berisi ayam suwir berbumbu, makin mantap
-                            diseruput bareng kuah keju lumer yang bikin nagih.!
-                        </p>
-                        <button class="btnPrimary">Ambil Promo</button>
-                    </article>
-                </div>
-
-                <div class="cardContain">
-                    <article class="card">
-                        <img class="shadowLight"
-                            src="{{ asset('assets/img/produk/Cireng Isi Ayam Suwir Kuah Keju Creamy.jpg') }}"
-                            alt="Cireng Isi Ayam Suwir Kuah Keju Creamyy" />
-                        <h3 class="subH3">Cireng Isi Ayam Suwir Kuah Keju Creamy</h3>
-                        <p class="bodyMain">
-                            Sensasi dobel nikmat! Cireng montok berisi ayam suwir berbumbu, makin mantap
-                            diseruput bareng kuah keju lumer yang bikin nagih.!
+                            diseruput bareng kuah keju lumer yang bikin nagih.
                         </p>
                         <button class="btnPrimary">Ambil Promo</button>
                     </article>

@@ -78,6 +78,10 @@
 }
 /* end base : global.css */
 
+.cardContain:nth-child(2):nth-last-child(2) {
+    transform: translateY(var(--gap-medium));
+}
+
 @media (max-width: 1760px) {
     .promo .flexRow {
         justify-content: flex-start;
@@ -146,5 +150,9 @@
 
     .promo .card .subH3 {
         font-size: var(--fs-h2);
+    }
+
+    .cardContain:nth-child(2):nth-last-child(2) {
+        transform: none;
     }
 }
