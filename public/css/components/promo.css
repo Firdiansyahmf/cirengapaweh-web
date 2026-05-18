@@ -17,7 +17,6 @@
 .promo {
     max-width: 100%;
     width: 100%;
-    color: var(--color-white);
     background: var(--accent-cheese-yellow);
     border-radius: 100% 100% 0 0 / 50vw 50vw 0 0;
 }
@@ -37,10 +36,6 @@
     flex-wrap: wrap;
     width: 100%;
     max-width: 100%;
-}
-
-.promo .sectionHeader {
-    color: var(--clean-white);
 }
 
 /* Corousel */

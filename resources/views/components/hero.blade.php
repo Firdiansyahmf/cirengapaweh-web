@@ -1,4 +1,4 @@
-<div class="hero">
+<div class="hero charcoalGrey">
     <div class="breakpoint">
 
         <div class="box1">
@@ -7,7 +7,7 @@
 
         <div class="box2">
             <div class="flexCol">
-                
+
                 <div class="displayHero">
                     Lapar? <br class="forMobile">
                     <span class="primaryBrandRed">Cireng A'paweh</span> Siap

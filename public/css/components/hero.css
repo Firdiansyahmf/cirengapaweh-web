@@ -1,7 +1,6 @@
 .hero {
     display: flex;
     justify-content: center;
-    color: var(--charcoal-grey);
     padding-top: var(--gap-large);
     padding-bottom: var(--gap-large);
 }

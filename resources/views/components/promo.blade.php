@@ -1,11 +1,11 @@
 <div class="promoContain">
-    <div class="promo">
+    <div class="promo cleanWhite">
 
         <img id="gedungSate" src="{{ asset('assets/img/dekorasi/gedungSate.svg') }}" alt="Gedung Sate">
 
         <div class="breakpoint">
 
-            <div class="sectionHeader">
+            <div class="sectionHeader cleanWhite">
                 <h1 class="displayH1">Promo <span class="accentCheeseYellow">Spesial</span> Khusus Hari Ini!</h1>
                 <h3 class="subH3">Yuk, ambil promonya sekarang buat nemenin waktu bersantai kamu!</h3>
             </div>
@@ -26,8 +26,6 @@
                     </article>
                 </div>
 
-
-
                 <div class="cardContain">
                     <article class="card">
                         <img class="shadowLight"
@@ -42,8 +40,6 @@
                     </article>
                 </div>
 
-
-
                 <div class="cardContain">
                     <article class="card">
                         <img class="shadowLight"
@@ -57,7 +53,6 @@
                         <button class="btnPrimary">Ambil Promo</button>
                     </article>
                 </div>
-
 
                 <div class="cardContain">
                     <article class="card">
