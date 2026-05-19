@@ -1,50 +1,47 @@
 .hero {
-    display: flex;
-    justify-content: center;
     padding-top: var(--gap-large);
     padding-bottom: var(--gap-large);
-}
-
-.box1 {
-    display: flex;
-    max-width: 100%;
+    align-items: center;
 }
 
 .hero #maskot {
-    max-width: 410px;
+    max-width: 100%;
 }
 
 /* Start : base global.css */
 .hero .breakpoint {
     flex-direction: row;
-    /*background: rgba(30, 143, 255, 0.24);*/
     padding-top: var(--gap-large);
     padding-bottom: var(--gap-large);
-
 }
 
-.hero .flexCol .flexRow:nth-of-type(4) {
-    gap: var(--gap-small);
-    align-items: center;
-}
-
+.hero .flexCol .flexRow:nth-of-type(4),
 .hero .flexCol .flexRow:nth-of-type(4) .flexRow {
     align-items: center;
     gap: var(--gap-small);
+    width: fit-content;
 }
+
 /* end */
+
+.hero .box2 {
+    max-width: 751.33px;
+}
 
 /* "Kamu" */
 .hero .inlineFlex {
     display: inline-flex;
     flex-direction: column;
+    position: relative;
 }
 
 .hero .inlineFlex img {
-    position: relative;
-    left: -10px;
+    position: absolute;
+    left: -12px;
+    bottom: -8px;
     max-width: 223px;
 }
+
 
 @media (max-width: 1024px) {
     .hero .breakpoint {
@@ -52,22 +49,18 @@
         padding-top: 102px;
     }
 
-    .box1 {
-        justify-content: center;
-        width: 100%;
-    }
-
     .hero .flexCol>div {
         text-align: center;
         align-self: center;
     }
 
-    .hero .inlineFlex {
-        margin-left: -16px;
+    .hero .flexCol > .flexRow {
+        justify-content: center;
     }
 
     .hero .inlineFlex img {
-        left: 12px;
+        left: -8px;
+        bottom: -6px;
         max-width: 160px;
     }
 
@@ -77,23 +70,29 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
+    .hero .inlineFlex img {
+        max-width: 138.6px;
+    }
+}
+
+@media (max-width: 550px) {
     .hero {
         padding-bottom: 0;
-    }
-
-    /* Start : base global.css */
-    .hero .flexCol .flexRow:nth-of-type(4) .btnText {
-        font-size: var(--fs-caption);
-    }
-    /* end */
-
-    .box1 {
+        align-items: flex-start;
         justify-content: left;
+    }
+
+    .hero .breakpoint {
+        align-items: flex-start;
     }
 
     .hero #maskot {
         width: 100%;
+    }
+
+    .hero .flexRow {
+        align-self: flex-start;
     }
 
     .hero .flexCol>div {
@@ -101,30 +100,21 @@
         align-self: auto;
     }
 
-    .hero .inlineFlex {
-        margin-left: 0;
+    .hero .flexCol > .flexRow {
+        justify-content: start;
     }
 
-    .hero .inlineFlex img {
-        left: -5px;
-        max-width: 138.6px;
-    }
-
-    .box2 {
-        max-width: 100%;
+    .hero .flexCol .flexRow:nth-of-type(4) .btnText {
+        font-size: var(--fs-caption);
     }
 }
 
-@media (max-width: 367px) {
-    .hero .inlineFlex img {
-        left: -4px;
-        max-width: 114.6px;
-    }
-}
-
-@media (max-width: 333px) {
+@media (max-width: 366px) {
     .hero .flexRow {
         flex-wrap: wrap-reverse;
+    }
+
+    .hero .flexCol > .flexRow {
         justify-content: center;
     }
 }

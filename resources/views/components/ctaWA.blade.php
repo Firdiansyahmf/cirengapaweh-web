@@ -1,4 +1,4 @@
-<div class="ctaWA">
+<div class="ctaWA flexCol">
     <div class="breakpoint">
 
         <div class="sectionHeader">

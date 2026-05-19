@@ -3,6 +3,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 :root {
@@ -98,6 +99,7 @@ body {
 
 /* Breakpoint Class */
 .breakpoint {
+    width: 100%;
     max-width: var(--breakpoint);
     display: flex;
     flex-direction: column;
@@ -115,11 +117,13 @@ body {
     flex-direction: column;
     gap: var(--gap-medium);
     height: fit-content;
+    width: 100%;
 }
 
 .flexRow {
     display: flex;
     height: fit-content;
+    width: 100%;
 }
 
 /* Typography Classes */
@@ -235,6 +239,7 @@ body {
 /* Button Primary Class */
 .btnPrimary {
     display: inline-flex;
+    max-width: 100%;
     padding: var(--gap-small) var(--gap-medium);
     justify-content: center;
     align-items: center;
@@ -267,6 +272,7 @@ body {
 /* Button Soft Class */
 .btnSoft {
     display: inline-flex;
+    max-width: 100%;
     padding: var(--gap-small) var(--gap-medium);
     justify-content: center;
     align-items: center;
@@ -293,6 +299,7 @@ body {
 /* Button Outline Class */
 .btnOutline {
     display: inline-flex;
+    max-width: 100%;
     padding: var(--gap-small) var(--gap-medium);
     justify-content: center;
     align-items: center;
@@ -365,6 +372,7 @@ input:focus {
     border-radius: 100px;
     border: 1px solid var(--charcoal-grey);
     background: var(--clean-white);
+    box-sizing: content-box;
 }
 
 .btnSearch {
@@ -419,10 +427,9 @@ input:focus {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 290px;
-    min-height: 466px;
+    max-width: 335px;
     background: var(--accent-cheese-yellow);
-    padding: 0 var(--gap-medium) 0 var(--gap-medium);
+    padding: 0 var(--gap-medium) var(--gap-medium) var(--gap-medium);
     gap: var(--gap-small);
     border-radius: 100px 100px var(--gap-medium) var(--gap-medium);
     text-align: center;
@@ -433,6 +440,11 @@ input:focus {
     max-width: 216px;
     border-radius: 100%;
     border: var(--gap-small) solid var(--accent-cheese-yellow);
+    box-sizing: content-box;
+}
+
+.card .btnPrimary {
+    margin-top: auto;
 }
 
 /* Visibillity Classes */
@@ -477,10 +489,6 @@ input:focus {
         padding-top: 110px;
     }
 
-    .card {
-        min-height: 448px;
-    }
-
     .card img {
         max-width: 200px;
     }
@@ -521,13 +529,12 @@ input:focus {
         max-width: 342px;
     }
 
-    /* Card Class Tablet */
+    /* Card Class Mobile */
     .cardContain {
         padding-top: 110px;
     }
 
     .card {
-        min-height: 0px;
         padding-bottom: var(--fs-h1);
     }
 
@@ -543,17 +550,7 @@ input:focus {
         --breakpoint: 360px;
     }
 
-    /* More Button Class */
-    .btnPlay {
-        max-width: 46px;
-        min-width: 46px;
-    }
-
-    .btnSearch {
-        top: 6px;
-    }
-
-    /* Section Class Mobile */
+    /* Section Class Mobile Small */
     .sectionHeader .subH3 {
         font-size: var(-fs-h3);
     }

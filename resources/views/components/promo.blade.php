@@ -1,5 +1,5 @@
-<div class="promoContain">
-    <div class="promo cleanWhite">
+<div class="promoContain flexCol">
+    <div class="promo">
 
         <img id="gedungSate" src="{{ asset('assets/img/dekorasi/gedungSate.svg') }}" alt="Gedung Sate">
 

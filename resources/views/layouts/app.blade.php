@@ -32,6 +32,7 @@
     <meta name="twitter:image" content="{{ asset('assets/img/produk/Cireng Isi Ayam Suwir Kuah Keju Creamy.jpg') }}" />
 
     <link rel="stylesheet" href="{{ asset('css/global.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/components/footer.css') }}">
 
     @stack("styles")
 </head>
@@ -43,7 +44,7 @@
         @yield("content")
     </main>
 
-    {{-- @include("components.footer") --}}
+    @include("components.footer")
 
     @stack("scripts")
 </body>
