@@ -3,6 +3,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 :root {
@@ -98,6 +99,7 @@ body {
 
 /* Breakpoint Class */
 .breakpoint {
+    width: 100%;
     max-width: var(--breakpoint);
     display: flex;
     flex-direction: column;
@@ -115,11 +117,13 @@ body {
     flex-direction: column;
     gap: var(--gap-medium);
     height: fit-content;
+    width: 100%;
 }
 
 .flexRow {
     display: flex;
     height: fit-content;
+    width: 100%;
 }
 
 /* Typography Classes */
@@ -178,194 +182,64 @@ body {
 }
 
 /* Color Classes */
-.primaryBrandRed {
-    color: var(--primary-brand-red);
-}
+.primaryBrandRed {color: var(--primary-brand-red);}
+.accentCheeseYellow {color: var(--accent-cheese-yellow);}
+.charcoalGrey {color: var(--charcoal-grey);}
+.cleanWhite {color: var(--clean-white);}
 
-.accentCheeseYellow {
-    color: var(--accent-cheese-yellow);
-}
+.fdnRedLight {color: var(--fdn-red-light);}
+.fdnRedLightHover {color: var(--fdn-red-light-hover);}
+.fdnRedLightActive {color: var(--fdn-red-light-active);}
+.fdnRedNormal {color: var(--fdn-red-normal);}
+.fdnRedNormalHover {color: var(--fdn-red-normal-hover);}
+.fdnRedNormalActive {color: var(--fdn-red-normal-active);}
+.fdnRedDark {color: var(--fdn-red-dark);}
+.fdnRedDarkHover {color: var(--fdn-red-dark-hover);}
+.fdnRedDarkActive {color: var(--fdn-red-dark-active);}
+.fdnRedDarker {color: var(--fdn-red-darker);}
 
-.charcoalGrey {
-    color: var(--charcoal-grey);
-}
+.fdnYellowLight {color: var(--fdn-yellow-light);}
+.fdnYellowLightHover {color: var(--fdn-yellow-light-hover);}
+.fdnYellowLightActive {color: var(--fdn-yellow-light-active);}
 
-.cleanWhite {
-    color: var(--clean-white);
-}
+.fdnYellowNormal {color: var(--fdn-yellow-normal);}
+.fdnYellowNormalHover {color: var(--fdn-yellow-normal-hover);}
+.fdnYellowNormalActive {color: var(--fdn-yellow-normal-active);}
+.fdnYellowDark {color: var(--fdn-yellow-dark);}
+.fdnYellowDarkHover {color: var(--fdn-yellow-dark-hover);}
+.fdnYellowDarkActive {color: var(--fdn-yellow-dark-active);}
+.fdnYellowDarker {color: var(--fdn-yellow-darker);}
 
-.fdnRedLight {
-    color: var(--fdn-red-light);
-}
+.fdnGreyLight {color: var(--fdn-grey-light);}
+.fdnGreyLightHover {color: var(--fdn-grey-light-hover);}
+.fdnGreyLightActive {color: var(--fdn-grey-light-active);}
+.fdnGreyNormal {color: var(--fdn-grey-normal);}
+.fdnGreyNormalHover {color: var(--fdn-grey-normal-hover);}
+.fdnGreyNormalActive {color: var(--fdn-grey-normal-active);}
+.fdnGreyDark {color: var(--fdn-grey-dark);}
+.fdnGreyDarkHover {color: var(--fdn-grey-dark-hover);}
+.fdnGreyDarkActive {color: var(--fdn-grey-dark-active);}
+.fdnGreyDarker {color: var(--fdn-grey-darker);}
 
-.fdnRedLightHover {
-    color: var(--fdn-red-light-hover);
-}
-
-.fdnRedLightActive {
-    color: var(--fdn-red-light-active);
-}
-
-.fdnRedNormal {
-    color: var(--fdn-red-normal);
-}
-
-.fdnRedNormalHover {
-    color: var(--fdn-red-normal-hover);
-}
-
-.fdnRedNormalActive {
-    color: var(--fdn-red-normal-active);
-}
-
-.fdnRedDark {
-    color: var(--fdn-red-dark);
-}
-
-.fdnRedDarkHover {
-    color: var(--fdn-red-dark-hover);
-}
-
-.fdnRedDarkActive {
-    color: var(--fdn-red-dark-active);
-}
-
-.fdnRedDarker {
-    color: var(--fdn-red-darker);
-}
-
-.fdnYellowLight {
-    color: var(--fdn-yellow-light);
-}
-
-.fdnYellowLightHover {
-    color: var(--fdn-yellow-light-hover);
-}
-
-.fdnYellowLightActive {
-    color: var(--fdn-yellow-light-active);
-}
-
-.fdnYellowNormal {
-    color: var(--fdn-yellow-normal);
-}
-
-.fdnYellowNormalHover {
-    color: var(--fdn-yellow-normal-hover);
-}
-
-.fdnYellowNormalActive {
-    color: var(--fdn-yellow-normal-active);
-}
-
-.fdnYellowDark {
-    color: var(--fdn-yellow-dark);
-}
-
-.fdnYellowDarkHover {
-    color: var(--fdn-yellow-dark-hover);
-}
-
-.fdnYellowDarkActive {
-    color: var(--fdn-yellow-dark-active);
-}
-
-.fdnYellowDarker {
-    color: var(--fdn-yellow-darker);
-}
-
-.fdnGreyLight {
-    color: var(--fdn-grey-light);
-}
-
-.fdnGreyLightHover {
-    color: var(--fdn-grey-light-hover);
-}
-
-.fdnGreyLightActive {
-    color: var(--fdn-grey-light-active);
-}
-
-.fdnGreyNormal {
-    color: var(--fdn-grey-normal);
-}
-
-.fdnGreyNormalHover {
-    color: var(--fdn-grey-normal-hover);
-}
-
-.fdnGreyNormalActive {
-    color: var(--fdn-grey-normal-active);
-}
-
-.fdnGreyDark {
-    color: var(--fdn-grey-dark);
-}
-
-.fdnGreyDarkHover {
-    color: var(--fdn-grey-dark-hover);
-}
-
-.fdnGreyDarkActive {
-    color: var(--fdn-grey-dark-active);
-}
-
-.fdnGreyDarker {
-    color: var(--fdn-grey-darker);
-}
-
-.fdnWhiteLight {
-    color: var(--fdn-white-light);
-}
-
-.fdnWhiteLightHover {
-    color: var(--fdn-white-light-hover);
-}
-
-.fdnWhiteLightActive {
-    color: var(--fdn-white-light-active);
-}
-
-.fdnWhiteNormal {
-    color: var(--fdn-white-normal);
-}
-
-.fdnWhiteNormalHover {
-    color: var(--fdn-white-normal-hover);
-}
-
-.fdnWhiteNormalActive {
-    color: var(--fdn-white-normal-active);
-}
-
-.fdnWhiteDark {
-    color: var(--fdn-white-dark);
-}
-
-.fdnWhiteDarkHover {
-    color: var(--fdn-white-dark-hover);
-}
-
-.fdnWhiteDarkActive {
-    color: var(--fdn-white-dark-active);
-}
-
-.fdnWhiteDarker {
-    color: var(--fdn-white-darker);
-}
+.fdnWhiteLight {color: var(--fdn-white-light);}
+.fdnWhiteLightHover {color: var(--fdn-white-light-hover);}
+.fdnWhiteLightActive {color: var(--fdn-white-light-active);}
+.fdnWhiteNormal {color: var(--fdn-white-normal);}
+.fdnWhiteNormalHover {color: var(--fdn-white-normal-hover);}
+.fdnWhiteNormalActive {color: var(--fdn-white-normal-active);}
+.fdnWhiteDark {color: var(--fdn-white-dark);}
+.fdnWhiteDarkHover {color: var(--fdn-white-dark-hover);}
+.fdnWhiteDarkActive {color: var(--fdn-white-dark-active);}
+.fdnWhiteDarker {color: var(--fdn-white-darker);}
 
 /* Effects Classes */
-.shadow {
-    box-shadow: var(--shadow-main);
-}
-
-.shadowLight {
-    box-shadow: var(--shadow-lighter);
-}
+.shadow {box-shadow: var(--shadow-main);}
+.shadowLight {box-shadow: var(--shadow-lighter);}
 
 /* Button Primary Class */
 .btnPrimary {
     display: inline-flex;
+    max-width: 100%;
     padding: var(--gap-small) var(--gap-medium);
     justify-content: center;
     align-items: center;
@@ -398,6 +272,7 @@ body {
 /* Button Soft Class */
 .btnSoft {
     display: inline-flex;
+    max-width: 100%;
     padding: var(--gap-small) var(--gap-medium);
     justify-content: center;
     align-items: center;
@@ -424,6 +299,7 @@ body {
 /* Button Outline Class */
 .btnOutline {
     display: inline-flex;
+    max-width: 100%;
     padding: var(--gap-small) var(--gap-medium);
     justify-content: center;
     align-items: center;
@@ -496,6 +372,7 @@ input:focus {
     border-radius: 100px;
     border: 1px solid var(--charcoal-grey);
     background: var(--clean-white);
+    box-sizing: content-box;
 }
 
 .btnSearch {
@@ -550,10 +427,9 @@ input:focus {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 290px;
-    min-height: 466px;
+    max-width: 335px;
     background: var(--accent-cheese-yellow);
-    padding: 0 var(--gap-medium) 0 var(--gap-medium);
+    padding: 0 var(--gap-medium) var(--gap-medium) var(--gap-medium);
     gap: var(--gap-small);
     border-radius: 100px 100px var(--gap-medium) var(--gap-medium);
     text-align: center;
@@ -564,6 +440,11 @@ input:focus {
     max-width: 216px;
     border-radius: 100%;
     border: var(--gap-small) solid var(--accent-cheese-yellow);
+    box-sizing: content-box;
+}
+
+.card .btnPrimary {
+    margin-top: auto;
 }
 
 /* Visibillity Classes */
@@ -597,13 +478,15 @@ input:focus {
         min-width: 480px;
     }
 
+    /* Section Header Tablet */
+    .sectionHeader {
+        padding-inline: var(--gap-medium);
+        align-self: center;
+    }
+
     /* Card Class Tablet */
     .cardContain {
         padding-top: 110px;
-    }
-
-    .card {
-        min-height: 448px;
     }
 
     .card img {
@@ -641,18 +524,17 @@ input:focus {
         width: 100%;
     }
 
-    /* Section Class */
+    /* Section Header Mobile */
     .sectionHeader {
         max-width: 342px;
     }
 
-    /* Card Class Tablet */
+    /* Card Class Mobile */
     .cardContain {
         padding-top: 110px;
     }
 
     .card {
-        min-height: 0px;
         padding-bottom: var(--fs-h1);
     }
 
@@ -668,17 +550,7 @@ input:focus {
         --breakpoint: 360px;
     }
 
-    /* More Button Class */
-    .btnPlay {
-        max-width: 46px;
-        min-width: 46px;
-    }
-
-    .btnSearch {
-        top: 6px;
-    }
-
-    /* Section Class Mobile */
+    /* Section Class Mobile Small */
     .sectionHeader .subH3 {
         font-size: var(-fs-h3);
     }

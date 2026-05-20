@@ -1,11 +1,11 @@
-<div class="promoContain">
+<div class="promoContain flexCol">
     <div class="promo">
 
         <img id="gedungSate" src="{{ asset('assets/img/dekorasi/gedungSate.svg') }}" alt="Gedung Sate">
 
         <div class="breakpoint">
 
-            <div class="sectionHeader">
+            <div class="sectionHeader cleanWhite">
                 <h1 class="displayH1">Promo <span class="accentCheeseYellow">Spesial</span> Khusus Hari Ini!</h1>
                 <h3 class="subH3">Yuk, ambil promonya sekarang buat nemenin waktu bersantai kamu!</h3>
             </div>
@@ -26,8 +26,6 @@
                     </article>
                 </div>
 
-
-
                 <div class="cardContain">
                     <article class="card">
                         <img class="shadowLight"
@@ -42,8 +40,6 @@
                     </article>
                 </div>
 
-
-
                 <div class="cardContain">
                     <article class="card">
                         <img class="shadowLight"
@@ -52,29 +48,15 @@
                         <h3 class="subH3">Cireng Isi Ayam Suwir Kuah Keju Creamy</h3>
                         <p class="bodyMain">
                             Sensasi dobel nikmat! Cireng montok berisi ayam suwir berbumbu, makin mantap
-                            diseruput bareng kuah keju lumer yang bikin nagih.!
+                            diseruput bareng kuah keju lumer yang bikin nagih.
                         </p>
                         <button class="btnPrimary">Ambil Promo</button>
                     </article>
                 </div>
 
+            </div> <!-- end flexRow -->
 
-                <div class="cardContain">
-                    <article class="card">
-                        <img class="shadowLight"
-                            src="{{ asset('assets/img/produk/Cireng Isi Ayam Suwir Kuah Keju Creamy.jpg') }}"
-                            alt="Cireng Isi Ayam Suwir Kuah Keju Creamyy" />
-                        <h3 class="subH3">Cireng Isi Ayam Suwir Kuah Keju Creamy</h3>
-                        <p class="bodyMain">
-                            Sensasi dobel nikmat! Cireng montok berisi ayam suwir berbumbu, makin mantap
-                            diseruput bareng kuah keju lumer yang bikin nagih.!
-                        </p>
-                        <button class="btnPrimary">Ambil Promo</button>
-                    </article>
-                </div>
+        </div> <!-- end breakpoint -->
 
-            </div>
-        </div>
-    </div>
-
-</div>
+    </div> <!-- end promo -->
+</div> <!-- end promoContain -->

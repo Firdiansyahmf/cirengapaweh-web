@@ -55,6 +55,10 @@
                     <span class="material-symbols-outlined">local_offer</span>
                     <span class="navText">Promo</span>
                 </a>
+                <a href="{{ url('admin/pemesanan') }}" class="navItem {{ request()->is('admin/pemesanan') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined">receipt_long</span>
+                    <span class="navText">Pemesanan</span>
+                </a>
             </nav>
 
             <nav class="navbarBottom">

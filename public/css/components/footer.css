@@ -1,0 +1,91 @@
+.footer {
+    background: var(--fdn-grey-dark);
+    align-items: center;
+}
+
+.footer a {
+    color: var(--color-white);
+    text-decoration: none;
+}
+
+/* box1 */
+.footer .box1 {
+    gap: var(--gap-medium);
+}
+
+.footer #logo {
+    max-width: 56px;
+}
+
+.footer .box1 .flexCol .flexRow {
+    align-items: center;
+    width: fit-content;
+    gap: var(--gap-small);
+}
+
+.footer .box1 .flexCol .flexRow .flexCol,.footer .aMenu {
+    gap: var(--gap-micro);
+}
+
+.footer #responsiveMenu {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    gap: var(--gap-medium);
+}
+
+.footer .aMenu h2 {
+    padding-bottom: var(--gap-small);
+}
+
+.footer .medsos img, .footer .medsos a {
+    max-width: 24px;
+    max-height: 24px;
+}
+
+.footer .aMenu a {
+    display: flex;
+    gap: var(--gap-micro);
+}
+
+.footer .aMenu a img {
+    max-width: 14px;
+}
+
+/* box2 */
+.footer .box2 {
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--primary-brand-red);
+    padding-top: var(--gap-small);
+}
+
+.footer .medsos {
+    width: fit-content;
+    gap: var(--gap-small);
+}
+
+@media(max-width: 1024px) {
+    /* box1 Tablet */
+    .footer .box1 {
+        flex-wrap: wrap;
+    }
+
+    .footer #responsiveMenu {
+        justify-content: space-evenly;
+    }
+}
+
+@media(max-width: 435px) {
+    /* box1 Mobile Small */
+    .footer #responsiveMenu {
+        flex-direction: column;
+    }
+
+    /* box2 Mobile Small */
+    .footer .box2 {
+        flex-direction: column;
+        gap: var(--gap-small);
+        align-items: flex-start;
+    }
+}
