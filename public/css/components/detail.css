@@ -10,6 +10,7 @@
 
 .breakpoint {
     display: flex;
+    flex-direction: row;
     align-items: flex-start;
     gap: var(--gap-medium);
 }
