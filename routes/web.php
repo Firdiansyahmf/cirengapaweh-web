@@ -1,12 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-<<<<<<< Updated upstream
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\LocationController;
-=======
 use App\Http\Controllers\CheckoutController;
->>>>>>> Stashed changes
 
 // >____________RUTE PELANGGAN (WEB UTAMA)
 Route::get('/', function () {
