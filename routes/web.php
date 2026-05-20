@@ -37,6 +37,10 @@ Route::prefix('admin')->group(function () {
         return view('admin.promo');
     });
 
+    Route::get('/pemesanan', function () {
+        return view('admin.pemesanan');
+    });
+
     Route::get('/pengguna', function () {
         return view('admin.pengguna');
     });
