@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <div class="loginContainer">
+    <div class="loginContainer"> 
         <div class="bgShapeRed"></div>
         <div class="bgShapeYellow"></div>
 
