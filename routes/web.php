@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\LocationController;
 
 // >____________RUTE PELANGGAN (WEB UTAMA)
 Route::get('/', function () {
@@ -32,9 +33,12 @@ Route::prefix('admin')->group(function () {
     Route::put('/produk/{product}', [ProductController::class, 'update'])->name('produk.update');
     Route::delete('/produk/{product}', [ProductController::class, 'destroy'])->name('produk.destroy');
 
-    Route::get('/lokasi', function () {
-        return view('admin.lokasi');
-    });
+    // Lokasi Routes
+    Route::get('/lokasi', [LocationController::class, 'index'])->name('lokasi.index');
+    Route::get('/lokasi/{location}', [LocationController::class, 'show'])->name('lokasi.show');
+    Route::post('/lokasi', [LocationController::class, 'store'])->name('lokasi.store');
+    Route::put('/lokasi/{location}', [LocationController::class, 'update'])->name('lokasi.update');
+    Route::delete('/lokasi/{location}', [LocationController::class, 'destroy'])->name('lokasi.destroy');
 
     Route::get('/promo', function () {
         return view('admin.promo');
