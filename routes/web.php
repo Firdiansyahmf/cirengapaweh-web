@@ -1,8 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+<<<<<<< Updated upstream
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\LocationController;
+=======
+use App\Http\Controllers\CheckoutController;
+>>>>>>> Stashed changes
 
 // >____________RUTE PELANGGAN (WEB UTAMA)
 Route::get('/', function () {
@@ -12,6 +16,10 @@ Route::get('/', function () {
 Route::get('/detail-produk', function () {
     return view('pages.produk');
 });
+
+// Minimal checkout routes (show accepts GET queries; store accepts POST from detail page)
+Route::get('/checkout', [CheckoutController::class, 'show']);
+Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
 // buat halaman tentang-kami jika sudah dipecah:
 // Route::get("/tentang-kami", function () {
