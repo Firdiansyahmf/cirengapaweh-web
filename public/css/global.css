@@ -251,6 +251,7 @@ body {
     font-size: var(--fs-button);
     font-weight: var(--fw-semibold);
     transition: 0.115s;
+    border: 0;
 }
 
 .btnPrimary .btnIcon {
@@ -423,7 +424,7 @@ input:focus {
     padding-top: 120px;
 }
 
-.card {
+.cardC {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -435,7 +436,7 @@ input:focus {
     text-align: center;
 }
 
-.card img {
+.cardC img {
     margin-top: -108px;
     max-width: 216px;
     border-radius: 100%;
@@ -443,7 +444,7 @@ input:focus {
     box-sizing: content-box;
 }
 
-.card .btnPrimary {
+.cardC .btnPrimary {
     margin-top: auto;
 }
 
@@ -489,7 +490,7 @@ input:focus {
         padding-top: 110px;
     }
 
-    .card img {
+    .cardC img {
         max-width: 200px;
     }
 }
@@ -534,7 +535,7 @@ input:focus {
         padding-top: 110px;
     }
 
-    .card {
+    .cardC {
         padding-bottom: var(--fs-h1);
     }
 

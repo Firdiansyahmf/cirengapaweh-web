@@ -13,7 +13,7 @@
             <div class="flexRow">
 
                 <div class="cardContain">
-                    <article class="card">
+                    <article class="cardC">
                         <img class="shadowLight"
                             src="{{ asset('assets/img/produk/Cireng Salju Kuah Keju Creamy.jpg') }}"
                             alt="Cireng Salju Kuah Keju Creamy" />
@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="cardContain">
-                    <article class="card">
+                    <article class="cardC">
                         <img class="shadowLight"
                             src="{{ asset('assets/img/produk/Cireng Salju Kuah Seblak Ayam Suwir.jpg') }}"
                             alt="Cireng Salju Kuah Seblak Ayam Suwir" />
@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="cardContain">
-                    <article class="card">
+                    <article class="cardC">
                         <img class="shadowLight"
                             src="{{ asset('assets/img/produk/Cireng Isi Ayam Suwir Kuah Keju Creamy.jpg') }}"
                             alt="Cireng Isi Ayam Suwir Kuah Keju Creamyy" />

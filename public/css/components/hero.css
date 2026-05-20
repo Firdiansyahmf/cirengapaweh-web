@@ -11,7 +11,7 @@
 /* Start : base global.css */
 .hero .breakpoint {
     flex-direction: row;
-    padding-top: var(--gap-large);
+    padding-top: var(--gap-large); /*144px 96px*/
     padding-bottom: var(--gap-large);
 }
 

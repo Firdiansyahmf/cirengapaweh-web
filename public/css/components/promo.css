@@ -71,7 +71,7 @@
     scroll-snap-align: center;
 }
 
-.card .subH3 {
+.cardC .subH3 {
     padding: 0 var(--gap-small);
 }
 /* end base : global.css */
@@ -160,7 +160,7 @@
         flex: 0 0 var(--gap-small);
     }
 
-    .promo .card .subH3 {
+    .promo .cardC .subH3 {
         font-size: var(--fs-h2);
     }
 

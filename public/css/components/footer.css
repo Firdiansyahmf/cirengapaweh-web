@@ -6,6 +6,11 @@
 .footer a {
     color: var(--color-white);
     text-decoration: none;
+    width: fit-content;
+}
+
+.footer a:hover {
+    color: var(--primary-brand-red);
 }
 
 /* box1 */

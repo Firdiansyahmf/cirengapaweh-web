@@ -32,19 +32,23 @@
     <meta name="twitter:image" content="{{ asset('assets/img/produk/Cireng Isi Ayam Suwir Kuah Keju Creamy.jpg') }}" />
 
     <link rel="stylesheet" href="{{ asset('css/global.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/components/navbar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/footer.css') }}">
 
     @stack("styles")
 </head>
 
 <body>
-    {{-- @include("components.navbar") --}}
+    @include("components.navbar")
 
     <main>
         @yield("content")
     </main>
 
     @include("components.footer")
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/components/navbar.js') }}"></script>
 
     @stack("scripts")
 </body>
