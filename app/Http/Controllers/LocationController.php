@@ -9,7 +9,7 @@ class LocationController extends Controller
 {
     public function index()
     {
-        $locations = PartnerLocation::orderBy('created_at', 'desc')->paginate(10);
+        $locations = PartnerLocation::orderBy('created_at', 'desc')->paginate(5);
         return view('admin.lokasi', compact('locations'));
     }
 

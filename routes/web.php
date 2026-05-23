@@ -40,6 +40,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/produk', [ProductController::class, 'index'])->name('produk.index');
     Route::post('/produk', [ProductController::class, 'store'])->name('produk.store');
     Route::put('/produk/{product}', [ProductController::class, 'update'])->name('produk.update');
+    Route::patch('/produk/{product}', [ProductController::class, 'updateStatus'])->name('produk.updateStatus');
     Route::delete('/produk/{product}', [ProductController::class, 'destroy'])->name('produk.destroy');
 
     // Lokasi Routes
