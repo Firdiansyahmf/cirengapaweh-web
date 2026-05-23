@@ -14,13 +14,13 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    align-items: center;
-    justify-content: center;
     animation: fadeIn 0.3s ease;
 }
 
 .modal.show {
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @keyframes fadeIn {
@@ -200,14 +200,13 @@
 
 /* Tooltip in Form */
 .tooltipContainer {
-    position:relative;
-    display:flexbox;
+    position:absolute;
+    display:inline-block;
     margin-left: 6px;
 }
 
 .tooltipTrigger {
     color: var(--fdn-grey-darker);
-    position: absolute;
     font-size: 18px;
     cursor: help;
     display:contents;
@@ -223,8 +222,8 @@
 .tooltipText {
     visibility: hidden;
     width: 200px;
-    background-color: var(--fdn-grey-darker);
-    color: var(--fdn-grey-light);
+    background-color: var(--clean-white);
+    color: var(--charcoal-grey);
     text-align: left;
     border-radius: 6px;
     padding: 10px 12px;
@@ -237,7 +236,7 @@
     transition: opacity 0.3s ease;
     font-size: 12px;
     line-height: 1.5;
-    box-shadow: var(--shadow-main);
+    box-shadow: var(--shadow-lighter);
     white-space: normal;
 }
 
