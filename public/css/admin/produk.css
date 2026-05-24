@@ -200,7 +200,7 @@
 
 /* Tooltip in Form */
 .tooltipContainer {
-    position:absolute;
+    position:relative;
     display:inline-block;
     margin-left: 6px;
 }
