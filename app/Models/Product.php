@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
@@ -21,6 +22,11 @@ class Product extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function promos(): BelongsToMany
+    {
+        return $this->belongsToMany(Promo::class, 'promo_products');
+    }
 
     public function getFormattedPriceAttribute()
     {
