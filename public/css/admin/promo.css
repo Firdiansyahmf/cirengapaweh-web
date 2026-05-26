@@ -402,44 +402,6 @@
     font-size: 13px;
 }
 
-.headerSearchBox {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background-color: var(--clean-white);
-    border: 1px solid var(--fdn-grey-light-hover);
-    border-radius: 6px;
-    padding: 8px 12px;
-    flex-grow: 1;
-    max-width: 300px;
-}
-
-.headerSearchBox input {
-    border: none;
-    outline: none;
-    background: none;
-    width: 100%;
-    font-size: 13px;
-}
-
-.btnAddPromo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    background-color: var(--fdn-red-normal);
-    color: var(--clean-white);
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: var(--fw-semibold);
-    font-size: 13px;
-    transition: all 0.3s ease;
-}
-
-.btnAddPromo:hover {
-    background-color: var(--fdn-red-normal-hover);
-}
 
 /* Tooltip in Form */
 .tooltipContainer {
