@@ -67,10 +67,27 @@
                             <td class="kuotaLabel">{{ $promo->used_count ?? 0 }} / {{ $promo->max_usage }}</td>
                             <td class="periodePromo">{{ $promo->start_date->format('d M') }} - {{ $promo->end_date->format('d M') }}</td>
                             <td>
-                                @if($promo->is_active && now()->isBefore($promo->end_date))
-                                    <span class="badge badgeAktif">Aktif</span>
+                                @php
+                                    $now = now();
+                                    $status = '';
+                                    if (!$promo->is_active) {
+                                        $status = 'Nonaktif';
+                                    } elseif ($now->isBefore($promo->start_date)) {
+                                        $status = 'Draft';
+                                    } elseif ($now->isAfter($promo->end_date)) {
+                                        $status = 'Expired';
+                                    } else {
+                                        $status = 'Aktif';
+                                    }
+                                @endphp
+                                @if($status === 'Aktif')
+                                    <span class="badge badgeAktif">{{ $status }}</span>
+                                @elseif($status === 'Draft')
+                                    <span class="badge badgeDraft">{{ $status }}</span>
+                                @elseif($status === 'Expired')
+                                    <span class="badge badgeExpired">{{ $status }}</span>
                                 @else
-                                    <span class="badge badgeNonaktif">Nonaktif</span>
+                                    <span class="badge badgeNonaktif">{{ $status }}</span>
                                 @endif
                             </td>
                             <td class="aksiCell">
@@ -198,25 +215,26 @@
 
                 <div class="formGroup">
                     <label for="promoStatus">
-                        Status
+                        Status Promo
                         <span class="tooltipContainer">
                             <span class="tooltipTrigger material-symbols-outlined">info</span>
                             <span class="tooltipText">
-                                <strong>Aktif:</strong> Promo dapat digunakan
-                                <br><strong>Nonaktif:</strong> Promo tidak dapat digunakan
+                                <strong>Aktif:</strong> Promo dapat digunakan (is_active=1 dan sesuai periode)
+                                <br><strong>Draft:</strong> Promo belum mulai (is_active=1 tapi belum sampai start_date)
+                                <br><strong>Nonaktif:</strong> Promo tidak dapat digunakan (is_active=0)
                             </span>
                         </span>
                     </label>
                     <select id="promoStatus" name="is_active" required>
-                        <option value="2" disabled>Pilih Status</option>
-                        <option value="1">Aktif</option>
+                        <option value="">-- Pilih Status --</option>
+                        <option value="1">Aktif / Draft</option>
                         <option value="0">Nonaktif</option>
                     </select>
                 </div>
 
                 <div class="formActions">
                     <button type="button" class="btnCancel" onclick="closePromoModal()">Batal</button>
-                    <button type="submit" class="btnSubmit">Simpan Promo</button>
+                    <button type="submit" class="btnSubmit" onclick="closePromoModal()">Simpan Promo</button>
                 </div>
             </form>
         </div>

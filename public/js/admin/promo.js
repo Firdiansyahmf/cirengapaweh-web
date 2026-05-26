@@ -17,7 +17,7 @@ function openPromoModal(id = null) {
         loadPromoData(id);
     } else {
         modalTitle.textContent = "Tambah Promo";
-        document.getElementById("promoStatus").value = "2";
+        document.getElementById("promoStatus").value = "";
         promoModal.classList.add("show");
     }
 }
@@ -132,7 +132,7 @@ async function submitPromoForm(formData, isEdit) {
         max_usage: parseInt(formData.get("max_usage")),
         start_date: formData.get("start_date"),
         end_date: formData.get("end_date"),
-        is_active: parseInt(formData.get("is_active")),
+        is_active: formData.get("is_active") === "1", // Convert to boolean
         product_ids: JSON.parse(formData.get("product_ids")),
     };
 

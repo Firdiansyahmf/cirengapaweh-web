@@ -341,6 +341,11 @@
     color: var(--fdn-grey-normal);
 }
 
+.badgeNonaktif {
+    background-color: #ffcccc;
+    color: #cc0000;
+}
+
 /* Action Cell */
 .aksiCell {
     display: flex;
