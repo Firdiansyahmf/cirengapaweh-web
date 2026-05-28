@@ -12,7 +12,16 @@ class PromoController extends Controller
     public function index()
     {
         $promos = Promo::with('products')->orderBy('created_at', 'desc')->paginate(5);
-        return view('admin.promo', compact('promos'));
+        
+        // Hitung statistik promo
+        $totalPromo = Promo::count();
+        $activePromo = Promo::where('is_active', true)
+            ->whereDate('end_date', '>=', now()->toDateString())
+            ->count();
+        $expiredPromo = Promo::whereDate('end_date', '<', now()->toDateString())
+            ->count();
+        
+        return view('admin.promo', compact('promos', 'totalPromo', 'activePromo', 'expiredPromo'));
     }
 
     public function getProducts()

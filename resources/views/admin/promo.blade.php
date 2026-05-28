@@ -24,6 +24,38 @@
             </button>
         </div>
 
+                <div class="statsCardsGrid">
+            <div class="statCard">
+                <div class="statIcon" style="background-color: var(--fdn-yellow-light);">
+                    <span class="material-symbols-outlined" style="color: var(--fdn-yellow-dark); font-size: 64px;">local_offer</span>
+                </div>
+                <div class="statContent">
+                    <h3 class="statLabel">Total Promo</h3>
+                    <p class="statValue">{{ $totalPromo }}</p>
+                </div>
+            </div>
+
+            <div class="statCard">
+                <div class="statIcon" style="background-color: #c8e6c9;">
+                    <span class="material-symbols-outlined" style="color: #2e7d32; font-size: 64px;">check_circle</span>
+                </div>
+                <div class="statContent">
+                    <h3 class="statLabel">Aktif</h3>
+                    <p class="statValue">{{ $activePromo }}</p>
+                </div>
+            </div>
+
+            <div class="statCard">
+                <div class="statIcon" style="background-color: var(--fdn-red-light);">
+                    <span class="material-symbols-outlined" style="color: var(--fdn-red-normal); font-size: 64px;">cancel</span>
+                </div>
+                <div class="statContent">
+                    <h3 class="statLabel">Expired</h3>
+                    <p class="statValue">{{ $expiredPromo }}</p>
+                </div>
+            </div>
+        </div>
+
         <div class="tableWrapper">
             <table class="promoTable">
                 <thead>
@@ -49,11 +81,19 @@
                             data-end-date="{{ $promo->end_date->format('Y-m-d') }}">
                             <td class="namaPromo">{{ $promo->title }}</td>
                             <td class="produkTerkait">
-                                @forelse($promo->products as $product)
+                                @php
+                                    $products = $promo->products;
+                                    $displayProducts = $products->take(2);
+                                    $remainingCount = $products->count() - 2;
+                                @endphp
+                                @forelse($displayProducts as $product)
                                     <span class="produkTag">{{ $product->name }}</span>
                                 @empty
                                     <span style="color: var(--fdn-grey-normal);">-</span>
                                 @endforelse
+                                @if($remainingCount > 0)
+                                    <span class="produkTag produkMore" title="{{ $products->skip(2)->pluck('name')->join(', ') }}">+{{ $remainingCount }} lainnya</span>
+                                @endif
                             </td>
                             <td>{{ $promo->promo_code ?? '-' }}</td>
                             <td>

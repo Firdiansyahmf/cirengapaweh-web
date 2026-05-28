@@ -288,8 +288,10 @@
 
 .produkTerkait {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 5px;
+    overflow: hidden;
+    align-items: center;
 }
 
 .produkTag {
@@ -299,6 +301,17 @@
     border-radius: 4px;
     font-size: 12px;
     border: 1px solid rgba(255, 202, 40, 0.3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 0;
+}
+
+.produkTag.produkMore {
+    background-color: rgba(100, 100, 100, 0.1);
+    color: var(--fdn-grey-normal);
+    border-color: rgba(100, 100, 100, 0.3);
+    cursor: help;
 }
 
 .diskonLabel {
