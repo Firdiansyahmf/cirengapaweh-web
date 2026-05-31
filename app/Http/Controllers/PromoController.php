@@ -94,6 +94,12 @@ class PromoController extends Controller
         return response()->json($promo);
     }
 
+    public function show(Promo $promo)
+    {
+        $promo->load('products');
+        return response()->json($promo);
+    }
+
     public function update(Request $request, Promo $promo)
     {
         try {
