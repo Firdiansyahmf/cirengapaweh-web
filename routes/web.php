@@ -18,9 +18,16 @@ Route::get('/detail-produk', function () {
     return view('pages.produk');
 });
 
-// Minimal checkout routes (show accepts GET queries; store accepts POST from detail page)
 Route::get('/checkout', [CheckoutController::class, 'show']);
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+
+Route::get('/payment'/* /{orderId} */, function (/* $orderId */) {
+    return view('pages.payment');
+    /* return view('pages.payment', [
+        'orderId' => $orderId,
+        'total' => 22000
+    ]); */
+});
 
 // >____________RUTE ADMIN DASHBOARD (CMS)
 // semua url diawali /admin
