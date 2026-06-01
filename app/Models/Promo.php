@@ -10,10 +10,12 @@ class Promo extends Model
 {
     protected $fillable = [
         'title',
-        'image',
+        'promo_code',
         'description',
-        'discount_type',
-        'discount_value',
+        'promo_type',
+        'discount_percentage',
+        'max_usage',
+        'used_count',
         'start_date',
         'end_date',
         'is_active',
@@ -34,5 +36,20 @@ class Promo extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'promo_products');
+    }
+
+    public function isExpired(): bool
+    {
+        return now()->isAfter($this->end_date);
+    }
+
+    public function isStarted(): bool
+    {
+        return now()->isAfter($this->start_date) || now()->isSameDay($this->start_date);
+    }
+
+    public function isActive(): bool
+    {
+        return $this->is_active && $this->isStarted() && !$this->isExpired() && $this->used_count < $this->max_usage;
     }
 }

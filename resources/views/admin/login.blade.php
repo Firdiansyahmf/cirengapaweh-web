@@ -18,7 +18,7 @@
         <div class="bgShapeYellow"></div>
 
         <div class="logoSection">
-            <img src="{{ asset('assets/img/logo/logo.png') }}" alt="Cireng A'paweh Logo" class="logo" />
+            <img src="{{ asset('assets/img/logo/logo.svg') }}" alt="Cireng A'paweh Logo" class="logo" />
         </div>
 
         <div class="loginCard">
