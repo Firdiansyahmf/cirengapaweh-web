@@ -28,8 +28,14 @@
             </button>
             <div class="profileSection">
                 <div class="profileInfo">
-                    <span class="profileName">Cahya</span>
-                    <span class="profileRole">Administrator</span>
+                    <span class="profileName">{{ auth()->user()->name ?? 'Admin' }}</span>
+                    <span class="profileRole">
+                        @if(auth()->user()->role === 'superadmin')
+                            Super Admin
+                        @else
+                            Staff
+                        @endif
+                    </span>
                 </div>
             </div>
         </div>
@@ -59,6 +65,10 @@
                     <span class="material-symbols-outlined">receipt_long</span>
                     <span class="navText">Pemesanan</span>
                 </a>
+                <a href="{{ url('admin/chat') }}" class="navItem {{ request()->is('admin/chat') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined">chat</span>
+                    <span class="navText">Chat</span>
+                </a>
             </nav>
 
             <nav class="navbarBottom">
@@ -67,10 +77,13 @@
                     <span class="material-symbols-outlined">person</span>
                     <span class="navText">Pengguna</span>
                 </a>
-                <a href="{{ url('admin/loginAja') }}" class="navItem logout">
-                    <span class="material-symbols-outlined">logout</span>
-                    <span class="navText">Keluar</span>
-                </a>
+                <form method="POST" action="{{ route('admin.logout') }}" style="width: 100%;">
+                    @csrf
+                    <button type="submit" class="navItem logout" style="width: 100%; text-align: left; border: none; background: none; cursor: pointer;">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span class="navText">Keluar</span>
+                    </button>
+                </form>
             </nav>
         </aside>
 

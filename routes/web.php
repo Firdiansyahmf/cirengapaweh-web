@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ChatController;
 
 // >____________RUTE PELANGGAN (WEB UTAMA)
 Route::get('/', function () {
@@ -23,13 +26,23 @@ Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.s
 //     return view("pages.tentang-kami");
 // });
 
-// >____________RUTE ADMIN DASHBOARD (CMS)
-// semua url diawali /admin
+// >____________RUTE ADMIN LOGIN
 Route::prefix('admin')->group(function () {
-    // Login
-    Route::get('/loginAja', function () {
-        return view('admin.login');
+    // Login routes (accessible to guests only)
+    Route::middleware('guest')->group(function () {
+        Route::get('/login', [LoginController::class, 'showLogin'])->name('admin.login.form');
+        Route::post('/login', [LoginController::class, 'authenticate'])->name('admin.login');
     });
+
+    // Logout
+    Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout')->middleware('auth');
+
+    // Protected admin routes
+    Route::middleware('auth')->group(function () {
+        // Login
+        Route::get('/loginAja', function () {
+            return view('admin.login');
+        });
 
     // Dashboard dan CRUD
     Route::get('/dashboard', function () {
@@ -57,7 +70,17 @@ Route::prefix('admin')->group(function () {
         return view('admin.pemesanan');
     });
 
-    Route::get('/pengguna', function () {
-        return view('admin.pengguna');
+    // User Management Routes
+    Route::get('/pengguna', [UserController::class, 'index'])->name('pengguna.index');
+    Route::post('/pengguna', [UserController::class, 'store'])->name('pengguna.store');
+    Route::put('/pengguna/{user}', [UserController::class, 'update'])->name('pengguna.update');
+    Route::delete('/pengguna/{user}', [UserController::class, 'destroy'])->name('pengguna.destroy');
+
+    // Chat Management Routes
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::get('/chat/{session}', [ChatController::class, 'show'])->name('chat.show');
+    Route::post('/chat/{session}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+    Route::post('/chat/{session}/close', [ChatController::class, 'closeSession'])->name('chat.close');
+    Route::post('/chat/{session}/reopen', [ChatController::class, 'reopenSession'])->name('chat.reopen');
     });
 });
