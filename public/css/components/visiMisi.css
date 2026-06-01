@@ -1,0 +1,31 @@
+/* start: visi misi section wrapper */
+.visiMisi { background: transparent; align-items: center; }
+body .visiMisi .wrapBreakpoint { width: 100%; align-items: center; background: var(--primary-brand-red); border-radius: 130em 130em 0 0 / 120% 120% 0 0; }
+/* end: visi misi section wrapper */
+
+/* start: base override global */
+.visiMisi .breakpoint .flexRow { gap: var(--gap-medium); justify-content: center; align-items: stretch; padding-top: 0; padding-bottom: 0; }
+body .visiMisi .cardM { max-width: 100%; }
+body .visiMisi .cardM .flexCol .bodyMain { text-align: justify; }
+/* end: base override global */
+
+/* start: responsive large desktop */
+@media (max-width: 1563px) {
+    .visiMisi .breakpoint { border-radius: 190em 190em 0 0 / 80% 80% 0 0; }
+}
+/* end: responsive large desktop */
+
+/* start: responsive tablet */
+@media (max-width: 1024px) {
+    .visiMisi .breakpoint .flexRow { flex-wrap: wrap; }
+    .visiMisi .wrapBreakpoint { padding: var(--gap-medium) 0 0 0; }
+    .visiMisi .cardM { max-width: 342px; }
+}
+/* end: responsive tablet */
+
+/* start: responsive mobile */
+@media (max-width: 768px) {
+    .visiMisi .breakpoint { border-radius: 190em 190em 0 0 / 50% 50% 0 0; }
+    .visiMisi .wrapBreakpoint { padding: 0; }
+}
+/* end: responsive mobile */

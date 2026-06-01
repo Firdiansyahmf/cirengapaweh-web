@@ -13,6 +13,10 @@ Route::get('/', function () {
     return view('pages.index');
 });
 
+Route::get("/tentang-kami", function () {
+    return view("pages.tentangKami");
+});
+
 Route::get('/detail-produk', function () {
     return view('pages.produk');
 });
@@ -26,7 +30,8 @@ Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.s
 //     return view("pages.tentang-kami");
 // });
 
-// >____________RUTE ADMIN LOGIN
+// >____________RUTE ADMIN
+// semua url diawali /admin
 Route::prefix('admin')->group(function () {
     // Login routes (accessible to guests only)
     Route::middleware('guest')->group(function () {
