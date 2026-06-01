@@ -1,0 +1,40 @@
+/* start: hero tentang kami section */
+.heroTentangKami { padding-top: var(--gap-large); align-items: center; }
+/* end: hero tentang kami section */
+
+/* start: base override global layout */
+.heroTentangKami .breakpoint { padding-top: var(--gap-large); }
+/* end: base override global layout */
+
+/* start: banner */
+.heroTentangKami .box1 img { max-width: 100%; height: auto; border-radius: 100px; }
+/* end: banner */
+
+/* start: box2 layout */
+.heroTentangKami .box2 { width: 100%; display: grid; grid-template-columns: max-content auto; align-items: center; column-gap: var(--gap-large); height: max-content; }
+.heroTentangKami .box2 .flexCol { gap: var(--gap-small); }
+.heroTentangKami .box2 .displayH1, .heroTentangKami .box2 .bodyLg { text-align: justify; }
+/* end: box2 layout */
+
+/* start: image group */
+.heroTentangKami .box2 .groupIMG { display: flex; justify-content: center; width: 400px; aspect-ratio: 1/1; padding: var(--gap-micro); box-shadow: var(--shadow-main); border-radius: 100px; }
+.heroTentangKami .box1 img { width: 100%; }
+.heroTentangKami .box2 .groupIMG img { width: 98%; }
+/* end: image group */
+
+/* start: responsive tablet */
+@media (max-width: 1024px) {
+    .heroTentangKami .box1 img { border-radius: 64px; }
+    .heroTentangKami .box2 .groupIMG { width: 300px; border-radius: 64px; }
+}
+/* end: responsive tablet */
+
+/* start: responsive mobile */
+@media (max-width: 768px) {
+    .heroTentangKami .box1 img { border-radius: 32px; }
+    .heroTentangKami .box2 .groupIMG { max-width: 28%; width: 100%; border-radius: 32px; }
+    .heroTentangKami .box2 .groupIMG img { width: 100%; }
+    .heroTentangKami .box2 { display: flex; flex-direction: column; justify-content: center; gap: var(--gap-medium); }
+    .heroTentangKami .box2 .displayH1, .heroTentangKami .box2 .bodyLg { text-align: center; }
+}
+/* end: responsive mobile */

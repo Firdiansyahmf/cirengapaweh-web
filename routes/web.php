@@ -10,6 +10,10 @@ Route::get('/', function () {
     return view('pages.index');
 });
 
+Route::get("/tentang-kami", function () {
+    return view("pages.tentangKami");
+});
+
 Route::get('/detail-produk', function () {
     return view('pages.produk');
 });
@@ -17,11 +21,6 @@ Route::get('/detail-produk', function () {
 // Minimal checkout routes (show accepts GET queries; store accepts POST from detail page)
 Route::get('/checkout', [CheckoutController::class, 'show']);
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
-
-// buat halaman tentang-kami jika sudah dipecah:
-// Route::get("/tentang-kami", function () {
-//     return view("pages.tentang-kami");
-// });
 
 // >____________RUTE ADMIN DASHBOARD (CMS)
 // semua url diawali /admin

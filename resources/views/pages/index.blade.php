@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="{{ asset('css/page/index.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/hero.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/promo.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/menu.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/reels.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/mitra.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/lokasi.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/ctaWA.css') }}">
 @endpush
 
@@ -13,6 +17,10 @@
 
     @include("components.hero")
     @include("components.promo")
+    @include("components.menu")
+    @include("components.reels")
+    @include("components.mitra")
+    @include("components.lokasi")
     @include("components.ctaWA")
 
 @endsection

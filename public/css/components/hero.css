@@ -1,120 +1,52 @@
-.hero {
-    padding-top: var(--gap-large);
-    padding-bottom: var(--gap-large);
-    align-items: center;
-}
+/* start: hero section layout */
+.hero { padding-top: var(--gap-large); padding-bottom: var(--gap-large); align-items: center; }
+.hero #maskot { max-width: 100%; }
+/* end: hero section layout */
 
-.hero #maskot {
-    max-width: 100%;
-}
+/* start: base override global layout */
+.hero .breakpoint { flex-direction: row; padding-top: var(--gap-large); padding-bottom: var(--gap-large); }
+.hero .flexCol .flexRow:nth-of-type(4), .hero .flexCol .flexRow:nth-of-type(4) .flexRow { align-items: center; gap: var(--gap-small); width: fit-content; }
+.hero .box2 { max-width: 751.33px; }
+/* end: base override global layout */
 
-/* Start : base global.css */
-.hero .breakpoint {
-    flex-direction: row;
-    padding-top: var(--gap-large); /*144px 96px*/
-    padding-bottom: var(--gap-large);
-}
+/* start: inline dekorasi */
+.hero .inlineFlex { display: inline-flex; flex-direction: column; position: relative; }
+.hero .inlineFlex img { position: absolute; left: -12px; bottom: 0; max-width: 223px; }
+/* end: inline dekorasi */
 
-.hero .flexCol .flexRow:nth-of-type(4),
-.hero .flexCol .flexRow:nth-of-type(4) .flexRow {
-    align-items: center;
-    gap: var(--gap-small);
-    width: fit-content;
-}
-
-/* end */
-
-.hero .box2 {
-    max-width: 751.33px;
-}
-
-/* "Kamu" */
-.hero .inlineFlex {
-    display: inline-flex;
-    flex-direction: column;
-    position: relative;
-}
-
-.hero .inlineFlex img {
-    position: absolute;
-    left: -12px;
-    bottom: -8px;
-    max-width: 223px;
-}
-
-
+/* start: responsive tablet */
 @media (max-width: 1024px) {
-    .hero .breakpoint {
-        flex-direction: column;
-        padding-top: 102px;
-    }
-
-    .hero .flexCol>div {
-        text-align: center;
-        align-self: center;
-    }
-
-    .hero .flexCol > .flexRow {
-        justify-content: center;
-    }
-
-    .hero .inlineFlex img {
-        left: -8px;
-        bottom: -6px;
-        max-width: 160px;
-    }
-
-    .box2 .bodyLg,
-    .box2 .displayHero {
-        max-width: 768px;
-    }
+    .hero .breakpoint { flex-direction: column; padding-top: 80px; }
+    .hero .flexCol > div { text-align: center; align-self: center; }
+    .hero .flexCol > .flexRow { justify-content: center; }
+    .hero .inlineFlex img { left: -8px; bottom: -2px; max-width: 160px; }
+    .box2 .bodyLg, .box2 .displayHero { max-width: 768px; }
 }
+/* end: responsive tablet */
 
-@media (max-width: 767px) {
-    .hero .inlineFlex img {
-        max-width: 138.6px;
-    }
+/* start: responsive mobile */
+@media (max-width: 768px) {
+    .hero { padding-top: var(--gap-medium); }
+    .hero .inlineFlex img { max-width: 138.6px; }
 }
+/* end: responsive mobile */
 
+/* start: responsive small mobile */
 @media (max-width: 550px) {
-    .hero {
-        padding-bottom: 0;
-        align-items: flex-start;
-        justify-content: left;
-    }
-
-    .hero .breakpoint {
-        align-items: flex-start;
-    }
-
-    .hero #maskot {
-        width: 100%;
-    }
-
-    .hero .flexRow {
-        align-self: flex-start;
-    }
-
-    .hero .flexCol>div {
-        text-align: left;
-        align-self: auto;
-    }
-
-    .hero .flexCol > .flexRow {
-        justify-content: start;
-    }
-
-    .hero .flexCol .flexRow:nth-of-type(4) .btnText {
-        font-size: var(--fs-caption);
-    }
+    .hero { padding-bottom: 0; align-items: flex-start; justify-content: left; }
+    .hero .breakpoint { align-items: flex-start; }
+    .hero #maskot { position: relative; left: -24px; width: 100%; }
+    .hero .flexRow { align-self: flex-start; }
+    .hero .flexCol > div { text-align: left; align-self: auto; }
+    .hero .flexCol > .flexRow { justify-content: start; }
+    .hero .flexCol .flexRow:nth-of-type(4) .btnText { font-size: var(--fs-caption); }
+    body .hero .bodyLg { max-width: 97%; text-align: justify; }
 }
+/* end: responsive small mobile */
 
+/* start: responsive extra small mobile */
 @media (max-width: 366px) {
-    .hero .flexRow {
-        flex-wrap: wrap-reverse;
-    }
-
-    .hero .flexCol > .flexRow {
-        justify-content: center;
-    }
+    .hero .flexRow { flex-wrap: wrap-reverse; }
+    .hero .flexCol > .flexRow { justify-content: center; }
 }
+/* end: responsive extra small mobile */

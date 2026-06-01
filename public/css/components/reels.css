@@ -1,0 +1,68 @@
+/* start: reels section wrapper */
+.reels { align-items: center; background: var(--primary-brand-red); }
+.reels .wrapBreakpoint { width: 100%; align-items: center; background: var(--accent-cheese-yellow); border-radius: 0 0 190em 190em / 0 0 80% 80%; padding-bottom: var(--gap-medium); }
+/* end: reels section wrapper */
+
+/* start: base override global */
+.reels .breakpoint { padding-top: 0; }
+/* end: base override global */
+
+/* start: scroll container */
+.reels #reelsScrollContain::-webkit-scrollbar { display: none; }
+.reels #reelsScrollContain { flex-wrap: wrap; gap: var(--gap-medium); justify-content: flex-start; max-width: fit-content; margin: 0 auto; transition: transform 0.1s ease-in-out; }
+.reels #reelsScrollContain::before, .reels #reelsScrollContain::after { content: ""; display: none; }
+/* end: scroll container */
+
+/* start: mockups */
+.reels .phoneContain { flex: 0 0 auto; width: 297px; height: 603.37px; scroll-snap-align: center; display: flex; position: relative; justify-content: center; align-items: center; }
+.reels .phoneFrameImg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+.reels .phone { width: 96.1%; height: 99%; z-index: 1; overflow: hidden; border-radius: 55px; position: relative; }
+.reels .phone video { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* end: mockups */
+
+/* start: slider arrow */
+.reels #LButtonReels, .reels #RButtonReels { display: none; }
+.reels .corouselWrap { position: relative; width: 100%; display: flex; align-items: center; }
+.reels .btnSlider { position: absolute; top: 50%; transform: translateY(-50%); z-index: 9; background: var(--clean-white); border: none; cursor: pointer; border-radius: 100%; box-shadow: 0 15px 30px 0 rgba(223, 105, 81, 0.30); transition: transform 0.2s ease, box-shadow 0.2s ease; display: flex; align-items: center; justify-content: center; padding: 0; width: 64px; height: 64px; }
+.reels .btnSlider:hover { transform: translateY(-50%) scale(1.05); box-shadow: 0 20px 40px 0 rgba(223, 105, 81, 0.45); }
+.reels .LButtonReels { left: -96px; }
+.reels .RButtonReels { right: -96px; }
+.reels .btnSlider img { width: 100%; height: 100%; }
+/* end: slider arrow */
+
+/* start: responsive large */
+@media (max-width: 1563px) {
+    .reels .breakpoint { border-radius: 0 0 190em 190em / 0 0 80% 80%; }
+}
+/* end: responsive large */
+
+/* start: desktop pagination control */
+@media (min-width: 1441px) {
+    body .reels #reelsScrollContain { display: flex; flex-wrap: nowrap; width: 100%; margin: 0 auto; overflow-x: hidden; gap: var(--gap-medium); scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none; -webkit-mask-image: linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%); }
+    body .reels #reelsScrollContain::-webkit-scrollbar { display: none; }
+    body .reels #reelsScrollContain::before, body .reels #reelsScrollContain::after { content: ""; flex: 0 0 calc(50% - (291px / 2) - 32px); display: block; }
+}
+@media (max-width: 1441px) {
+    body .reels .btnSlider { display: none; }
+}
+/* end: desktop pagination carousel */
+
+/* start: responsive standard screen */
+@media (max-width: 1440px) {
+    .reels .breakpoint { padding-inline: var(--gap-large); }
+    .reels .sectionHeader { padding-inline: var(--gap-medium); align-self: center; }
+    .reels #reelsScrollContain { display: flex; flex-wrap: nowrap; max-width: 100%; gap: var(--gap-medium); padding-bottom: var(--gap-small); overflow-x: auto; scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none; -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%); padding-left: calc(50vw - 148px); padding-right: calc(50vw - 148px); }
+    .reels #reelsScrollContain::before, .reels #reelsScrollContain::after { display: block; flex: 0 0 50%; }
+}
+/* end: responsive standard screen */
+
+/* start: responsive mobile */
+@media (max-width: 768px) {
+    .reels .breakpoint { border-radius: 0 0 190em 190em / 0 0 50% 50%; padding-inline: 0; }
+    .reels .wrapBreakpoint { padding-bottom: var(--gap-small); }
+    .reels #reelsScrollContain { gap: var(--gap-small); }
+    .reels #reelsScrollContain::after { flex: 0 0 var(--gap-small); }
+    .reels .phoneContain { width: 218.1px; height: 447.76px; }
+    .reels .phone { width: 96.1%; height: 98.9%; border-radius: 45px; }
+}
+/* end: responsive mobile */

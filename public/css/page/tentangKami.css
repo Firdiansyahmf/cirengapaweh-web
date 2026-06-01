@@ -1,0 +1,5 @@
+/* start: tentang kami page */
+main { background: linear-gradient(220deg, var(--fdn-red-light) 0.69%, var(--clean-white) 57.53%); }
+body .lokasi { background: var(--charcoal-grey); }
+.lokasi a.btnPrimary { display: none; }
+/* end: tentang kami page */

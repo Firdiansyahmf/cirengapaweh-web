@@ -1,0 +1,13 @@
+/* start: mitra section */
+.mitra { background: var(--primary-brand-red); align-items: center; }
+/* end: mitra section */
+
+/* start: base override global */
+.mitra .breakpoint .flexRow { gap: var(--gap-medium); justify-content: center; align-items: center; }
+/* end: base override global */
+
+/* start: responsive mobile */
+@media (max-width: 768px) {
+    .mitra .breakpoint .flexRow { flex-direction: column; }
+}
+/* end: responsive mobile */
