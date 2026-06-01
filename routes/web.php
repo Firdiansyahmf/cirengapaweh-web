@@ -2,8 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PromoController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\DashboardController;
 
 // >____________RUTE PELANGGAN (WEB UTAMA)
 Route::get('/', function () {
@@ -32,21 +37,41 @@ Route::get('/payment'/* /{orderId} */, function (/* $orderId */) {
 // >____________RUTE ADMIN DASHBOARD (CMS)
 // semua url diawali /admin
 Route::prefix('admin')->group(function () {
-    // Login
-    Route::get('/loginAja', function () {
-        return view('admin.login');
+    // Login routes (accessible to guests only)
+    Route::middleware('guest')->group(function () {
+        Route::get('/login', [LoginController::class, 'showLogin'])->name('admin.login.form');
+        Route::post('/login', [LoginController::class, 'authenticate'])->name('admin.login');
     });
 
+    // Logout
+    Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout')->middleware('auth');
+
+    // Protected admin routes
+    Route::middleware('auth')->group(function () {
+        // Login
+        Route::get('/loginAja', function () {
+            return view('admin.login');
+        });
+
     // Dashboard dan CRUD
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    });
+    Route::get('/dashboard', [DashboardController::class, 'index']);
 
     // Produk Routes
     Route::get('/produk', [ProductController::class, 'index'])->name('produk.index');
     Route::post('/produk', [ProductController::class, 'store'])->name('produk.store');
     Route::put('/produk/{product}', [ProductController::class, 'update'])->name('produk.update');
+    Route::patch('/produk/{product}', [ProductController::class, 'updateStatus'])->name('produk.updateStatus');
     Route::delete('/produk/{product}', [ProductController::class, 'destroy'])->name('produk.destroy');
+
+    // Promo Routes
+    Route::get('/promo', [PromoController::class, 'index'])->name('promo.index');
+    Route::get('/promo/get-products', [PromoController::class, 'getProducts'])->name('promo.getProducts');
+    Route::get('/promo/{promo}', [PromoController::class, 'show'])->name('promo.show');
+    Route::post('/promo', [PromoController::class, 'store'])->name('promo.store');
+    Route::get('/promo/{promo}/edit', [PromoController::class, 'edit'])->name('promo.edit');
+    Route::put('/promo/{promo}', [PromoController::class, 'update'])->name('promo.update');
+    Route::patch('/promo/{promo}', [PromoController::class, 'updateStatus'])->name('promo.updateStatus');
+    Route::delete('/promo/{promo}', [PromoController::class, 'destroy'])->name('promo.destroy');
 
     // Lokasi Routes
     Route::get('/lokasi', [LocationController::class, 'index'])->name('lokasi.index');
@@ -55,15 +80,21 @@ Route::prefix('admin')->group(function () {
     Route::put('/lokasi/{location}', [LocationController::class, 'update'])->name('lokasi.update');
     Route::delete('/lokasi/{location}', [LocationController::class, 'destroy'])->name('lokasi.destroy');
 
-    Route::get('/promo', function () {
-        return view('admin.promo');
-    });
-
     Route::get('/pemesanan', function () {
         return view('admin.pemesanan');
     });
 
-    Route::get('/pengguna', function () {
-        return view('admin.pengguna');
+    // User Management Routes
+    Route::get('/pengguna', [UserController::class, 'index'])->name('pengguna.index');
+    Route::post('/pengguna', [UserController::class, 'store'])->name('pengguna.store');
+    Route::put('/pengguna/{user}', [UserController::class, 'update'])->name('pengguna.update');
+    Route::delete('/pengguna/{user}', [UserController::class, 'destroy'])->name('pengguna.destroy');
+
+    // Chat Management Routes
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::get('/chat/{session}', [ChatController::class, 'show'])->name('chat.show');
+    Route::post('/chat/{session}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+    Route::post('/chat/{session}/close', [ChatController::class, 'closeSession'])->name('chat.close');
+    Route::post('/chat/{session}/reopen', [ChatController::class, 'reopenSession'])->name('chat.reopen');
     });
 });

@@ -18,18 +18,26 @@
         <div class="bgShapeYellow"></div>
 
         <div class="logoSection">
-            <img src="{{ asset('assets/img/logo/logo.png') }}" alt="Cireng A'paweh Logo" class="logo" />
+            <img src="{{ asset('assets/img/logo/logo.svg') }}" alt="Cireng A'paweh Logo" class="logo" />
         </div>
 
         <div class="loginCard">
             <h2 class="loginTitle">Silakan log in untuk mengakses admin dashboard</h2>
 
-            <form class="loginForm" id="loginForm" method="GET" action="{{ url('admin/dashboard') }}">
+            @if ($errors->any())
+                <div class="errorBox">
+                    @foreach ($errors->all() as $error)
+                        <p class="errorText">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
+
+            <form class="loginForm" id="loginForm" method="POST" action="{{ route('admin.login') }}">
                 @csrf
 
                 <div class="formGroup">
                     <input type="email" id="email" name="email" placeholder="Masukkan Email Anda"
-                        class="formInput" required />
+                        class="formInput" value="{{ old('email') }}" required />
                 </div>
 
                 <div class="formGroup">
