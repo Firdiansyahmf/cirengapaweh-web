@@ -133,6 +133,16 @@
     box-shadow: 0 0 0 3px rgba(242, 61, 61, 0.1);
 }
 
+.formGroup input.invalid {
+    border-color: #d32f2f;
+    background-color: #ffebee;
+}
+
+.formGroup input.invalid:focus {
+    border-color: #d32f2f;
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+}
+
 .formGroup textarea {
     resize: vertical;
     font-family: var(--font-body);

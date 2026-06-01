@@ -101,6 +101,15 @@ function closeErrorModal() {
 promoForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
+    const startDate = new Date(document.getElementById("promoStartDate").value);
+    const endDate = new Date(document.getElementById("promoEndDate").value);
+
+    // Validasi: end_date harus setelah start_date
+    if (endDate <= startDate) {
+        showErrorModal("Tanggal berakhir harus setelah tanggal mulai");
+        return;
+    }
+
     const formData = new FormData(this);
     const productIds = tomSelectInstance ? tomSelectInstance.getValue() : [];
 
@@ -312,4 +321,26 @@ function initTomSelect() {
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     loadProductsToSelect();
+
+    // Real-time validation untuk date inputs
+    const startDateInput = document.getElementById("promoStartDate");
+    const endDateInput = document.getElementById("promoEndDate");
+
+    const validateDates = () => {
+        if (startDateInput.value && endDateInput.value) {
+            const startDate = new Date(startDateInput.value);
+            const endDate = new Date(endDateInput.value);
+
+            if (endDate <= startDate) {
+                endDateInput.setCustomValidity("Tanggal berakhir harus setelah tanggal mulai");
+                endDateInput.classList.add("invalid");
+            } else {
+                endDateInput.setCustomValidity("");
+                endDateInput.classList.remove("invalid");
+            }
+        }
+    };
+
+    startDateInput.addEventListener("change", validateDates);
+    endDateInput.addEventListener("change", validateDates);
 });

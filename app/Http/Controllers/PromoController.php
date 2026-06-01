@@ -12,15 +12,18 @@ class PromoController extends Controller
     public function index()
     {
         $promos = Promo::with('products')->orderBy('created_at', 'desc')->paginate(5);
-        
+
         // Hitung statistik promo
         $totalPromo = Promo::count();
+        // Aktif: status aktif AND periode sudah dimulai AND belum berakhir
         $activePromo = Promo::where('is_active', true)
+            ->whereDate('start_date', '<=', now()->toDateString())
             ->whereDate('end_date', '>=', now()->toDateString())
             ->count();
+        // Expired: masa berlaku sudah berakhir (terlepas dari is_active)
         $expiredPromo = Promo::whereDate('end_date', '<', now()->toDateString())
             ->count();
-        
+
         return view('admin.promo', compact('promos', 'totalPromo', 'activePromo', 'expiredPromo'));
     }
 

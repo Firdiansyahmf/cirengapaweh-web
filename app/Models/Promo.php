@@ -38,8 +38,13 @@ class Promo extends Model
         return now()->isAfter($this->end_date);
     }
 
+    public function isStarted(): bool
+    {
+        return now()->isAfter($this->start_date) || now()->isSameDay($this->start_date);
+    }
+
     public function isActive(): bool
     {
-        return $this->is_active && !$this->isExpired() && $this->used_count < $this->max_usage;
+        return $this->is_active && $this->isStarted() && !$this->isExpired() && $this->used_count < $this->max_usage;
     }
 }
