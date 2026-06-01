@@ -34,6 +34,11 @@ Route::get('/payment'/* /{orderId} */, function (/* $orderId */) {
     ]); */
 });
 
+/* temp route buat preview halaman pembayaran berhasil */
+Route::get('/preview-paymentsuccess', function () {
+    return view('pages.paymentSuccess');
+});
+
 // >____________RUTE ADMIN DASHBOARD (CMS)
 // semua url diawali /admin
 Route::prefix('admin')->group(function () {
