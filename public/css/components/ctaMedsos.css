@@ -1,0 +1,37 @@
+/* start: cta medsos section */
+.ctaMedsos { background: var(--charcoal-grey); align-items: center; }
+/* end: cta medsos section */
+
+/* start: medsos */
+.ctaMedsos .medsos { gap: var(--gap-medium); }
+/* end: medsos */
+
+/* start: cardM */
+.ctaMedsos .cardM { text-decoration: none; color: var(--clean-white); text-align: center; gap: var(--gap-micro); max-width: 282px; }
+.ctaMedsos .cardM img { max-height: 50px; height: 100%; text-align: center; }
+.ctaMedsos .cardM#instagram { background:  linear-gradient(135deg, #9333EA 0%, #EC4899 100%); }
+.ctaMedsos .cardM#tiktok { background:  linear-gradient(135deg, #111827 0%, #374151 100%); }
+.ctaMedsos .cardM#whatsapp { background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%); }
+.ctaMedsos .cardM#linktree { background: linear-gradient(135deg, #E63946 0%, var(--primary-brand-red) 100%); }
+/* end: cardM */
+
+/* start: responsive tablet */
+@media (max-width: 860px) {
+    .ctaMedsos .medsos { flex-wrap: wrap; justify-content: center; gap: var(--gap-small); }
+}
+/* end: responsive tablet */
+
+/* start: responsive mobile */
+@media (max-width: 635px) {
+    .ctaMedsos .medsos { display: grid; grid-template-columns: auto auto; }
+    .ctaMedsos .cardM { max-width: 162px; }
+    .ctaMedsos .cardM img { max-height: 30px; }
+}
+/* end: responsive mobile */
+
+/* start: responsive small mobile */
+@media (max-width: 368px) {
+    .ctaMedsos .medsos { grid-template-columns: 100%; }
+    .ctaMedsos .cardM { max-width: 100%; }
+}
+/* end: responsive small mobile */

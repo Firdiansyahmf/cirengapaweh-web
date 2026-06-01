@@ -14,7 +14,7 @@
 
     <link rel="canonical" href="{{ url()->current() }}" />
 
-    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
+    <link rel="icon" href="{{ asset('assets/img/logo/logoOfficial.svg') }}?v=1" type="image/x-icon" />
 
     <meta property="og:locale" content="id_ID" />
     <meta property="og:type" content="website" />
