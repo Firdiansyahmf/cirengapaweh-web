@@ -1,4 +1,4 @@
-<footer class="footer flexCol">
+<footer class="footer flexCol" id="footer">
     <div class="breakpoint cleanWhite">
 
         <div class="box1 flexRow">
@@ -26,8 +26,8 @@
                 <div class="flexCol aMenu">
                     <h2 class="displayH2 accentCheeseYellow">Jelajahi</h2>
 
-                    <a class="caption" href="">Beranda</a>
-                    <a class="caption" href="">Tentang Kami</a>
+                    <a class="caption" href="/">Beranda</a>
+                    <a class="caption" href="/tentang-kami">Tentang Kami</a>
                     <a class="caption" href="">Daftar Menu</a>
                     <a class="caption" href="">Lokasi Cabang</a>
                     <a class="caption" href="">Kemitraan</a>
@@ -37,11 +37,11 @@
                     <h2 class="displayH2 accentCheeseYellow">Hubungi Kami</h2>
 
                     <a class="caption" href="https://wa.me/6281944327907">
-                        <img src="{{ asset('assets/icon/fTelepon.svg') }}" alt="Nomor Telp">+62 812-3456-7890</a>
+                        <img src="{{ asset('assets/icon/fTelepon.svg') }}" alt="Nomor Telp">+62 819-4432-7907</a>
 
                     <a class="caption" href="mailto:cirengapaweh@gmail.com"><img src="{{ asset('assets/icon/fMail.svg') }}" alt="Email">cirengapaweh@gmail.com</a>
 
-                    <a class="caption" href="https://maps.app.goo.gl/UrTHxx5Lu5f27SbK9" target="_blank" rel="noopener noreferrer"><img src="{{ asset('assets/icon/fLokasi.svg') }}" alt="Lokasi">Ruko Gate 2 Tel-U (Pusat)</a>
+                    <a class="caption" href="https://maps.app.goo.gl/UrTHxx5Lu5f27SbK9" target="_blank" rel="noopener "><img src="{{ asset('assets/icon/fLokasi.svg') }}" alt="Lokasi">Ruko Gate 2 Tel-U (Pusat)</a>
                 </div>
             </div>
 
@@ -53,11 +53,11 @@
 
             <div class="medsos flexRow">
 
-                <a href="https://www.instagram.com/cirengapawe/" target="_blank" rel="noopener noreferrer"><img src="{{ asset('assets/icon/instagram.svg') }}" alt="Instagram"></a>
+                <a href="https://www.instagram.com/cirengapawe/" target="_blank" rel="noopener "><img src="{{ asset('assets/icon/instagram.svg') }}" alt="Instagram"></a>
 
-                <a href="tiktok.com/cirengapawe" target="_blank" rel="noopener noreferrer"><img src="{{ asset('assets/icon/tiktok.svg') }}" alt="TikTok"></a>
+                <a href="https://www.tiktok.com/@cirengaapweh" target="_blank" rel="noopener "><img src="{{ asset('assets/icon/tiktok.svg') }}" alt="TikTok"></a>
 
-                <a href="https://wa.me/6281944327907" target="_blank" rel="noopener noreferrer"><img src="{{ asset('assets/icon/whatsApp.svg') }}" alt="WhatsApp"></a>
+                <a href="https://wa.me/6281944327907" target="_blank" rel="noopener "><img src="{{ asset('assets/icon/whatsApp.svg') }}" alt="WhatsApp"></a>
 
             </div> <!-- end medsos -->
 

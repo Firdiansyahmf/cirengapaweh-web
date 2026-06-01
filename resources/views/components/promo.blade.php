@@ -3,17 +3,18 @@
 
         <img id="gedungSate" src="{{ asset('assets/img/dekorasi/gedungSate.svg') }}" alt="Gedung Sate">
 
-        <div class="breakpoint">
+        <div class="breakpoint" id="promo">
 
             <div class="sectionHeader cleanWhite">
                 <h1 class="displayH1">Promo <span class="accentCheeseYellow">Spesial</span> Khusus Hari Ini!</h1>
                 <h3 class="subH3">Yuk, ambil promonya sekarang buat nemenin waktu bersantai kamu!</h3>
+                <h3 class="subH3"><div class="accentCheeseYellow">Geser ke kanan</div> untuk ambil promonya sekarang buat nemenin waktu bersantai kamu!</h3>
             </div>
 
             <div class="flexRow">
 
                 <div class="cardContain">
-                    <article class="cardC">
+                    <article class="cardC shadow">
                         <img class="shadowLight"
                             src="{{ asset('assets/img/produk/Cireng Salju Kuah Keju Creamy.jpg') }}"
                             alt="Cireng Salju Kuah Keju Creamy" />
@@ -27,7 +28,7 @@
                 </div>
 
                 <div class="cardContain">
-                    <article class="cardC">
+                    <article class="cardC shadow">
                         <img class="shadowLight"
                             src="{{ asset('assets/img/produk/Cireng Salju Kuah Seblak Ayam Suwir.jpg') }}"
                             alt="Cireng Salju Kuah Seblak Ayam Suwir" />
@@ -41,7 +42,7 @@
                 </div>
 
                 <div class="cardContain">
-                    <article class="cardC">
+                    <article class="cardC shadow">
                         <img class="shadowLight"
                             src="{{ asset('assets/img/produk/Cireng Isi Ayam Suwir Kuah Keju Creamy.jpg') }}"
                             alt="Cireng Isi Ayam Suwir Kuah Keju Creamyy" />

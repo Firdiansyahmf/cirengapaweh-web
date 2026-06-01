@@ -1,3 +1,3 @@
-main {
-    background: linear-gradient(220deg, var(--fdn-yellow-light) 0.69%, var(--clean-white, #fff) 57.53%);
-}
+/* start: main bg page */
+main { background: linear-gradient(220deg, var(--fdn-yellow-light) 0.69%, var(--clean-white) 57.53%); }
+/* end: main bg page */
