@@ -20,7 +20,6 @@ return new class extends Migration
             $table->unsignedInteger('price');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
-            
             $table->index('category');
         });
     }
