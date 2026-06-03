@@ -244,6 +244,7 @@ input:focus { outline: 2px solid var(--charcoal-grey); }
 /* start: card */
 .cardContain { display: flex; gap: var(--gap-medium); justify-content: center; padding-top: 120px; }
 .cardC { display: flex; flex-direction: column; align-items: center; max-width: 336px; background: var(--accent-cheese-yellow); padding: 0 var(--gap-medium) var(--gap-medium) var(--gap-medium); gap: var(--gap-small); border-radius: 100px 100px var(--gap-medium) var(--gap-medium); text-align: center; }
+.cardC .rp { display: flex; flex-direction: column; gap: var(--gap-small); margin-top: auto; }
 .cardC img { margin-top: -108px; width: 100%; max-width: 168px; aspect-ratio: 1/1; border-radius: 100%; border: var(--gap-small) solid var(--accent-cheese-yellow); box-sizing: content-box; object-fit: cover; }
 .cardC .btnPrimary { margin-top: auto; }
 .cardM { display: flex; flex-direction: column; gap: var(--gap-small); max-width: 382px; width: 100%; background: var(--clean-white); padding: var(--gap-medium); border-radius: var(--gap-medium); }
@@ -285,7 +286,7 @@ input:focus { outline: 2px solid var(--charcoal-grey); }
     .menu .sectionHeader h3:nth-of-type(1), .promo .sectionHeader h3:nth-of-type(1) { display: none; }
     .sectionHeader h3:nth-of-type(2) { display: block; }
     .cardContain { padding-top: 110px; }
-    body .cardC .subH3 { padding: 0; }
+    body .cardC .subH3 { padding: 0; font-size: 20px !important; }
     .cardC { padding: var(--gap-small); max-width: 268px; }
     .cardC img { max-width: 154px; border: var(--gap-micro) solid var(--accent-cheese-yellow); }
     .forMobile { display: block; }

@@ -9,7 +9,10 @@
                 </h1>
                 <h3 class="subH3">Pilih sensasi pedas lumer favoritmu! Tersedia menu matang siap santap dan frozen food
                     praktis.</h3>
-                <h3 class="subH3"><div class="primaryBrandRed">Geser ke kanan</div> dan pilih sensasi pedas lumer favoritmu! Tersedia menu matang siap santap dan <i>frozen food</i> praktis.</h3>
+                <h3 class="subH3">
+                    <div class="primaryBrandRed">Geser ke kanan</div> dan pilih sensasi pedas lumer favoritmu! Tersedia
+                    menu matang siap santap dan <i>frozen food</i> praktis.
+                </h3>
             </div>
 
             <div class="menuCategory flexRow">
@@ -24,113 +27,51 @@
                 </button>
 
                 <div class="flexRow" id="menuScrollContain">
+                    @php $chunks = $products->chunk(6); @endphp
                     <!-- page corousel -->
-                    <div class="menuPage">
-                        <div class="cardContain" data-category="fastfood">
-                            <article class="cardC shadow">
-                                <img class="shadowLight"
-                                    src="{{ asset('assets/img/produk/Cireng Salju Kuah Keju Creamy.jpg') }}"
-                                    alt="Cireng Salju Kuah Keju Creamy" />
-                                <h3 class="subH3">Cireng Salju Kuah Keju Creamy</h3>
-                                <p class="bodyMain">
-                                    Perpaduan cireng salju yang renyah di luar dan kenyal di dalam, disiram kuah
-                                    keju otentik yang super creamy dan gurih. Lumer dan pecah di mulut!
-                                </p>
-                                <button class="btnPrimary">Lihat Produk</button>
-                            </article>
-                        </div>
+                    @forelse($chunks as $chunk)
+                        <div class="menuPage">
+                            @foreach ($chunk as $product)
+                                @php
+                                    $dataCategory = str_replace('_', '', strtolower($product->category));
+                                @endphp
 
-                        <div class="cardContain" data-category="fastfood">
-                            <article class="cardC shadow">
-                                <img class="shadowLight"
-                                    src="{{ asset('assets/img/produk/Cireng Salju Kuah Seblak Ayam Suwir.jpg') }}"
-                                    alt="Cireng Salju Kuah Seblak Ayam Suwir" />
-                                <h3 class="subH3">Cireng Salju Kuah Seblak Ayam Suwir</h3>
-                                <p class="bodyMain">
-                                    Cireng kenyal berendam dalam kuah seblak pedas nendang, lengkap dengan
-                                    taburan ayam suwir gurih dan segarnya perasan limau.
-                                </p>
-                                <button class="btnPrimary">Lihat Produk</button>
-                            </article>
-                        </div>
+                                <div class="cardContain" data-category="{{ $dataCategory }}">
+                                    <article class="cardC shadow">
+                                        <img class="shadowLight"
+                                            src="{{ $product->image ? asset('storage/' . $product->image) : '[https://placehold.net/400x600.png]' }}"
+                                            alt="{{ $product->name }}"
+                                            onerror="this.src='[https://placehold.net/400x600.png]'">
 
-                        <div class="cardContain" data-category="fastfood">
-                            <article class="cardC shadow">
-                                <img class="shadowLight"
-                                    src="{{ asset('assets/img/produk/Cireng Isi Ayam Suwir Kuah Keju Creamy.jpg') }}"
-                                    alt="Cireng Isi Ayam Suwir Kuah Keju Creamyy" />
-                                <h3 class="subH3">Cireng Isi Ayam Suwir Kuah Keju Creamy</h3>
-                                <p class="bodyMain">
-                                    Sensasi dobel nikmat! Cireng montok berisi ayam suwir berbumbu, makin mantap
-                                    diseruput bareng kuah keju lumer yang bikin nagih.
-                                </p>
-                                <button class="btnPrimary">Lihat Produk</button>
-                            </article>
-                        </div>
+                                        <h3 class="subH3">{{ $product->name }}</h3>
 
-                        <div class="cardContain" data-category="fastfood">
-                            <article class="cardC shadow">
-                                <img class="shadowLight"
-                                    src="{{ asset('assets/img/produk/Cireng Isi Ayam Suwir Kuah Seblak.jpg') }}"
-                                    alt="Cireng Isi Ayam Suwir Kuah Seblak" />
-                                <h3 class="subH3">Cireng Isi Ayam Suwir Kuah Kuah Seblak</h3>
-                                <p class="bodyMain">
-                                    Cireng isi ayam suwir yang padat, disajikan dengan siraman kuah seblak kental yang
-                                    pedasnya bikin melek. Jagoannya bikin keringetan!
-                                </p>
-                                <button class="btnPrimary">Lihat Produk</button>
-                            </article>
-                        </div>
+                                        <p class="bodyMain">
+                                            {{ \Illuminate\Support\Str::limit($product->description, 80) }}
+                                        </p>
 
-                        <div class="cardContain" data-category="frozenfood">
-                            <article class="cardC shadow">
-                                <img class="shadowLight"
-                                    src="{{ asset('assets/img/produk/Frozen Cireng Isi Ayam Suwir.jpg') }}"
-                                    alt="Frozen Cireng Isi Ayam Suwir" />
-                                <h3 class="subH3">Frozen Cireng Isi Ayam Suwir</h3>
-                                <p class="bodyMain">
-                                    Stok camilan andalan di rumah! Tinggal goreng dadakan, nikmati cireng kenyal isian
-                                    ayam
-                                    suwir gurih yang fresh kapan aja kamu mau.
-                                </p>
-                                <button class="btnPrimary">Lihat Produk</button>
-                            </article>
-                        </div>
+                                        <div class="rp">
+                                            <strong class="subH4 primaryBrandRed">
+                                                Rp {{ number_format($product->price, 0, ',', '.') }}
+                                            </strong>
 
-                        <div class="cardContain" data-category="frozenfood">
-                            <article class="cardC shadow">
-                                <img class="shadowLight"
-                                    src="{{ asset('assets/img/produk/Frozen Cireng Isi Ayam Suwir Kuah Keju.jpg') }}"
-                                    alt="Frozen Cireng Isi Ayam Suwir Kuah Keju" />
-                                <h3 class="subH3">Frozen Cireng Ayam Suwir Kuah Keju</h3>
-                                <p class="bodyMain">
-                                    Bawa pulang sensasi ngeju A'paweh! Paket praktis cireng isi mentah lengkap dengan
-                                    bumbu
-                                    kuah keju creamy yang gampang banget diracik sendiri.
-                                </p>
-                                <button class="btnPrimary">Lihat Produk</button>
-                            </article>
+                                            <form method="GET" action="{{ url('/produk') }}">
+                                                <input type="hidden" name="id" value="{{ $product->id }}">
+                                                <button type="submit" class="btnPrimary">Lihat
+                                                    Produk</button>
+                                            </form>
+                                        </div>
+                                    </article>
+                                </div> <!-- end card contain -->
+                            @endforeach
+                        </div> <!-- end menu page -->
+                    @empty
+                        <div class="menuPage"
+                            style="justify-content: center; width: 100%; padding: var(--gap-large) 0;">
+                            <p class="bodyLg charcoalGrey" style="text-align: center">Belum ada produk A'paweh</p>
                         </div>
-                    </div>
-
-                    <div class="menuPage">
-                        <div class="cardContain" data-category="frozenfood">
-                            <article class="cardC shadow">
-                                <img class="shadowLight"
-                                    src="{{ asset('assets/img/produk/Frozen Cireng Isi Ayam Suwir Kuah Seblak.jpg') }}"
-                                    alt="Frozen Cireng Isi Ayam Suwir Kuah Seblak" />
-                                <h3 class="subH3">Frozen Cireng Ayam Suwir Kuah Seblak</h3>
-                                <p class="bodyMain">
-                                    Ngidam seblak tengah malam? Rebus aja paket frozen ini! Dilengkapi bumbu seblak
-                                    otentik
-                                    yang pedasnya juara dan cireng isi siap masak.
-                                </p>
-                                <button class="btnPrimary">Lihat Produk</button>
-                            </article>
-                        </div>
-                    </div>
+                    @endforelse
                     <!-- end page corousel -->
-                </div> <!-- end flexRow -->
+                </div> <!-- end flexRow#menuScrollContain -->
 
                 <button id="RButton" class="btnSlider RButton">
                     <img src="{{ asset('assets/icon/RButton.svg') }}" alt="Next">

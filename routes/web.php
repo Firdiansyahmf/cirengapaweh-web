@@ -9,23 +9,32 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DashboardController;
+// produk
+use App\Models\Product;
+
 
 // >____________RUTE PELANGGAN (WEB UTAMA)
+// START : RUTE UTAMA
+// index
 Route::get('/', function () {
     return view('pages.index');
 });
 
+// tentang kami
 Route::get("/tentang-kami", function () {
     return view("pages.tentangKami");
 });
 
+// detail produk
 Route::get('/detail-produk', function () {
     return view('pages.produk');
 });
 
+//checkout
 Route::get('/checkout', [CheckoutController::class, 'show']);
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
+// payment
 Route::get('/payment'/* /{orderId} */, function (/* $orderId */) {
     return view('pages.payment');
     /* return view('pages.payment', [
@@ -38,6 +47,18 @@ Route::get('/payment'/* /{orderId} */, function (/* $orderId */) {
 Route::get('/preview-paymentsuccess', function () {
     return view('pages.paymentSuccess');
 });
+// END : RUTE UTAMA
+// START : RUTE SPESIFIK
+// produk
+Route::get('/', function () {
+    $products = \App\Models\Product::query()
+        ->where('is_active', true)
+        ->orderBy('created_at', 'desc')
+        ->get();
+    return view('pages.index', compact('products'));
+});
+// END : RUTE SPESIFIK
+
 
 // >____________RUTE ADMIN DASHBOARD (CMS)
 // semua url diawali /admin
@@ -58,48 +79,48 @@ Route::prefix('admin')->group(function () {
             return view('admin.login');
         });
 
-    // Dashboard dan CRUD
-    Route::get('/dashboard', [DashboardController::class, 'index']);
+        // Dashboard dan CRUD
+        Route::get('/dashboard', [DashboardController::class, 'index']);
 
-    // Produk Routes
-    Route::get('/produk', [ProductController::class, 'index'])->name('produk.index');
-    Route::post('/produk', [ProductController::class, 'store'])->name('produk.store');
-    Route::put('/produk/{product}', [ProductController::class, 'update'])->name('produk.update');
-    Route::patch('/produk/{product}', [ProductController::class, 'updateStatus'])->name('produk.updateStatus');
-    Route::delete('/produk/{product}', [ProductController::class, 'destroy'])->name('produk.destroy');
+        // Produk Routes
+        Route::get('/produk', [ProductController::class, 'index'])->name('produk.index');
+        Route::post('/produk', [ProductController::class, 'store'])->name('produk.store');
+        Route::put('/produk/{product}', [ProductController::class, 'update'])->name('produk.update');
+        Route::patch('/produk/{product}', [ProductController::class, 'updateStatus'])->name('produk.updateStatus');
+        Route::delete('/produk/{product}', [ProductController::class, 'destroy'])->name('produk.destroy');
 
-    // Promo Routes
-    Route::get('/promo', [PromoController::class, 'index'])->name('promo.index');
-    Route::get('/promo/get-products', [PromoController::class, 'getProducts'])->name('promo.getProducts');
-    Route::get('/promo/{promo}', [PromoController::class, 'show'])->name('promo.show');
-    Route::post('/promo', [PromoController::class, 'store'])->name('promo.store');
-    Route::get('/promo/{promo}/edit', [PromoController::class, 'edit'])->name('promo.edit');
-    Route::put('/promo/{promo}', [PromoController::class, 'update'])->name('promo.update');
-    Route::patch('/promo/{promo}', [PromoController::class, 'updateStatus'])->name('promo.updateStatus');
-    Route::delete('/promo/{promo}', [PromoController::class, 'destroy'])->name('promo.destroy');
+        // Promo Routes
+        Route::get('/promo', [PromoController::class, 'index'])->name('promo.index');
+        Route::get('/promo/get-products', [PromoController::class, 'getProducts'])->name('promo.getProducts');
+        Route::get('/promo/{promo}', [PromoController::class, 'show'])->name('promo.show');
+        Route::post('/promo', [PromoController::class, 'store'])->name('promo.store');
+        Route::get('/promo/{promo}/edit', [PromoController::class, 'edit'])->name('promo.edit');
+        Route::put('/promo/{promo}', [PromoController::class, 'update'])->name('promo.update');
+        Route::patch('/promo/{promo}', [PromoController::class, 'updateStatus'])->name('promo.updateStatus');
+        Route::delete('/promo/{promo}', [PromoController::class, 'destroy'])->name('promo.destroy');
 
-    // Lokasi Routes
-    Route::get('/lokasi', [LocationController::class, 'index'])->name('lokasi.index');
-    Route::get('/lokasi/{location}', [LocationController::class, 'show'])->name('lokasi.show');
-    Route::post('/lokasi', [LocationController::class, 'store'])->name('lokasi.store');
-    Route::put('/lokasi/{location}', [LocationController::class, 'update'])->name('lokasi.update');
-    Route::delete('/lokasi/{location}', [LocationController::class, 'destroy'])->name('lokasi.destroy');
+        // Lokasi Routes
+        Route::get('/lokasi', [LocationController::class, 'index'])->name('lokasi.index');
+        Route::get('/lokasi/{location}', [LocationController::class, 'show'])->name('lokasi.show');
+        Route::post('/lokasi', [LocationController::class, 'store'])->name('lokasi.store');
+        Route::put('/lokasi/{location}', [LocationController::class, 'update'])->name('lokasi.update');
+        Route::delete('/lokasi/{location}', [LocationController::class, 'destroy'])->name('lokasi.destroy');
 
-    Route::get('/pemesanan', function () {
-        return view('admin.pemesanan');
-    });
+        Route::get('/pemesanan', function () {
+            return view('admin.pemesanan');
+        });
 
-    // User Management Routes
-    Route::get('/pengguna', [UserController::class, 'index'])->name('pengguna.index');
-    Route::post('/pengguna', [UserController::class, 'store'])->name('pengguna.store');
-    Route::put('/pengguna/{user}', [UserController::class, 'update'])->name('pengguna.update');
-    Route::delete('/pengguna/{user}', [UserController::class, 'destroy'])->name('pengguna.destroy');
+        // User Management Routes
+        Route::get('/pengguna', [UserController::class, 'index'])->name('pengguna.index');
+        Route::post('/pengguna', [UserController::class, 'store'])->name('pengguna.store');
+        Route::put('/pengguna/{user}', [UserController::class, 'update'])->name('pengguna.update');
+        Route::delete('/pengguna/{user}', [UserController::class, 'destroy'])->name('pengguna.destroy');
 
-    // Chat Management Routes
-    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::get('/chat/{session}', [ChatController::class, 'show'])->name('chat.show');
-    Route::post('/chat/{session}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
-    Route::post('/chat/{session}/close', [ChatController::class, 'closeSession'])->name('chat.close');
-    Route::post('/chat/{session}/reopen', [ChatController::class, 'reopenSession'])->name('chat.reopen');
+        // Chat Management Routes
+        Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+        Route::get('/chat/{session}', [ChatController::class, 'show'])->name('chat.show');
+        Route::post('/chat/{session}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+        Route::post('/chat/{session}/close', [ChatController::class, 'closeSession'])->name('chat.close');
+        Route::post('/chat/{session}/reopen', [ChatController::class, 'reopenSession'])->name('chat.reopen');
     });
 });
