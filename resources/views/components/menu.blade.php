@@ -39,12 +39,11 @@
                                 <div class="cardContain" data-category="{{ $dataCategory }}">
                                     <article class="cardC shadow">
                                         <img class="shadowLight"
-                                            src="{{ $product->image ? asset('storage/' . $product->image) : '[https://placehold.net/400x600.png]' }}"
+                                            src="{{ $product->image ? asset('storage/' . $product->image) : 'https://placehold.net/400x600.png' }}"
                                             alt="{{ $product->name }}"
-                                            onerror="this.src='[https://placehold.net/400x600.png]'">
+                                            onerror="this.src='https://placehold.net/400x600.png'">
 
                                         <h3 class="subH3">{{ $product->name }}</h3>
-
                                         <p class="bodyMain">
                                             {{ \Illuminate\Support\Str::limit($product->description, 80) }}
                                         </p>
@@ -56,8 +55,7 @@
 
                                             <form method="GET" action="{{ url('/produk') }}">
                                                 <input type="hidden" name="id" value="{{ $product->id }}">
-                                                <button type="submit" class="btnPrimary">Lihat
-                                                    Produk</button>
+                                                <button type="submit" class="btnPrimary">Lihat Produk</button>
                                             </form>
                                         </div>
                                     </article>
@@ -65,9 +63,8 @@
                             @endforeach
                         </div> <!-- end menu page -->
                     @empty
-                        <div class="menuPage"
-                            style="justify-content: center; width: 100%; padding: var(--gap-large) 0;">
-                            <p class="bodyLg charcoalGrey" style="text-align: center">Belum ada produk A'paweh</p>
+                        <div class="menuPage kosong">
+                            <p class="bodyLg charcoalGrey">Wah, belum ada produk A'paweh yang tersedia</p>
                         </div>
                     @endforelse
                     <!-- end page corousel -->

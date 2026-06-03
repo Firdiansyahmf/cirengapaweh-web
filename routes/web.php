@@ -11,13 +11,32 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DashboardController;
 // produk
 use App\Models\Product;
+// promo
+use App\Models\Promo;
 
 
 // >____________RUTE PELANGGAN (WEB UTAMA)
 // START : RUTE UTAMA
 // index
 Route::get('/', function () {
-    return view('pages.index');
+    // START : RUTE SPESIFIK
+    // produk
+    $products = Product::query()
+        ->where('is_active', true)
+        ->orderBy('created_at', 'desc')
+        ->get();
+    // promo
+    $promos = Promo::query()
+        ->with('products')
+        ->where('is_active', true)
+        ->whereDate('start_date', '<=', now()->toDateString())
+        ->whereDate('end_date', '>=', now()->toDateString())
+        ->whereRaw('used_count < max_usage')
+        ->orderBy('created_at', 'desc')
+        ->get();
+    // END : RUTE SPESIFIK
+
+    return view('pages.index', compact('products', 'promos'));
 });
 
 // tentang kami
@@ -48,17 +67,6 @@ Route::get('/preview-paymentsuccess', function () {
     return view('pages.paymentSuccess');
 });
 // END : RUTE UTAMA
-// START : RUTE SPESIFIK
-// produk
-Route::get('/', function () {
-    $products = \App\Models\Product::query()
-        ->where('is_active', true)
-        ->orderBy('created_at', 'desc')
-        ->get();
-    return view('pages.index', compact('products'));
-});
-// END : RUTE SPESIFIK
-
 
 // >____________RUTE ADMIN DASHBOARD (CMS)
 // semua url diawali /admin
