@@ -14,6 +14,8 @@ use App\Http\Controllers\DashboardController;
 use App\Models\Product;
 // promo
 use App\Models\Promo;
+// detail produk
+use Illuminate\Http\Request;
 
 
 // >____________RUTE PELANGGAN (WEB UTAMA)
@@ -46,8 +48,30 @@ Route::get("/tentang-kami", function () {
 });
 
 // detail produk
-Route::get('/detail-produk', function () {
-    return view('pages.produk');
+Route::get('/produk', function (Request $request) {
+    $id = $request->query('id');
+    if (!$id) {
+        return redirect('/'); // ke 404 -> halaman tidak ditemukan
+    }
+
+    $product = \App\Models\Product::findOrFail($id);
+    $activePromo = \App\Models\Promo::whereHas('products', function ($query) use ($id) {
+        $query->where('products.id', $id);
+    })
+        ->where('is_active', true)
+        ->whereDate('start_date', '<=', now()->toDateString())
+        ->whereDate('end_date', '>=', now()->toDateString())
+        ->whereRaw('used_count < max_usage')
+        ->orderBy('created_at', 'desc')
+        ->first();
+        
+    $finalPrice = $product->price;
+    if ($activePromo) {
+        $discountAmount = ($product->price * $activePromo->discount_percentage) / 100;
+        $finalPrice = $product->price - $discountAmount;
+    }
+
+    return view('pages.produk', compact('product', 'activePromo', 'finalPrice'));
 });
 
 //checkout
