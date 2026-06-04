@@ -6,7 +6,7 @@
     <div id="beranda" class="pageActive">
         <div class="berandaHeader">
             <div class="berandaTitle">
-                <h2>Halo, Cahya!</h2>
+                <h2>Halo, {{ auth()->user()->name }}!</h2>
                 <p>Berikut adalah ringkasan website Cireng A'paweh</p>
             </div>
         </div>
