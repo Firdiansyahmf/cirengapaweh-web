@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (window.innerWidth <= 1440) return btnNext.style.display = btnPrev.style.display = "none";
         const pages = scrollContain.querySelectorAll(".menuPage").length;
         if (pages <= 1) return btnNext.style.display = btnPrev.style.display = "none";
-        
+
         const currentScroll = Math.round(scrollContain.scrollLeft);
         const maxScrollLeft = scrollContain.scrollWidth - scrollContain.clientWidth;
         btnNext.style.display = currentScroll >= maxScrollLeft - 10 ? "none" : "flex";
