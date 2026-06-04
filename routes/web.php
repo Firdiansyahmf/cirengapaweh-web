@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AdminAuth;
+use App\Models\PartnerLocation;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PromoController;
@@ -35,9 +36,14 @@ Route::get('/', function () {
         ->whereRaw('used_count < max_usage')
         ->orderBy('created_at', 'desc')
         ->get();
+    // mitra
+    $locations = PartnerLocation::query()
+        ->where('is_active', true)
+        ->orderBy('created_at', 'desc')
+        ->get();
     // END : RUTE SPESIFIK
 
-    return view('pages.index', compact('products', 'promos'));
+    return view('pages.index', compact('products', 'promos', 'locations'));
 });
 
 // tentang kami

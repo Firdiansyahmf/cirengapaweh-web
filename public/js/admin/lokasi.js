@@ -8,15 +8,6 @@ const imagePreview = document.getElementById("imagePreview");
 const searchInput = document.getElementById("searchInput");
 const locationStatusSelect = document.getElementById("locationStatus");
 
-// Map variables
-const mapModal = document.getElementById("mapModal");
-const googleMap = document.getElementById("googleMap");
-const mapSearchInput = document.getElementById("mapSearchInput");
-const mapSearchBtn = document.getElementById("mapSearchBtn");
-let map;
-let marker;
-let selectedPlace = null;
-
 // Pending variables for confirmation
 let pendingFormData = null;
 let pendingIsEdit = false;
@@ -77,6 +68,7 @@ async function loadLocationData(id) {
         locationId.value = data.id;
         document.getElementById("name").value = data.name;
         document.getElementById("address").value = data.address;
+        document.getElementById("mapLink").value = data.link;
 
         if (data.operating_hours) {
             const [openTime, closeTime] = data.operating_hours.split("-");
@@ -158,145 +150,6 @@ image.addEventListener("change", function (e) {
     }
 });
 
-// Initialize Leaflet Map
-function initMap() {
-    const defaultLocation = [-6.1751, 106.8650];
-
-    // Create map with OpenStreetMap tiles
-    map = L.map(googleMap).setView(defaultLocation, 12);
-
-    // Add OpenStreetMap tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
-        maxZoom: 19,
-    }).addTo(map);
-
-    // Click on map to select location
-    map.on('click', function (e) {
-        selectMapLocation(e.latlng.lat, e.latlng.lng);
-    });
-
-    mapSearchBtn.addEventListener("click", searchLocation);
-    
-    mapSearchInput.addEventListener("keypress", function(e) {
-        if (e.key === 'Enter') {
-            searchLocation();
-            e.preventDefault();
-        }
-    });
-}
-
-function selectMapLocation(lat, lng, address = null) {
-    if (marker) {
-        map.removeLayer(marker);
-    }
-
-    marker = L.marker([lat, lng]).addTo(map);
-    map.setView([lat, lng], 15);
-
-    selectedPlace = {
-        lat: lat,
-        lng: lng,
-        address: address || `${lat.toFixed(4)}, ${lng.toFixed(4)}`,
-    };
-
-    if (!address) {
-        reverseGeocode(lat, lng);
-    }
-}
-
-// Reverse geocoding - get address from coordinates
-function reverseGeocode(lat, lng) {
-    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
-    
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            if (data.address) {
-                selectedPlace.address = data.display_name || `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-            }
-        })
-        .catch(error => {
-            console.error('Geocoding error:', error);
-        });
-}
-
-// Forward geocoding - search location by name
-function searchLocation() {
-    const query = mapSearchInput.value.trim();
-    if (!query) {
-        showErrorModal('Masukkan nama lokasi atau alamat');
-        return;
-    }
-
-    // Add country filter to Indonesia (more accurate results)
-    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query + ', Indonesia')}&format=json&limit=1`;
-    
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            if (data && data.length > 0) {
-                const result = data[0];
-                const lat = parseFloat(result.lat);
-                const lng = parseFloat(result.lon);
-                selectMapLocation(lat, lng, result.display_name);
-                return { found: true };
-            } else {
-                const fallbackUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`;
-                return fetch(fallbackUrl).then(r => r.json());
-            }
-        })
-        .then(data => {
-            if (data && data.found === true) {
-                return;
-            }
-            
-            if (data && data.length > 0) {
-                const result = data[0];
-                const lat = parseFloat(result.lat);
-                const lng = parseFloat(result.lon);
-                selectMapLocation(lat, lng, result.display_name);
-            } else {
-                showErrorModal('Lokasi tidak ditemukan. Coba nama lain atau klik langsung di peta.');
-            }
-        })
-        .catch(error => {
-            console.error('Search error:', error);
-            showErrorModal('Error saat mencari lokasi');
-        });
-}
-
-function openMapModal() {
-    mapModal.classList.add("show");
-    setTimeout(() => {
-        if (!map) {
-            initMap();
-        } else {
-            // Invalidate map size jika sudah ada
-            map.invalidateSize();
-        }
-    }, 100);
-}
-
-function closeMapModal() {
-    mapModal.classList.remove("show");
-    selectedPlace = null;
-    if (marker) {
-        map.removeLayer(marker);
-    }
-}
-
-function confirmMapLocation() {
-    if (selectedPlace && selectedPlace.address) {
-        document.getElementById("address").value = selectedPlace.address;
-        closeMapModal();
-    } else {
-        showErrorModal("Pilih lokasi terlebih dahulu");
-    }
-}
-
-
-
 // ========== FORM SUBMISSION FUNCTIONS ==========
 locationForm.addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -312,6 +165,7 @@ locationForm.addEventListener("submit", async function (e) {
 
     pendingFormData = new FormData(this);
     pendingIsEdit = locationId.value;
+    console.log(Object.fromEntries(pendingFormData));
 
     if (pendingIsEdit) {
         openConfirmModal('update');

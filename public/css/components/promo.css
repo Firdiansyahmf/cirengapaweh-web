@@ -18,10 +18,13 @@
 .promo .flexRow::before { content: ""; flex: 0 0 50%; display: block; }
 .promo .flexRow::after { content: ""; flex: 0 0 var(--gap-medium); display: block; }
 .promo .flexRow:has(> .cardContain:nth-child(3):last-child)::before, .promo .flexRow:has(> .cardContain:nth-child(3):last-child)::after { display: none; }
+.promo .flexRow:not(:has(.cardContain)) { display: block; }
 .promo .cardContain { flex: 0 0 auto; scroll-snap-align: center; }
 .promo .cardC .subH3 { padding: 0 var(--gap-small); }
 .promo .cardContain:nth-child(2):nth-last-child(2) { transform: translateY(var(--gap-medium)); }
 /* end: carousel offset  */
+
+.empty { opacity: 50%; }
 
 /* start: responsive ultra wide monitor */
 @media (max-width: 1760px) {

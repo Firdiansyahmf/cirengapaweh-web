@@ -24,6 +24,7 @@ class LocationController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:150',
                 'address' => 'required|string',
+                'mapLink' => 'required|string',
                 'open_time' => 'required|date_format:H:i',
                 'close_time' => 'required|date_format:H:i',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -52,6 +53,7 @@ class LocationController extends Controller
             PartnerLocation::create([
                 'name' => $validated['name'],
                 'address' => $validated['address'],
+                'link' => $validated['mapLink'],
                 'operating_hours' => $operatingHours,
                 'image' => $imagePath,
                 'is_active' => $validated['is_active'] ?? false,

@@ -14,6 +14,7 @@ class PartnerLocation extends Model
         'address',
         'operating_hours',
         'is_active',
+        'link',
     ];
 
     protected $casts = [

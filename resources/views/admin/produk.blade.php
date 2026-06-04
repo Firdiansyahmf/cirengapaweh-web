@@ -23,7 +23,7 @@
         </div>
 
         <div class="tableWrapper">
-            <table class="productTable">
+            <table class="productTable" border="1">
                 <thead>
                     <tr>
                         <th>Foto</th>
@@ -62,18 +62,20 @@
                                     <span class="badge badgeNonaktif">Draft</span>
                                 @endif
                             </td>
-                            <td class="aksiCell">
-                                <button class="btnIcon btnEdit" title="Edit" onclick="editProduct({{ $product->id }})">
-                                    <span class="material-symbols-outlined">edit</span>
-                                </button>
-                                <button class="btnIcon btnDelete" title="Hapus" onclick="deleteProduct({{ $product->id }})">
-                                    <span class="material-symbols-outlined">delete</span>
-                                </button>
+                            <td>
+                                <div class="aksiCell">
+                                    <button class="btnIcon btnEdit" title="Edit" onclick="editProduct({{ $product->id }})">
+                                        <span class="material-symbols-outlined">edit</span>
+                                    </button>   
+                                    <button class="btnIcon btnDelete" title="Hapus" onclick="deleteProduct({{ $product->id }})">
+                                        <span class="material-symbols-outlined">delete</span>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" style="text-align: center; padding: 40px;">
+                            <td colspan="7" class="kosong">
                                 <p style="color: var(--charcoal-grey);">Belum ada produk. Klik "Tambah Produk" untuk menambahkan produk baru.</p>
                             </td>
                         </tr>

@@ -63,8 +63,8 @@
                             @endforeach
                         </div> <!-- end menu page -->
                     @empty
-                        <div class="menuPage kosong">
-                            <p class="bodyLg charcoalGrey">Wah, belum ada produk A'paweh yang tersedia</p>
+                        <div class="menuPage">
+                            <p class="bodyLg charcoalGrey empty">Wah, belum ada produk A'paweh yang tersedia</p>
                         </div>
                     @endforelse
                     <!-- end page corousel -->

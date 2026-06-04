@@ -12,69 +12,45 @@
 
             <!-- Konten -->
             <div class="flexRow">
-
-                <div class="cardM shadow main">
-                    <img class="locationIcon" src="{{ asset('assets/icon/lokasiCMain.svg') }}" alt="Lokasi">
-
-                    <div class="flexCol">
-                        <h4 class="subH4">
-                            Ruko Gate 2 Tel-U &lpar;Pusat&rpar;
-                        </h4>
-
-                        <p class="bodyMain charcoalGrey">
-                            Jl. Raya Sunda No. 123, Bandung, Jawa Barat 40123
-                        </p>
-                    </div>
-
-                    <a class="btnCardM" href="https://maps.app.goo.gl/ByunGQTbtnv1hrWb9" target="_blank" rel="noopener">
-                        <img class="btnIcon" src="{{ asset('assets/icon/tautanBlack.svg') }}" alt="Maps">
-                        <div class="bodyMain">
-                            Lihat di Maps
+                @forelse ($locations as $location)
+                    @if ($location->is_active && (stripos($location->name, 'Pusat') !== false))
+                        <div class="cardM shadow main">
+                            <img class="locationIcon" src="{{ asset('assets/icon/lokasiCMain.svg') }}" alt="Lokasi">
+                            <div class="flexCol">
+                                <h4 class="subH4">{{ $location->name }}</h4>
+                                <p class="bodyMain charcoalGrey">{{ $location->address }}</p>
+                            </div>
+                            <a class="btnCardM" href={{ $location->link }} target="_blank" rel="noopener">
+                                <img class="btnIcon" src="{{ asset('assets/icon/tautanBlack.svg') }}" alt="Maps">
+                                <div class="bodyMain">
+                                    Lihat di Maps
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                </div> <!-- end cardM -->
-
-                <div class="cardM shadow primaryBrandRed">
-                    <img class="locationIcon" src="{{ asset('assets/icon/lokasiC.svg') }}" alt="Lokasi">
-
-                    <div class="flexCol">
-                        <h4 class="subH4">
-                            Cabang Lembang
-                        </h4>
-
-                        <p class="bodyMain charcoalGrey">
-                            Jl. Raya Lembang No. 78, Bandung Barat 40391
-                        </p>
-                    </div>
-
-                    <a class="btnCardM primaryBrandRed" href="https://maps.app.goo.gl/ByunGQTbtnv1hrWb9" target="_blank" rel="noopener">
-                        <img class="btnIcon" src="{{ asset('assets/icon/tautanRed.svg') }}" alt="Maps">
-                        <div class="bodyMain">
-                            Lihat di Maps
+                    @endif
+                @empty
+                @endforelse
+                @forelse ($locations as $location)
+                    @if ($location->is_active && (stripos($location->name, 'Pusat') === false))
+                        <div class="cardM shadow primaryBrandRed">
+                            <img class="locationIcon" src="{{ asset('assets/icon/lokasiC.svg') }}" alt="Lokasi">
+                            <div class="flexCol">
+                                <h4 class="subH4">{{ $location->name }}</h4>
+                                <p class="bodyMain charcoalGrey">{{ $location->address }}</p>
+                            </div>
+                            <a class="btnCardM primaryBrandRed" href={{ $location->link }} target="_blank" rel="noopener">
+                                <img class="btnIcon" src="{{ asset('assets/icon/tautanRed.svg') }}" alt="Maps">
+                                <div class="bodyMain">
+                                    Lihat di Maps
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                </div> <!-- end cardM -->
-
-                <div class="cardM shadow primaryBrandRed">
-                    <img class="locationIcon" src="{{ asset('assets/icon/lokasiC.svg') }}" alt="Lokasi">
-
-                    <div class="flexCol">
-                        <h4 class="subH4">
-                            Cabang Cimahi
-                        </h4>
-
-                        <p class="bodyMain charcoalGrey">
-                            Jl. Baros No. 45, Cimahi, Jawa Barat 40512
-                        </p>
-                    </div>
-
-                    <a class="btnCardM primaryBrandRed" href="https://maps.app.goo.gl/ByunGQTbtnv1hrWb9" target="_blank" rel="noopener">
-                        <img class="btnIcon" src="{{ asset('assets/icon/tautanRed.svg') }}" alt="Maps">
-                        <div class="bodyMain">
-                            Lihat di Maps
-                        </div>
-                    </a>
-                </div> <!-- end cardM -->
+                    @endif
+                @empty
+                    <div class="menuPage">
+                        <p class="bodyLg charcoalGrey empty">Wah, lokasi cireng A'paweh belum tersedia saat ini</p>
+                    </div>  
+                @endforelse
             </div> <!-- end konten -->
 
             <a class="btnPrimary" href="/tentang-kami">Kenali Kami Lebih Dekat</a>

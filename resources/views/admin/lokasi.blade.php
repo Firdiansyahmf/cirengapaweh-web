@@ -132,11 +132,15 @@
                 <div class="formGroup">
                     <label for="address">Alamat *</label>
                     <div class="addressContainer">
-                        <textarea id="address" name="address" placeholder="Masukkan alamat atau cari di peta" required></textarea>
-                        <button type="button" class="btnMapSearch" onclick="openMapModal()">
-                            <span class="material-symbols-outlined">location_on</span>
-                            <span>Cari di Peta</span>
-                        </button>
+                        <textarea id="address" name="address" placeholder="Masukkan alamat" required></textarea>
+                    </div>
+                    <span class="errorMessage" id="addressError"></span>
+                </div>
+
+                <div class="formGroup">
+                    <label for="mapLink">Link Map *</label>
+                    <div class="linkContainer">
+                        <input type="text" name="mapLink" id="mapLink" placeholder="Masukkan link map">
                     </div>
                     <span class="errorMessage" id="addressError"></span>
                 </div>

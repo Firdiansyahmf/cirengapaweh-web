@@ -61,7 +61,7 @@
                      @endforeach
                 @empty
                     <div class="kosong">
-                        <p class="bodyLg cleanWhite">Wah, belum ada promo spesial hari ini dari A'paweh</p>
+                        <p class="bodyLg cleanWhite empty">Wah, belum ada promo spesial hari ini dari A'paweh</p>
                     </div>
                  @endforelse
                 </div> <!-- end flexRow -->
