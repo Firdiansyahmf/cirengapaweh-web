@@ -41,12 +41,6 @@ function closeProductModal() {
     }, 300);
 }
 
-// Close modal when clicking outside
-productModal.addEventListener("click", function (event) {
-    if (event.target === productModal) {
-        closeProductModal();
-    }
-});
 
 // Add button to trigger modal
 document
@@ -109,15 +103,6 @@ function closeErrorModal() {
     document.getElementById("errorModal").classList.remove("active");
 }
 
-// Close modals when clicking outside
-["confirmSaveModal", "confirmUpdateModal", "confirmDeleteModal", "confirmStatusModal", "successModal", "errorModal"].forEach(modalId => {
-    const modal = document.getElementById(modalId);
-    modal?.addEventListener("click", function (event) {
-        if (event.target === modal) {
-            modal.classList.remove("active");
-        }
-    });
-});
 
 //  FILE INPUT PREVIEW 
 productImage.addEventListener("change", function (e) {
