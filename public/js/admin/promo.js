@@ -29,12 +29,6 @@ function closePromoModal() {
     }, 300);
 }
 
-// Close modal when clicking outside
-promoModal.addEventListener("click", function (event) {
-    if (event.target === promoModal) {
-        closePromoModal();
-    }
-});
 
 // Add button to trigger modal
 document.getElementById("btnAddPromoModal").addEventListener("click", function () {
@@ -87,15 +81,6 @@ function closeErrorModal() {
     document.getElementById("errorModal").classList.remove("active");
 }
 
-// Close modals when clicking outside
-["confirmSaveModal", "confirmUpdateModal", "confirmDeleteModal", "successModal", "errorModal"].forEach(modalId => {
-    const modal = document.getElementById(modalId);
-    modal?.addEventListener("click", function (event) {
-        if (event.target === modal) {
-            modal.classList.remove("active");
-        }
-    });
-});
 
 // FORM SUBMISSION
 promoForm.addEventListener("submit", async function (e) {

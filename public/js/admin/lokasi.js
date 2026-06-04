@@ -54,12 +54,6 @@ function closeLocationModal() {
     }, 300);
 }
 
-// Close modal when clicking outside
-locationModal.addEventListener("click", function (event) {
-    if (event.target === locationModal) {
-        closeLocationModal();
-    }
-});
 
 // Add button to trigger modal
 document.getElementById("btnAddLocationModal").addEventListener("click", function () {
@@ -149,15 +143,6 @@ function closeErrorModal() {
     document.getElementById("errorModal").classList.remove("active");
 }
 
-// Close modals when clicking outside
-["confirmSaveModal", "confirmUpdateModal", "confirmDeleteModal", "successModal", "errorModal"].forEach(modalId => {
-    const modal = document.getElementById(modalId);
-    modal?.addEventListener("click", function (event) {
-        if (event.target === modal) {
-            modal.classList.remove("active");
-        }
-    });
-});
 
 // File input preview
 image.addEventListener("change", function (e) {
@@ -310,12 +295,6 @@ function confirmMapLocation() {
     }
 }
 
-// Close map modal when clicking outside
-mapModal.addEventListener("click", function (event) {
-    if (event.target === mapModal) {
-        closeMapModal();
-    }
-});
 
 
 // ========== FORM SUBMISSION FUNCTIONS ==========
