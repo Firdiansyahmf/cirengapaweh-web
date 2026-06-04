@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\AdminAuth;
+use App\Http\Middleware\isAdmin;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PromoController;
@@ -39,67 +41,65 @@ Route::get('/preview-paymentsuccess', function () {
     return view('pages.paymentSuccess');
 });
 
+
 // >____________RUTE ADMIN DASHBOARD (CMS)
 // semua url diawali /admin
 Route::prefix('admin')->group(function () {
-    // Login routes (accessible to guests only)
-    Route::middleware('guest')->group(function () {
+
+    // admin routes
+    Route::middleware(AdminAuth::class)->group(function () {
+        // login
         Route::get('/login', [LoginController::class, 'showLogin'])->name('admin.login.form');
         Route::post('/login', [LoginController::class, 'authenticate'])->name('admin.login');
-    });
 
-    // Logout
-    Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout')->middleware('auth');
+        // Logout
+        Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout');
 
-    // Protected admin routes
-    Route::middleware('auth')->group(function () {
-        // Login
-        Route::get('/loginAja', function () {
-            return view('admin.login');
+        // Dashboard dan CRUD
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+        // Produk Routes
+        Route::get('/produk', [ProductController::class, 'index'])->name('produk.index');
+        Route::post('/produk', [ProductController::class, 'store'])->name('produk.store');
+        Route::put('/produk/{product}', [ProductController::class, 'update'])->name('produk.update');
+        Route::patch('/produk/{product}', [ProductController::class, 'updateStatus'])->name('produk.updateStatus');
+        Route::delete('/produk/{product}', [ProductController::class, 'destroy'])->name('produk.destroy');
+
+        // Promo Routes
+        Route::get('/promo', [PromoController::class, 'index'])->name('promo.index');
+        Route::get('/promo/get-products', [PromoController::class, 'getProducts'])->name('promo.getProducts');
+        Route::get('/promo/{promo}', [PromoController::class, 'show'])->name('promo.show');
+        Route::post('/promo', [PromoController::class, 'store'])->name('promo.store');
+        Route::get('/promo/{promo}/edit', [PromoController::class, 'edit'])->name('promo.edit');
+        Route::put('/promo/{promo}', [PromoController::class, 'update'])->name('promo.update');
+        Route::patch('/promo/{promo}', [PromoController::class, 'updateStatus'])->name('promo.updateStatus');
+        Route::delete('/promo/{promo}', [PromoController::class, 'destroy'])->name('promo.destroy');
+
+        // Lokasi Routes
+        Route::get('/lokasi', [LocationController::class, 'index'])->name('lokasi.index');
+        Route::get('/lokasi/{location}', [LocationController::class, 'show'])->name('lokasi.show');
+        Route::post('/lokasi', [LocationController::class, 'store'])->name('lokasi.store');
+        Route::put('/lokasi/{location}', [LocationController::class, 'update'])->name('lokasi.update');
+        Route::delete('/lokasi/{location}', [LocationController::class, 'destroy'])->name('lokasi.destroy');
+
+        // Pemesanan Routes
+        Route::get('/pemesanan', function () {
+            return view('admin.pemesanan');
         });
 
-    // Dashboard dan CRUD
-    Route::get('/dashboard', [DashboardController::class, 'index']);
+        // User Management Routes
+        Route::get('/pengguna', [UserController::class, 'index'])->name('pengguna.index');
+        Route::post('/pengguna', [UserController::class, 'store'])->name('pengguna.store');
+        Route::put('/pengguna/{user}', [UserController::class, 'update'])->name('pengguna.update');
+        Route::post('/pengguna/{user}/verify-password', [UserController::class, 'verifyPassword'])->name('pengguna.verifyPassword');
+        Route::delete('/pengguna/{user}', [UserController::class, 'destroy'])->name('pengguna.destroy');
+        Route::post('/pengguna/verify-password/{userId}', [UserController::class, 'verifyPassword']);
 
-    // Produk Routes
-    Route::get('/produk', [ProductController::class, 'index'])->name('produk.index');
-    Route::post('/produk', [ProductController::class, 'store'])->name('produk.store');
-    Route::put('/produk/{product}', [ProductController::class, 'update'])->name('produk.update');
-    Route::patch('/produk/{product}', [ProductController::class, 'updateStatus'])->name('produk.updateStatus');
-    Route::delete('/produk/{product}', [ProductController::class, 'destroy'])->name('produk.destroy');
-
-    // Promo Routes
-    Route::get('/promo', [PromoController::class, 'index'])->name('promo.index');
-    Route::get('/promo/get-products', [PromoController::class, 'getProducts'])->name('promo.getProducts');
-    Route::get('/promo/{promo}', [PromoController::class, 'show'])->name('promo.show');
-    Route::post('/promo', [PromoController::class, 'store'])->name('promo.store');
-    Route::get('/promo/{promo}/edit', [PromoController::class, 'edit'])->name('promo.edit');
-    Route::put('/promo/{promo}', [PromoController::class, 'update'])->name('promo.update');
-    Route::patch('/promo/{promo}', [PromoController::class, 'updateStatus'])->name('promo.updateStatus');
-    Route::delete('/promo/{promo}', [PromoController::class, 'destroy'])->name('promo.destroy');
-
-    // Lokasi Routes
-    Route::get('/lokasi', [LocationController::class, 'index'])->name('lokasi.index');
-    Route::get('/lokasi/{location}', [LocationController::class, 'show'])->name('lokasi.show');
-    Route::post('/lokasi', [LocationController::class, 'store'])->name('lokasi.store');
-    Route::put('/lokasi/{location}', [LocationController::class, 'update'])->name('lokasi.update');
-    Route::delete('/lokasi/{location}', [LocationController::class, 'destroy'])->name('lokasi.destroy');
-
-    Route::get('/pemesanan', function () {
-        return view('admin.pemesanan');
-    });
-
-    // User Management Routes
-    Route::get('/pengguna', [UserController::class, 'index'])->name('pengguna.index');
-    Route::post('/pengguna', [UserController::class, 'store'])->name('pengguna.store');
-    Route::put('/pengguna/{user}', [UserController::class, 'update'])->name('pengguna.update');
-    Route::delete('/pengguna/{user}', [UserController::class, 'destroy'])->name('pengguna.destroy');
-
-    // Chat Management Routes
-    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::get('/chat/{session}', [ChatController::class, 'show'])->name('chat.show');
-    Route::post('/chat/{session}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
-    Route::post('/chat/{session}/close', [ChatController::class, 'closeSession'])->name('chat.close');
-    Route::post('/chat/{session}/reopen', [ChatController::class, 'reopenSession'])->name('chat.reopen');
+        // Chat Management Routes
+        Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+        Route::get('/chat/{session}', [ChatController::class, 'show'])->name('chat.show');
+        Route::post('/chat/{session}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+        Route::post('/chat/{session}/close', [ChatController::class, 'closeSession'])->name('chat.close');
+        Route::post('/chat/{session}/reopen', [ChatController::class, 'reopenSession'])->name('chat.reopen');
     });
 });

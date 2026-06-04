@@ -29,7 +29,7 @@
             </button>
             <div class="profileSection">
                 <div class="profileInfo">
-                    <span class="profileName">{{ auth()->user()->name ?? 'Admin' }}</span>
+                    <span class="profileName">{{ auth()->user()->name }}</span>
                     <span class="profileRole">
                         @if(auth()->user()->role === 'superadmin')
                             Super Admin

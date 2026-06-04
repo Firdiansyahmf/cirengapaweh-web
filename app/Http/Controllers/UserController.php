@@ -84,21 +84,48 @@ class UserController extends Controller
         }
 
         try {
-            $validated = $request->validate([
+            // Check if editing another superadmin
+            $isEditingSuperAdmin = $user->isSuperAdmin() && auth()->id() !== $user->id;
+
+            // Validate password if needed
+            if ($isEditingSuperAdmin && $request->has('password_verified')) {
+                $passwordInput = $request->input('current_password', '');
+                if (!Hash::check($passwordInput, auth()->user()->password)) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Password verifikasi tidak sesuai',
+                        'requires_verification' => true
+                    ], 403);
+                }
+            }
+
+            // Build validation rules
+            $rules = [
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email,' . $user->id,
                 'password' => 'nullable|string|min:6',
-                'role' => 'required|in:superadmin,staff',
-                'is_active' => 'nullable|boolean',
-            ]);
+            ];
 
-            $user->update([
+            $rules['role'] = 'required|in:superadmin,staff';
+            $rules['is_active'] = 'nullable|boolean';
+
+            $validated = $request->validate($rules);
+
+            $updateData = [
                 'name' => $validated['name'],
                 'email' => $validated['email'],
-                'password' => $validated['password'] ? Hash::make($validated['password']) : $user->password,
-                'role' => $validated['role'],
-                'is_active' => $validated['is_active'] ?? true,
-            ]);
+            ];
+
+            // Only update password if provided
+            if ($validated['password'] ?? null) {
+                $updateData['password'] = Hash::make($validated['password']);
+            }
+
+            // Only update role/is_active if not editing self
+            $updateData['role'] = $validated['role'];
+            $updateData['is_active'] = $validated['is_active'] ?? true;
+
+            $user->update($updateData);
 
             return response()->json([
                 'success' => true,
@@ -117,6 +144,35 @@ class UserController extends Controller
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()
             ], 500);
         }
+    }
+
+    /**
+     * Verify password for editing another superadmin.
+     */
+    public function verifyPassword(Request $request, $userId)
+    {
+        $targetUser = User::findOrFail($userId);
+
+        // Only superadmins can be verified this way
+        if ($targetUser->role !== 'superadmin') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Hanya superadmin yang memerlukan verifikasi'
+            ], 403);
+        }
+
+        // Validate password
+        if (!Hash::check($request->password, $targetUser->password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Password tidak cocok'
+            ], 422);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Password terverifikasi'
+        ]);
     }
 
     /**
