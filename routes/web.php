@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Middleware\AdminAuth;
-use App\Http\Middleware\isAdmin;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PromoController;
