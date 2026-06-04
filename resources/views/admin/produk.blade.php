@@ -4,6 +4,7 @@
 
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/global.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/admin/modal-confirmation.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/admin/produk.css') }}" />
     <div>
         <div class="pageHeader">
@@ -58,7 +59,7 @@
                                 @if($product->is_active)
                                     <span class="badge badgeAktif">Aktif</span>
                                 @else
-                                    <span class="badge badgeNonaktif">Nonaktif</span>
+                                    <span class="badge badgeNonaktif">Draft</span>
                                 @endif
                             </td>
                             <td class="aksiCell">
@@ -170,16 +171,99 @@
                     <div id="imagePreview" class="imagePreview"></div>
                 </div>
 
-                <div class="formGroup formCheckbox">
-                    <input type="checkbox" id="productActive" name="is_active" value="1" checked>
-                    <label for="productActive">Aktifkan Produk</label>
+                <div class="formGroup">
+                    <label for="productStatus">
+                        Status
+                        <span class="tooltipContainer">
+                            <span class="tooltipTrigger material-symbols-outlined">info</span>
+                            <span class="tooltipText">
+                                <strong>Aktif:</strong> Produk ditampilkan di katalog
+                                <br><strong>Draft:</strong> Produk disembunyikan dari katalog
+                            </span>
+                        </span>
+                    </label>
+                    <select id="productStatus" name="is_active" required>
+                        <option value="2" disabled >Pilih Status</option>
+                        <option value="1">Aktif</option>
+                        <option value="0">Draft</option>
+                    </select>
                 </div>
 
                 <div class="formActions">
                     <button type="button" class="btnCancel" onclick="closeProductModal()">Batal</button>
-                    <button type="submit" class="btnSubmit">Simpan Produk</button>
+                    <button type="submit" class="btnSubmit"  onclick="closeProductModal()">Simpan Produk</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+ <x-modal-confirmation 
+    id="confirmSaveModal" 
+    type="save" 
+    title="Simpan Produk?" 
+    message="Apakah Anda yakin ingin menyimpan produk baru ini?" 
+    confirmAction="confirmSaveProduct()" 
+    btnText="Simpan" 
+/>
+
+<x-modal-confirmation 
+    id="confirmUpdateModal" 
+    type="update" 
+    title="Perbarui Produk?" 
+    message="Apakah Anda yakin ingin memperbarui data produk ini?" 
+    confirmAction="confirmUpdateProduct()" 
+    btnText="Perbarui" 
+/>
+
+<x-modal-confirmation 
+    id="confirmDeleteModal" 
+    type="delete" 
+    title="Hapus Produk?" 
+    message="Tindakan ini tidak bisa dibatalkan. Yakin ingin menghapus produk?" 
+    confirmAction="confirmDeleteProduct()" 
+    btnColor="btnDanger" 
+    btnText="Hapus" 
+/>
+
+    {{-- Modal Success --}}
+    <div id="successModal" class="modalOverlay">
+        <div class="modalDialog small">
+            <div class="modalHeader">
+                <h3>Berhasil</h3>
+                <button class="modalClose" onclick="closeSuccessModal()">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modalBody">
+                <div style="text-align: center;">
+                    <span class="material-symbols-outlined" style="font-size: 48px; color: var(--fdn-red-normal);">check_circle</span>
+                    <p id="successMessage" style="margin-top: 16px; font-weight: var(--fw-medium);">Operasi berhasil dilakukan</p>
+                </div>
+            </div>
+            <div class="modalFooter">
+                <button class="btnPrimary" onclick="closeSuccessModal()" style="flex: 1;">OK</button>
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal Error --}}
+    <div id="errorModal" class="modalOverlay">
+        <div class="modalDialog small">
+            <div class="modalHeader">
+                <h3>Terjadi Kesalahan</h3>
+                <button class="modalClose" onclick="closeErrorModal()">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modalBody">
+                <div style="text-align: center;">
+                    <span class="material-symbols-outlined" style="font-size: 48px; color: var(--fdn-red-dark);">error</span>
+                    <p id="errorMessage" style="margin-top: 16px; font-weight: var(--fw-medium);">Terjadi kesalahan saat memproses</p>
+                </div>
+            </div>
+            <div class="modalFooter">
+                <button class="btnCancel" onclick="closeErrorModal()" style="flex: 1;">Tutup</button>
+            </div>
         </div>
     </div>
 

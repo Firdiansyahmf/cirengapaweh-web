@@ -1,4 +1,4 @@
-const quantityWrapper = document.querySelector('.quantity');
+const quantityWrapper = document.querySelector('.quantityInput');
 const quantityInput = quantityWrapper.querySelector('input');
 const minusButton = quantityWrapper.querySelector('button:first-child');
 const plusButton = quantityWrapper.querySelector('button:last-child');

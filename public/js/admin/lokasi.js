@@ -6,6 +6,7 @@ const image = document.getElementById("image");
 const fileName = document.getElementById("fileName");
 const imagePreview = document.getElementById("imagePreview");
 const searchInput = document.getElementById("searchInput");
+const locationStatusSelect = document.getElementById("locationStatus");
 
 // Map variables
 const mapModal = document.getElementById("mapModal");
@@ -16,20 +17,22 @@ let map;
 let marker;
 let selectedPlace = null;
 
+// Pending variables for confirmation
+let pendingFormData = null;
+let pendingIsEdit = false;
+let pendingDeleteId = null;
+
 const baseUrl = "/admin/lokasi";
 const storageBaseUrl = "/storage";
 const csrfToken = document.querySelector('input[name="_token"]')?.value;
 
-// Open Modal untuk Tambah Lokasi
-document.getElementById("btnAddLocationModal").addEventListener("click", function () {
-    openLocationModal();
-});
-
+// ========== MODAL FUNCTIONS ==========
 function openLocationModal(id = null) {
     locationForm.reset();
     locationId.value = "";
     fileName.textContent = "";
     imagePreview.innerHTML = "";
+    imagePreview.classList.remove("show");
     clearErrors();
 
     if (id) {
@@ -37,7 +40,7 @@ function openLocationModal(id = null) {
         loadLocationData(id);
     } else {
         modalTitle.textContent = "Tambah Lokasi Baru";
-        document.getElementById("is_active").checked = false;
+        locationStatusSelect.value = "2";
     }
 
     locationModal.classList.add("show");
@@ -45,15 +48,16 @@ function openLocationModal(id = null) {
 
 function closeLocationModal() {
     locationModal.classList.remove("show");
-    locationForm.reset();
-    clearErrors();
+    // Reset form after animation
+    setTimeout(() => {
+        locationForm.reset();
+    }, 300);
 }
 
-// Close modal when clicking outside
-locationModal.addEventListener("click", function (event) {
-    if (event.target === locationModal) {
-        closeLocationModal();
-    }
+
+// Add button to trigger modal
+document.getElementById("btnAddLocationModal").addEventListener("click", function () {
+    openLocationModal();
 });
 
 // Load location data untuk edit
@@ -80,7 +84,7 @@ async function loadLocationData(id) {
             document.getElementById("close_time").value = closeTime.trim();
         }
 
-        document.getElementById("is_active").checked = data.is_active;
+        locationStatusSelect.value = data.is_active ? "1" : "0";
 
         if (data.image) {
             const imgPath = `${storageBaseUrl}/${data.image}`;
@@ -89,9 +93,56 @@ async function loadLocationData(id) {
         }
     } catch (error) {
         console.error("Error loading location data:", error);
-        alert("Gagal memuat data lokasi");
+        showErrorModal("Gagal memuat data lokasi");
     }
 }
+
+// ========== CONFIRMATION MODAL FUNCTIONS ==========
+function openConfirmModal(type) {
+    document.getElementById(`confirm${type.charAt(0).toUpperCase() + type.slice(1)}Modal`).classList.add("active");
+}
+
+function closeConfirmModal(type) {
+    document.getElementById(`confirm${type.charAt(0).toUpperCase() + type.slice(1)}Modal`).classList.remove("active");
+}
+
+function confirmSaveLocation() {
+    closeConfirmModal('save');
+    closeLocationModal();
+    submitLocationForm(pendingFormData, false);
+}
+
+function confirmUpdateLocation() {
+    closeConfirmModal('update');
+    closeLocationModal();
+    submitLocationForm(pendingFormData, true);
+}
+
+function confirmDeleteLocation() {
+    closeConfirmModal('delete');
+    submitDeleteLocation(pendingDeleteId);
+}
+
+// ========== SUCCESS/ERROR MODALS ==========
+function showSuccessModal(message) {
+    document.getElementById("successMessage").textContent = message;
+    document.getElementById("successModal").classList.add("active");
+}
+
+function closeSuccessModal() {
+    document.getElementById("successModal").classList.remove("active");
+    location.reload();
+}
+
+function showErrorModal(message) {
+    document.getElementById("errorMessage").textContent = message;
+    document.getElementById("errorModal").classList.add("active");
+}
+
+function closeErrorModal() {
+    document.getElementById("errorModal").classList.remove("active");
+}
+
 
 // File input preview
 image.addEventListener("change", function (e) {
@@ -174,7 +225,7 @@ function reverseGeocode(lat, lng) {
 function searchLocation() {
     const query = mapSearchInput.value.trim();
     if (!query) {
-        alert('Masukkan nama lokasi atau alamat');
+        showErrorModal('Masukkan nama lokasi atau alamat');
         return;
     }
 
@@ -184,13 +235,12 @@ function searchLocation() {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            // Jika ditemukan dengan filter Indonesia, gunakan hasil itu
             if (data && data.length > 0) {
                 const result = data[0];
                 const lat = parseFloat(result.lat);
                 const lng = parseFloat(result.lon);
                 selectMapLocation(lat, lng, result.display_name);
-                return { found: true }; // Return nilai untuk menghindari alert
+                return { found: true };
             } else {
                 const fallbackUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`;
                 return fetch(fallbackUrl).then(r => r.json());
@@ -207,12 +257,12 @@ function searchLocation() {
                 const lng = parseFloat(result.lon);
                 selectMapLocation(lat, lng, result.display_name);
             } else {
-                alert('Lokasi tidak ditemukan. Coba nama lain atau klik langsung di peta.');
+                showErrorModal('Lokasi tidak ditemukan. Coba nama lain atau klik langsung di peta.');
             }
         })
         .catch(error => {
             console.error('Search error:', error);
-            alert('Error saat mencari lokasi');
+            showErrorModal('Error saat mencari lokasi');
         });
 }
 
@@ -241,18 +291,13 @@ function confirmMapLocation() {
         document.getElementById("address").value = selectedPlace.address;
         closeMapModal();
     } else {
-        alert("Pilih lokasi terlebih dahulu");
+        showErrorModal("Pilih lokasi terlebih dahulu");
     }
 }
 
-// Close map modal when clicking outside
-mapModal.addEventListener("click", function (event) {
-    if (event.target === mapModal) {
-        closeMapModal();
-    }
-});
 
-// Form submission
+
+// ========== FORM SUBMISSION FUNCTIONS ==========
 locationForm.addEventListener("submit", async function (e) {
     e.preventDefault();
     clearErrors();
@@ -265,25 +310,26 @@ locationForm.addEventListener("submit", async function (e) {
         return;
     }
 
-    const formData = new FormData(this);
-    const isEdit = locationId.value;
-    let url;
+    pendingFormData = new FormData(this);
+    pendingIsEdit = locationId.value;
 
-    // Ensure is_active value is properly sent (0 or 1)
-    if (!formData.has("is_active")) {
-        formData.set("is_active", "0");
+    if (pendingIsEdit) {
+        openConfirmModal('update');
     } else {
-        formData.set("is_active", "1");
+        openConfirmModal('save');
     }
+});
 
-    if (isEdit) {
-        url = `${baseUrl}/${locationId.value}`;
-        formData.append("_method", "PUT");
-    } else {
-        url = baseUrl;
-    }
-
+async function submitLocationForm(formData, isEdit) {
     try {
+        let url;
+        if (isEdit) {
+            url = `${baseUrl}/${locationId.value}`;
+            formData.append("_method", "PUT");
+        } else {
+            url = baseUrl;
+        }
+
         const response = await fetch(url, {
             method: "POST",
             headers: {
@@ -292,30 +338,57 @@ locationForm.addEventListener("submit", async function (e) {
             body: formData,
         });
 
-        // Check if response is OK (status 200-299)
         if (!response.ok) {
-            console.error("HTTP Error:", response.status, response.statusText);
             const errorText = await response.text();
-            console.error("Response body:", errorText);
-            alert(`Error: ${response.status} ${response.statusText}`);
+            console.error("HTTP Error:", response.status, errorText);
+            showErrorModal(`Error: ${response.status} ${response.statusText}`);
             return;
         }
 
         const data = await response.json();
 
         if (data.success) {
-            alert(data.message);
-            location.reload();
+            showSuccessModal(data.message || (isEdit ? "Lokasi berhasil diperbarui!" : "Lokasi berhasil disimpan!"));
         } else if (data.errors) {
             displayErrors(data.errors);
+            showErrorModal("Terdapat kesalahan pada form. Silakan periksa kembali.");
         } else {
-            alert(`Error: ${data.message}`);
+            showErrorModal(data.message || "Terjadi kesalahan saat memproses data");
         }
     } catch (error) {
         console.error("Error:", error);
-        alert("Terjadi kesalahan saat menyimpan data: " + error.message);
+        showErrorModal("Terjadi kesalahan saat menyimpan data: " + error.message);
     }
-});
+}
+
+async function submitDeleteLocation(id) {
+    try {
+        const response = await fetch(`${baseUrl}/${id}`, {
+            method: "DELETE",
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+                Accept: "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            console.error("HTTP Error:", response.status);
+            showErrorModal(`Error: ${response.status} ${response.statusText}`);
+            return;
+        }
+
+        const data = await response.json();
+
+        if (data.success) {
+            showSuccessModal(data.message || "Lokasi berhasil dihapus!");
+        } else {
+            showErrorModal(data.message || "Terjadi kesalahan saat menghapus lokasi");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        showErrorModal("Terjadi kesalahan saat menghapus lokasi: " + error.message);
+    }
+}
 
 function validateTime(openTime, closeTime) {
     // Check format HH:MM
@@ -375,33 +448,56 @@ function editLocation(id) {
 
 // Delete Location
 function deleteLocation(id) {
-    if (confirm("Apakah Anda yakin ingin menghapus lokasi ini?")) {
-        fetch(`${baseUrl}/${id}`, {
-            method: "DELETE",
+    pendingDeleteId = id;
+    openConfirmModal('delete');
+}
+
+
+async function submitStatusChange(data) {
+    try {
+        const csrfToken = document.querySelector('input[name="_token"]')?.value;
+
+        if (!csrfToken) {
+            showErrorModal("Error: CSRF Token tidak ditemukan");
+            data.element.value = data.element.dataset.currentStatus;
+            return;
+        }
+
+        const isActive = data.status === "aktif" ? 1 : 0;
+
+        const response = await fetch(`/admin/lokasi/${data.locationId}`, {
+            method: "PATCH",
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
-                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             },
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    console.error("HTTP Error:", response.status);
-                    throw new Error(`HTTP Error: ${response.status}`);
-                }
-                return response.json();
+            body: JSON.stringify({
+                is_active: isActive
             })
-            .then((data) => {
-                if (data.success) {
-                    alert(data.message);
-                    location.reload();
-                } else {
-                    alert(`Error: ${data.message}`);
-                }
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-                alert("Terjadi kesalahan saat menghapus lokasi: " + error.message);
-            });
+        });
+
+        let respData;
+        try {
+            respData = await response.json();
+        } catch (parseError) {
+            console.error("Error parsing JSON:", parseError);
+            showErrorModal("Error: Respons server tidak valid");
+            data.element.value = data.element.dataset.currentStatus;
+            return;
+        }
+
+        if (response.ok && respData.success) {
+            data.element.dataset.currentStatus = data.status;
+            showSuccessModal(respData.message);
+        } else {
+            showErrorModal(respData.message || "Terjadi kesalahan saat mengubah status");
+            data.element.value = data.element.dataset.currentStatus;
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        showErrorModal("Terjadi kesalahan saat mengubah status: " + error.message);
+        data.element.value = data.element.dataset.currentStatus;
     }
 }
 

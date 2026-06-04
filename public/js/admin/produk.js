@@ -6,13 +6,12 @@ const productImage = document.getElementById("productImage");
 const fileName = document.getElementById("fileName");
 const imagePreview = document.getElementById("imagePreview");
 
-// Open Modal untuk Tambah Produk
-document
-    .getElementById("btnAddProductModal")
-    .addEventListener("click", function () {
-        openProductModal();
-    });
+let pendingFormData = null;
+let pendingIsEdit = false;
+let pendingDeleteId = null;
+let pendingStatusData = null;
 
+//  MODAL FUNCTIONS 
 function openProductModal(id = null) {
     productForm.reset();
     productId.value = "";
@@ -22,11 +21,13 @@ function openProductModal(id = null) {
 
     if (id) {
         modalTitle.textContent = "Edit Produk";
-        loadProductData(id);
+        loadProductData(id); // Di dalam sini nanti status otomatis berubah sesuai data produk yang diedit
     } else {
         modalTitle.textContent = "Tambah Produk Baru";
-        productForm.action = '{{ route("produk.store") }}';
+        productForm.action = '{{ route("admin.produk.store") }}';
         productForm.method = "POST";
+
+        document.getElementById("productStatus").value = "2";
     }
 
     productModal.classList.add("show");
@@ -34,17 +35,76 @@ function openProductModal(id = null) {
 
 function closeProductModal() {
     productModal.classList.remove("show");
-    productForm.reset();
+    // Reset form after animation
+    setTimeout(() => {
+        productForm.reset();
+    }, 300);
 }
 
-// Close modal when clicking outside
-productModal.addEventListener("click", function (event) {
-    if (event.target === productModal) {
-        closeProductModal();
-    }
-});
 
-// File input preview
+// Add button to trigger modal
+document
+    .getElementById("btnAddProductModal")
+    .addEventListener("click", function () {
+        openProductModal();
+    });
+
+//CONFIRM MODAL FUNCTIONS 
+function openConfirmModal(type) {
+    document.getElementById(`confirm${type.charAt(0).toUpperCase() + type.slice(1)}Modal`).classList.add("active");
+}
+
+function closeConfirmModal(type) {
+    document.getElementById(`confirm${type.charAt(0).toUpperCase() + type.slice(1)}Modal`).classList.remove("active");
+}
+
+function confirmSaveProduct() {
+    closeConfirmModal('save');
+    closeProductModal();
+    submitProductForm(pendingFormData, false);
+}
+
+function confirmUpdateProduct() {
+    closeConfirmModal('update');
+    closeProductModal();
+    submitProductForm(pendingFormData, true);
+}
+
+function confirmDeleteProduct() {
+    closeConfirmModal('delete');
+    submitDeleteProduct(pendingDeleteId);
+}
+
+function confirmStatusChange() {
+    closeConfirmModal('status');
+    if (pendingStatusData) {
+        submitStatusChange(pendingStatusData);
+    }
+}
+
+
+//  SUCCESS/ERROR MODALS 
+function showSuccessModal(message) {
+    document.getElementById("successMessage").textContent = message;
+    document.getElementById("successModal").classList.add("active");
+}
+
+function closeSuccessModal() {
+    document.getElementById("successModal").classList.remove("active");
+    location.reload();
+}
+
+function showErrorModal(message) {
+    document.getElementById("errorMessage").textContent = message;
+    document.getElementById("errorModal").classList.add("active");
+}
+
+function closeErrorModal() {
+    document.getElementById("errorModal").classList.remove("active");
+}
+
+
+//  FILE INPUT PREVIEW 
 productImage.addEventListener("change", function (e) {
     const file = e.target.files[0];
     if (file) {
@@ -58,20 +118,26 @@ productImage.addEventListener("change", function (e) {
     }
 });
 
-// Form submission
+//  FORM SUBMISSION 
 productForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const formData = new FormData(this);
-    const isEdit = productId.value;
-    let url;
+    pendingFormData = new FormData(this);
+    pendingIsEdit = productId.value;
 
-    // Ensure is_active value is properly sent (0 or 1)
-    if (!formData.has("is_active")) {
-        formData.append("is_active", "0");
+    // Get status dropdown value and ensure it's sent as 0 or 1
+    const statusValue = document.getElementById("productStatus").value;
+    pendingFormData.set("is_active", statusValue);
+
+    if (pendingIsEdit) {
+        openConfirmModal('update');
     } else {
-        formData.set("is_active", "1");
+        openConfirmModal('save');
     }
+});
+
+async function submitProductForm(formData, isEdit) {
+    let url;
 
     if (isEdit) {
         url = `/admin/produk/${productId.value}`;
@@ -84,7 +150,7 @@ productForm.addEventListener("submit", async function (e) {
         const csrfToken = document.querySelector('input[name="_token"]')?.value;
 
         if (!csrfToken) {
-            alert("Error: CSRF Token tidak ditemukan");
+            showErrorModal("Error: CSRF Token tidak ditemukan");
             return;
         }
 
@@ -101,37 +167,31 @@ productForm.addEventListener("submit", async function (e) {
             data = await response.json();
         } catch (parseError) {
             console.error("Error parsing JSON:", parseError);
-            console.error("Response status:", response.status);
-            console.error("Response text:", await response.text());
-            alert("Error: Respons server tidak valid");
+            showErrorModal("Error: Respons server tidak valid");
             return;
         }
 
         if (response.ok && data.success) {
-            alert(data.message);
             closeProductModal();
-            location.reload();
+            showSuccessModal(data.message);
         } else if (response.status === 422 && data.errors) {
             // Validation errors
             let errorMessage = "Validasi gagal:\n";
             for (const [field, messages] of Object.entries(data.errors)) {
                 errorMessage += `- ${field}: ${messages[0]}\n`;
             }
-            alert(errorMessage);
+            showErrorModal(errorMessage);
         } else {
-            alert(
-                "Error: " +
-                    (data.message || "Terjadi kesalahan saat menyimpan produk"),
-            );
+            showErrorModal(data.message || "Terjadi kesalahan saat menyimpan produk");
         }
     } catch (error) {
         console.error("Fetch error:", error);
-        alert("Terjadi kesalahan saat menyimpan produk: " + error.message);
+        showErrorModal("Terjadi kesalahan saat menyimpan produk: " + error.message);
     }
-});
+}
 
+//  LOAD PRODUCT DATA 
 function loadProductData(id) {
-    // Untuk edit, kita bisa menggunakan data yang sudah ada di tabel
     const row = document.querySelector(`tr[data-id="${id}"]`);
     if (row) {
         const cells = row.querySelectorAll("td");
@@ -141,13 +201,12 @@ function loadProductData(id) {
         document.getElementById("productDescription").value =
             cells[3].textContent;
         document.getElementById("productCategory").value = cells[4]
-            .querySelector(".badge")
-            .textContent.includes("Fast")
-            ? "fast_food"
-            : "frozen_food";
-        document.getElementById("productActive").checked = cells[5]
-            .querySelector(".badge")
-            .textContent.includes("Aktif");
+            .querySelector("span")?.textContent.toLowerCase().replace(/\s+/g, '_') || "fast_food";
+        
+        // Get status from dropdown in table
+        const statusDropdown = row.querySelector(".statusDropdown");
+        const statusValue = statusDropdown?.value === "aktif" ? "1" : "0";
+        document.getElementById("productStatus").value = statusValue;
 
         productId.value = id;
         productForm.action = `/admin/produk/${id}`;
@@ -158,53 +217,101 @@ function editProduct(id) {
     openProductModal(id);
 }
 
+//  DELETE PRODUCT 
 async function deleteProduct(id) {
-    if (confirm("Apakah Anda yakin ingin menghapus produk ini?")) {
-        try {
-            const csrfToken = document.querySelector(
-                'input[name="_token"]',
-            )?.value;
+    pendingDeleteId = id;
+    openConfirmModal('delete');
+}
 
-            if (!csrfToken) {
-                alert("Error: CSRF Token tidak ditemukan");
-                return;
-            }
+async function submitDeleteProduct(id) {
+    try {
+        const csrfToken = document.querySelector('input[name="_token"]')?.value;
 
-            const response = await fetch(`/admin/produk/${id}`, {
-                method: "DELETE",
-                headers: {
-                    "X-CSRF-TOKEN": csrfToken,
-                    "Content-Type": "application/json",
-                },
-            });
-
-            let data;
-            try {
-                data = await response.json();
-            } catch (parseError) {
-                console.error("Error parsing JSON:", parseError);
-                alert("Error: Respons server tidak valid");
-                return;
-            }
-
-            if (response.ok && data.success) {
-                alert(data.message);
-                location.reload();
-            } else {
-                alert(
-                    "Error: " +
-                        (data.message ||
-                            "Terjadi kesalahan saat menghapus produk"),
-                );
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            alert("Terjadi kesalahan saat menghapus produk: " + error.message);
+        if (!csrfToken) {
+            showErrorModal("Error: CSRF Token tidak ditemukan");
+            return;
         }
+
+        const response = await fetch(`/admin/produk/${id}`, {
+            method: "DELETE",
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+                "Content-Type": "application/json",
+            },
+        });
+
+        let data;
+        try {
+            data = await response.json();
+        } catch (parseError) {
+            console.error("Error parsing JSON:", parseError);
+            showErrorModal("Error: Respons server tidak valid");
+            return;
+        }
+
+        if (response.ok && data.success) {
+            showSuccessModal(data.message);
+        } else {
+            showErrorModal(data.message || "Terjadi kesalahan saat menghapus produk");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        showErrorModal("Terjadi kesalahan saat menghapus produk: " + error.message);
     }
 }
 
-// Search functionality
+//  STATUS DROPDOWN HANDLER 
+
+
+async function submitStatusChange(data) {
+    try {
+        const csrfToken = document.querySelector('input[name="_token"]')?.value;
+
+        if (!csrfToken) {
+            showErrorModal("Error: CSRF Token tidak ditemukan");
+            data.element.value = data.element.dataset.currentStatus;
+            return;
+        }
+
+        const isActive = data.status === "aktif" ? 1 : 0;
+
+        const response = await fetch(`/admin/produk/${data.productId}`, {
+            method: "PATCH",
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                is_active: isActive
+            })
+        });
+
+        let respData;
+        try {
+            respData = await response.json();
+        } catch (parseError) {
+            console.error("Error parsing JSON:", parseError);
+            showErrorModal("Error: Respons server tidak valid");
+            data.element.value = data.element.dataset.currentStatus;
+            return;
+        }
+
+        if (response.ok && respData.success) {
+            data.element.dataset.currentStatus = data.status;
+            showSuccessModal(respData.message);
+        } else {
+            showErrorModal(respData.message || "Terjadi kesalahan saat mengubah status");
+            data.element.value = data.element.dataset.currentStatus;
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        showErrorModal("Terjadi kesalahan saat mengubah status: " + error.message);
+        data.element.value = data.element.dataset.currentStatus;
+    }
+}
+
+//  SEARCH FUNCTIONALITY 
 document.getElementById("searchInput").addEventListener("keyup", function (e) {
     const searchTerm = e.target.value.toLowerCase();
     const rows = document.querySelectorAll("#productTableBody tr");

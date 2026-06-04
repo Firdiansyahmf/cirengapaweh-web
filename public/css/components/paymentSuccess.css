@@ -1,0 +1,112 @@
+.navbar-nav,
+.navbar-toggler,
+.footer .box1 {
+    display: none; /* hide navbar dan footer khusus buat page checkout */
+}
+
+.paymentSuccess {
+    background:
+        radial-gradient(circle at top left, rgba(242, 61, 61, 0.08), transparent 28%),
+        linear-gradient(180deg, #f6f6f6 0%, #efefef 100%);
+    padding-top: var(--gap-large);
+    align-items: center;
+    justify-content: center;
+}
+
+.paymentSuccess hr {
+    color: var(--charcoal-grey);
+    height: 1px;
+    width: 100%;
+    opacity: 30%;
+}
+
+.paymentSuccess .paymentCard,
+.paymentSuccess .svgContainer,
+.paymentSuccess .header,
+.paymentSuccess .paymentTotal,
+.paymentSuccess .paymentDetail,
+.paymentSuccess .paymentSummary,
+.paymentSuccess .paymentButtons {
+    display: flex;
+    flex-direction: column;
+}
+
+.paymentSuccess .paymentCard {
+    align-items: center;
+    width: 100%;
+    max-width: 550px;
+    gap: var(--gap-small);
+    margin: var(--gap-large);
+    padding: var(--gap-medium);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(242, 61, 61, 0.08);
+    border-radius: 24px;
+    box-shadow: 0 18px 40px rgba(27, 27, 27, 0.08);
+}
+
+.paymentSuccess .orderIdBadge {
+    padding: var(--gap-micro) var(--gap-small);
+    background: var(--accent-cheese-yellow);
+    border-radius: 32px;
+}
+
+.paymentSuccess .svgContainer {
+    width: 100%;
+    align-items: center;
+}
+
+.paymentSuccess .successSvg {
+    width: 128px;
+    height: 128px;
+    object-fit: contain;
+}
+
+.paymentSuccess .header {
+    width: 100%;
+    align-items: center;
+    gap: var(--gap-micro);
+}
+
+.paymentSuccess .paymentTotal {
+    width: 100%;
+    gap: var(--gap-micro);
+}
+
+.paymentSuccess .paymentSummary {
+    width: 100%;
+}
+
+.paymentSuccess .paymentDetail {
+    align-items: center;
+    gap: var(--gap-micro);
+}
+
+.paymentSuccess .detail {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.paymentSuccess .paymentDetail .caption {
+    opacity: 70%;
+}
+
+.paymentSuccess .paymentButtons {
+    gap: var(--gap-medium);
+    width: 100%;
+}
+
+@media (max-width: 640px) {
+    .paymentSuccess .breakpoint {
+        padding: 0;
+    }
+
+    .paymentSuccess .paymentCard {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        border-radius: 0;
+    }
+}

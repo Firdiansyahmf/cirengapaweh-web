@@ -9,7 +9,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::orderBy('created_at', 'desc')->paginate(10);
+        $products = Product::orderBy('created_at', 'desc')->paginate(5);
         return view('admin.produk', compact('products'));
     }
 
@@ -113,6 +113,38 @@ class ProductController extends Controller
             ]);
         } catch (\Exception $e) {
             \Log::error('Error deleting product: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function updateStatus(Request $request, Product $product)
+    {
+        try {
+            $validated = $request->validate([
+                'is_active' => 'required|boolean',
+            ]);
+
+            $product->update([
+                'is_active' => $validated['is_active'],
+            ]);
+
+            $statusText = $validated['is_active'] ? 'Aktif' : 'Draft';
+
+            return response()->json([
+                'success' => true,
+                'message' => "Status produk berhasil diubah menjadi {$statusText}"
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validasi gagal',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            \Log::error('Error updating product status: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()

@@ -1,0 +1,163 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Modal Overlay */
+.modalOverlay {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-black);
+    justify-content: center;
+    align-items: center;
+}
+
+.modalOverlay.active {
+    display: flex;
+    animation: fadeInModal 0.3s ease-in-out;
+}
+
+@keyframes fadeInModal {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Modal Dialog */
+.modalDialog {
+    background: var(--clean-white);
+    border-radius: 12px;
+    box-shadow: var(--shadow-main);
+    max-width: 480px;
+    width: 90%;
+    animation: slideInModal 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+@keyframes slideInModal {
+    from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modalDialog.small {
+    max-width: 360px;
+}
+
+.modalDialog.large {
+    max-width: 640px;
+}
+
+/* Modal Header */
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    border-bottom: 1px solid var(--fdn-grey-light);
+}
+
+.modalHeader h3 {
+    margin: 0;
+    font-size: var(--fs-h4);
+    font-weight: var(--fw-semibold);
+    color: var(--fdn-grey-darker);
+}
+
+.modalClose {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    color: var(--charcoal-grey);
+}
+
+.modalClose:hover {
+    background-color: var(--fdn-grey-light);
+    color: var(--fdn-red-normal);
+}
+
+/* Modal Body */
+.modalBody {
+    padding: 24px;
+    color: var(--charcoal-grey);
+    font-size: var(--fs-body-main);
+    line-height: 1.6;
+}
+
+.modalBody p {
+    margin: 0;
+}
+
+/* Modal Footer */
+.modalFooter {
+    display: flex;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid var(--fdn-grey-light);
+    justify-content: flex-end;
+}
+
+.modalFooter button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: var(--fs-body-main);
+    font-weight: var(--fw-semibold);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+}
+
+.modalFooter .btnPrimary,
+.modalFooter .btnCancel {
+    min-width: 100px;
+}
+
+.modalFooter .btnPrimary {
+    background-color: var(--fdn-red-normal);
+    color: var(--clean-white);
+}
+
+.modalFooter .btnPrimary:hover {
+    background-color: var(--fdn-red-normal-hover);
+}
+
+.modalFooter .btnCancel {
+    background-color: var(--fdn-grey-light);
+    color: var(--charcoal-grey);
+}
+
+.modalFooter .btnCancel:hover {
+    background-color: var(--fdn-grey-light-hover);
+}
+
+.modalFooter .btnDanger {
+    background-color: var(--fdn-red-dark);
+    color: var(--clean-white);
+}
+
+.modalFooter .btnDanger:hover {
+    background-color: var(--fdn-red-dark-hover);
+}

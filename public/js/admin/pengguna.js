@@ -237,14 +237,6 @@ if (searchInput) {
     });
 }
 
-/**
- * Close modal when clicking outside of it
- */
-window.addEventListener('click', function(e) {
-    if (e.target === userModal) {
-        closeUserModal();
-    }
-});
 
 /**
  * Close modal with Escape key

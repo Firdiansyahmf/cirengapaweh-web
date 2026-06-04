@@ -356,6 +356,70 @@
     cursor: not-allowed;
 }
 
+/* Tooltip in Form */
+.tooltipContainer {
+    position:relative;
+    display:inline-block;
+    margin-left: 6px;
+}
+
+.tooltipTrigger {
+    color: var(--fdn-grey-darker);
+    font-size: 18px;
+    cursor: help;
+    display:contents;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.tooltipTrigger:hover {
+    color: var(--fdn-red-normal);
+}
+
+.tooltipText {
+    visibility: hidden;
+    width: 200px;
+    background-color: var(--clean-white);
+    color: var(--charcoal-grey);
+    text-align: left;
+    border-radius: 6px;
+    padding: 10px 12px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-size: 12px;
+    line-height: 1.5;
+    box-shadow: var(--shadow-lighter);
+    white-space: normal;
+}
+
+.tooltipText strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.tooltipContainer:hover .tooltipText {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Arrow for tooltip */
+.tooltipText::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--fdn-grey-darker) transparent transparent transparent;
+}
+
 /* Error Message */
 .errorMessage {
     display: block;

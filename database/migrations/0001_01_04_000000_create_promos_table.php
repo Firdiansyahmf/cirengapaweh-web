@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('promos', function (Blueprint $table) {
             $table->id();
             $table->string('title', 150);
-            $table->string('image')->nullable();
+            $table->string('promo_code', 50)->nullable()->unique();
+            $table->enum('promo_type', ['otomatis', 'kode'])->default('otomatis');
+            $table->integer('discount_percentage');
             $table->text('description')->nullable();
-            $table->enum('discount_type', ['percentage', 'fixed']);
-            $table->unsignedInteger('discount_value');
+            $table->integer('max_usage')->default(0);
+            $table->integer('used_count')->default(0);
             $table->date('start_date');
             $table->date('end_date');
             $table->boolean('is_active')->default(true);
@@ -29,8 +31,6 @@ return new class extends Migration
             $table->foreignId('promo_id')->constrained('promos')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->timestamps();
-            
-            $table->unique(['promo_id', 'product_id']);
         });
     }
 

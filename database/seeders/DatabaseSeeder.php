@@ -13,5 +13,11 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(UserSeeder::class);
         $this->call(ChatSeeder::class);
+        // User::factory(10)->create();
+
+        $this->call([
+            ProductSeeder::class,
+            PartnerLocationSeeder::class,
+        ]);
     }
 }
