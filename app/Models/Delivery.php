@@ -9,7 +9,9 @@ class Delivery extends Model
 {
     protected $fillable = [
         'order_id',
+        'biteship_order_id',
         'courier_name',
+        'courier_service',
         'tracking_number',
         'status',
     ];
@@ -25,5 +27,13 @@ class Delivery extends Model
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
+    }
+
+    /**
+     * Get delivery histories
+     */
+    public function histories()
+    {
+        return $this->hasMany(DeliveryHistory::class);
     }
 }
