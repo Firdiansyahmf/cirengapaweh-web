@@ -1,0 +1,239 @@
+/* ====== PAYMENT STATUS BADGES ====== */
+.badgePaymentStatus {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: var(--fw-semibold);
+    white-space: nowrap;
+    text-align: center;
+}
+
+.badgePaymentCompleted {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.badgePaymentPending {
+    background-color: #fff3e0;
+    color: #e65100;
+}
+
+/* ====== SHIPPING STATUS BADGES ====== */
+.badgeShippingStatus {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: var(--fw-semibold);
+    white-space: nowrap;
+    text-align: center;
+}
+
+.badgeShippingDalam {
+    background-color: #e3f2fd;
+    color: #1565c0;
+}
+
+.badgeShippingSampai {
+    background-color: #fff3e0;
+    color: #e65100;
+}
+
+.badgeShippingSelesai {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+/* ====== PEMESANAN ACTION BUTTONS ====== */
+.btnProsesPesanan {
+    background-color: var(--fdn-red-normal);
+    color: var(--clean-white);
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: var(--fw-semibold);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.btnProsesPesanan:hover:not(:disabled) {
+    background-color: var(--fdn-red-normal-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(242, 61, 61, 0.2);
+}
+
+.btnProsesPesanan:disabled {
+    background-color: var(--fdn-grey-light);
+    color: var(--fdn-white-dark-hover);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.btnBatalkanPesanan {
+    background-color: transparent;
+    color: var(--fdn-red-normal);
+    border: 2px solid var(--fdn-red-normal);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: var(--fw-semibold);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.btnBatalkanPesanan:hover {
+    background-color: var(--fdn-red-light);
+    color: var(--fdn-red-dark);
+    border-color: var(--fdn-red-dark);
+}
+
+.btnKirimPesanan {
+    background-color: var(--fdn-red-normal);
+    color: var(--clean-white);
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: var(--fw-semibold);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.btnKirimPesanan:hover {
+    background-color: var(--fdn-red-normal-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(242, 61, 61, 0.2);
+}
+
+.btnLacakPaket {
+    background-color: var(--fdn-red-normal);
+    color: var(--clean-white);
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: var(--fw-semibold);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.btnLacakPaket:hover {
+    background-color: var(--fdn-red-normal-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(242, 61, 61, 0.2);
+}
+
+.btnLihatDetail {
+    background-color: transparent;
+    color: var(--fdn-red-normal);
+    border: 2px solid var(--fdn-red-normal);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: var(--fw-semibold);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.btnLihatDetail:hover {
+    background-color: var(--fdn-red-light);
+    color: var(--fdn-red-dark);
+    border-color: var(--fdn-red-dark);
+}
+
+/* ====== ICON BUTTONS ====== */
+.btnIcon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    min-width: 36px;
+    min-height: 36px;
+}
+
+.btnViewInvoice {
+    color: var(--fdn-red-normal);
+}
+
+.btnViewInvoice:hover {
+    background-color: var(--fdn-red-light);
+    color: var(--fdn-red-dark);
+}
+
+.btnMore {
+    color: var(--charcoal-grey);
+}
+
+.btnMore:hover {
+    background-color: var(--fdn-grey-light-hover);
+    color: var(--fdn-grey-dark);
+}
+
+/* ====== INVOICE MODAL STYLING ====== */
+.invoiceBody {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.invoiceContainer {
+    font-family: var(--font-body);
+}
+
+/* Invoice Table Styling */
+.invoiceContainer table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.invoiceContainer th {
+    text-align: left;
+    padding: 8px 0;
+    font-size: 12px;
+    font-weight: var(--fw-semibold);
+    color: var(--fdn-grey-dark);
+    border-bottom: 2px solid var(--fdn-grey-light);
+}
+
+.invoiceContainer td {
+    padding: 12px 0;
+    font-size: var(--fs-caption);
+    color: var(--charcoal-grey);
+    border-bottom: 1px solid var(--fdn-grey-light-hover);
+}
