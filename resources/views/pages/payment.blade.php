@@ -1,3 +1,4 @@
+@php extract(app(\App\Http\Controllers\PaymentController::class)->getPaymentData()); @endphp
 @extends('layouts.app')
 
 @section('title', "Pembayaran - Cireng A'Paweh")
@@ -17,7 +18,6 @@
                     </div>
                 @endif
 
-                {{-- Payment Expiry Count Down --}}
                 <div class="timerBadge bodyLg charcoalGrey" id="timerContainer">
                     @if($payment->status === 'pending' && $timeRemaining > 0)
                         <b><span>Bayar dalam: </span> <span id="countdownTimer">--:--:--</span></b>
@@ -94,7 +94,6 @@
                     </div>
                 </div>
 
-                {{-- Dynamic Payment Guides depending on Payment Type --}}
                 <div class="paymentGuide charcoalGrey">
                     <span class="subH4 primaryBrandRed guideTitle">Cara Bayar</span>
 
@@ -143,7 +142,7 @@
     <script>
         window.paymentConfig = {
             timeRemaining: {{ $timeRemaining }},
-            statusUrl: "{{ url('/payment/' . $order->id . '/status') }}",
+            statusUrl: "{{ url('/payment?check_status=1') }}",
             successUrl: "{{ url('/preview-paymentsuccess') }}",
             isPending: {{ $payment->status === 'pending' ? 'true' : 'false' }}
         };
