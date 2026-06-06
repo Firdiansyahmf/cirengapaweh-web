@@ -81,31 +81,101 @@ function closeErrorModal() {
     document.getElementById("errorModal").classList.remove("active");
 }
 
+function showError(fieldId, message) {
+    const errorElement = document.getElementById(fieldId + "Error");
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.style.display = "block";
+    } else {
+        showErrorModal(message);
+    }
+}
+
+function clearErrors() {
+    document.querySelectorAll(".errorMessage").forEach((el) => {
+        el.textContent = "";
+        el.style.display = "none";
+    });
+}
+
 
 // FORM SUBMISSION
 promoForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const startDate = new Date(document.getElementById("promoStartDate").value);
-    const endDate = new Date(document.getElementById("promoEndDate").value);
+    console.log("Form submitted triggered");
 
-    // Validasi: end_date harus setelah start_date
-    if (endDate <= startDate) {
-        showErrorModal("Tanggal berakhir harus setelah tanggal mulai");
+    clearErrors();
+
+    const title = document.getElementById("promoTitle").value;
+    const promoCode = document.getElementById("promoCode").value;
+    const discount_percentage = document.getElementById("promoDiscount").value;
+    const maxUsage = document.getElementById("promoMaxUsage").value;
+    const description = document.getElementById("promoDescription").value;
+    const start_date = document.getElementById("promoStartDate").value;
+    const end_date = document.getElementById("promoEndDate").value;
+    const status = document.getElementById("promoStatus").value;
+    const formData = new FormData(this);
+    const productIds = tomSelectInstance ? tomSelectInstance.getValue() : [];
+    
+    
+    if (!title) {
+        showError("promoTitle", "Judul promo wajib diisi");
         return;
     }
 
-    const formData = new FormData(this);
-    const productIds = tomSelectInstance ? tomSelectInstance.getValue() : [];
+    const promoType = document.getElementById("promoType").value;
+    if (!promoType) {
+        showError("promoType", "Tipe promo wajib dipilih");
+        return;
+    }
+
+    if (promoCode && promoCode.length < 5) {
+        showErrorModal("Kode promo harus minimal 5 karakter");
+        return;
+    }
+
+    if (!maxUsage || maxUsage <= 0) {
+        showErrorModal("Maksimal penggunaan harus lebih dari 0");
+        return;
+    }
+
+    if (!discount_percentage || discount_percentage <= 0 || discount_percentage > 100) {
+        showErrorModal("Persentase diskon harus antara 1 dan 100");
+        return;
+    }
+
+    if (start_date && end_date) {
+        const startDate = new Date(start_date);
+        const endDate = new Date(end_date);
+
+        // Validasi: end_date harus setelah start_date
+        if (endDate <= startDate) {
+            showErrorModal("Tanggal berakhir harus setelah tanggal mulai");
+            return;
+        }
+    } else {
+        showErrorModal("Tanggal mulai dan tanggal berakhir wajib diisi");
+        return;
+    }
 
     if (productIds.length === 0) {
         showErrorModal("Pilih minimal satu produk");
         return;
     }
 
+    if (!status) {
+        showError("promoStatus", "Status promo wajib dipilih");
+        return;
+    }
+
+    console.log("All validations passed, preparing to submit form");
+    console.log("Form data:", formData);
     pendingFormData = new FormData(this);
     pendingFormData.set("product_ids", JSON.stringify(productIds));
     pendingIsEdit = promoId.value;
+
+    closePromoModal();
 
     if (pendingIsEdit) {
         openConfirmModal('update');

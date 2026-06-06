@@ -7,6 +7,40 @@ use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
+    private function isValidGoogleMapsUrl($url)
+    {
+        if (empty($url)) {
+            return false;
+        }
+
+        $url = trim(strtolower($url));
+
+        if (!str_starts_with($url, 'https://')) {
+            return false;
+        }
+
+        if (strlen($url) < 20) {
+            return false;
+        }
+
+        $googleMapsPatterns = [
+            'maps.google.com/',
+            'www.google.com/maps',
+            'maps.google.co.',
+            'www.google.co.',
+            'goo.gl/maps',
+            'maps.app.goo.gl',
+        ];
+
+        foreach ($googleMapsPatterns as $pattern) {
+            if (strpos($url, $pattern) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function index()
     {
         $locations = PartnerLocation::orderBy('created_at', 'desc')->paginate(5);
@@ -24,22 +58,18 @@ class LocationController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:150',
                 'address' => 'required|string',
-                'mapLink' => 'required|string',
+                'mapLink' => 'required|string|url',
                 'open_time' => 'required|date_format:H:i',
                 'close_time' => 'required|date_format:H:i',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'is_active' => 'nullable|boolean',
             ]);
 
-            // Validate open_time < close_time
-            $openTime = \DateTime::createFromFormat('H:i', $validated['open_time']);
-            $closeTime = \DateTime::createFromFormat('H:i', $validated['close_time']);
-
-            if ($openTime >= $closeTime) {
+            if (!$this->isValidGoogleMapsUrl($validated['mapLink'])) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Jam buka harus lebih awal dari jam tutup',
-                    'errors' => ['close_time' => ['Jam tutup harus lebih besar dari jam buka']]
+                    'message' => 'Link harus berupa URL Google Maps yang valid',
+                    'errors' => ['mapLink' => ['Link harus berupa URL Google Maps yang valid']]
                 ], 422);
             }
 
@@ -84,21 +114,18 @@ class LocationController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:150',
                 'address' => 'required|string',
+                'mapLink' => 'required|string|url',
                 'open_time' => 'required|date_format:H:i',
                 'close_time' => 'required|date_format:H:i',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'is_active' => 'nullable|boolean',
             ]);
 
-            // Validate open_time < close_time
-            $openTime = \DateTime::createFromFormat('H:i', $validated['open_time']);
-            $closeTime = \DateTime::createFromFormat('H:i', $validated['close_time']);
-
-            if ($openTime >= $closeTime) {
+            if (!$this->isValidGoogleMapsUrl($validated['mapLink'])) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Jam buka harus lebih awal dari jam tutup',
-                    'errors' => ['close_time' => ['Jam tutup harus lebih besar dari jam buka']]
+                    'message' => 'Link harus berupa URL Google Maps yang valid',
+                    'errors' => ['mapLink' => ['Link harus berupa URL Google Maps yang valid']]
                 ], 422);
             }
 
@@ -112,6 +139,7 @@ class LocationController extends Controller
             $location->update([
                 'name' => $validated['name'],
                 'address' => $validated['address'],
+                'link' => $validated['mapLink'],
                 'operating_hours' => $operatingHours,
                 'image' => $imagePath,
                 'is_active' => $validated['is_active'] ?? false,

@@ -26,7 +26,7 @@
 
                 <div class="statsCardsGrid">
             <div class="statCard">
-                <div class="statIcon" style="background-color: var(--fdn-yellow-light);">
+                <div class="statIcon">
                     <span class="material-symbols-outlined" style="color: var(--fdn-yellow-dark); font-size: 64px;">local_offer</span>
                 </div>
                 <div class="statContent">
@@ -36,7 +36,7 @@
             </div>
 
             <div class="statCard">
-                <div class="statIcon" style="background-color: #c8e6c9;">
+                <div class="statIcon" >
                     <span class="material-symbols-outlined" style="color: #2e7d32; font-size: 64px;">check_circle</span>
                 </div>
                 <div class="statContent">
@@ -46,7 +46,7 @@
             </div>
 
             <div class="statCard">
-                <div class="statIcon" style="background-color: var(--fdn-red-light);">
+                <div class="statIcon" >
                     <span class="material-symbols-outlined" style="color: var(--fdn-red-normal); font-size: 64px;">cancel</span>
                 </div>
                 <div class="statContent">
@@ -208,7 +208,7 @@
                     <div class="formRow">
                         <div class="formGroup">
                             <label for="promoCode">Kode Promo</label>
-                            <input type="text" id="promoCode" name="promo_code" placeholder="Opsional">
+                            <input type="text" id="promoCode" name="promo_code" placeholder="Masukkan Kode Promo">
                         </div>
                         <div class="formGroup">
                             <label for="promoDiscount">Persentase Diskon (%) *</label>
@@ -274,7 +274,7 @@
 
                 <div class="formActions">
                     <button type="button" class="btnCancel" onclick="closePromoModal()">Batal</button>
-                    <button type="submit" class="btnSubmit" onclick="closePromoModal()">Simpan Promo</button>
+                    <button type="submit" class="btnSubmit">Simpan Promo</button>
                 </div>
             </form>
         </div>
