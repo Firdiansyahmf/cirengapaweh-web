@@ -103,6 +103,10 @@ class PaymentController extends Controller
                     "order_id" => $invoiceNumber,
                     "gross_amount" => (int) $totalAmount,
                 ],
+                "custom_expiry" => [
+                    "expiry_duration" => 60,
+                    "unit" => "minute"
+                ],
                 "customer_details" => [
                     "first_name" => $validated["customer_name"],
                     "email" =>
@@ -181,7 +185,7 @@ class PaymentController extends Controller
             }
 
             if (isset($response->expiry_time)) {
-                $payment->expiry_time = Carbon::parse($response->expiry_time);
+                $payment->expiry_time = Carbon::parse($response->expiry_time, 'Asia/Jakarta')->setTimezone(config('app.timezone')); /* convert jam utc jadi wib */
             } else {
                 $payment->expiry_time = now()->addHour();
             }
@@ -415,7 +419,7 @@ class PaymentController extends Controller
         $orderItem = $order->items()->first();
         $timeRemaining = 0;
         if ($payment && $payment->expiry_time && $payment->status === "pending") {
-            $timeRemaining = max(0, now()->diffInSeconds($payment->expiry_time, false));
+            $timeRemaining = (int) max(0, now()->diffInSeconds($payment->expiry_time, false));
         }
 
         return compact("order", "payment", "orderItem", "timeRemaining");

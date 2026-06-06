@@ -9,7 +9,7 @@ function copyToClipboard(text) {
 document.addEventListener("DOMContentLoaded", function () {
     /* timer */
     const config = window.paymentConfig || {};
-    let timeRemaining = config.timeRemaining || 0;
+    let timeRemaining = Math.floor(config.timeRemaining || 0);
     const countdownElement = document.getElementById('countdownTimer');
     const timerContainer = document.getElementById('timerContainer');
 
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
             timeRemaining--;
             const hours = Math.floor(timeRemaining / 3600);
             const minutes = Math.floor((timeRemaining % 3600) / 60);
-            const seconds = timeRemaining % 60;
+            const seconds = Math.floor(timeRemaining % 60);
 
             const formattedTime =
                 String(hours).padStart(2, '0') + ':' +
