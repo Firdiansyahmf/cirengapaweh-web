@@ -274,11 +274,12 @@
 
 @media (max-width: 640px) {
     .payment .breakpoint {
-        padding: 0;
+        padding-inline: 0;
     }
 
     .payment .paymentCard {
         width: 100%;
+        max-width: unset;
         margin: 0;
         border-radius: 0;
     }
