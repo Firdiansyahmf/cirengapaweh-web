@@ -45,7 +45,7 @@
                 </div>
                 <hr>
                 <div class="paymentButtons">
-                    <button href="{{ url('/') }}" class="btnPrimary">Kembali ke Beranda</button>
+                    <a href="{{ url('/') }}" class="btnPrimary">Kembali ke Beranda</a>
                 </div>
             </div> {{-- end paymentCard --}}
         </div> {{-- end breakpoint --}}

@@ -12,6 +12,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PengirimanController;
 use App\Http\Controllers\PemesananController;
+use App\Http\Controllers\PaymentController;
 // produk
 use App\Models\Product;
 // promo
@@ -96,11 +97,16 @@ Route::get('/payment', function () {
 })->name('payment.show');
 
 // midtrans webhook
-Route::post('/payment/webhook', [\App\Http\Controllers\PaymentController::class, 'handleWebhook']);
+Route::post('/payment/webhook', [PaymentController::class, 'handleWebhook']);
 
 /* temp route buat preview halaman pembayaran berhasil */
 Route::get('/preview-paymentsuccess', function () {
     return view('pages.paymentSuccess');
+});
+
+// cek order
+Route::get('/cek-order', function () {
+    return view("pages.checkOrder");
 });
 
 // Order routes
@@ -113,7 +119,7 @@ Route::get('/api/tracking/{delivery}', [PengirimanController::class, 'showTracki
 // Shipment webhook from Biteship
 Route::post('/webhooks/biteship', [PengirimanController::class, 'handleWebhook'])->name('biteship.webhook');
 
-// END RUTE CUSTOMER (WEB UTAMA)____________<
+// END : RUTE UTAMA
 
 // >____________RUTE ADMIN DASHBOARD (CMS)
 Route::prefix('admin')->group(function () {
