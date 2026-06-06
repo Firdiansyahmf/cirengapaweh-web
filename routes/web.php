@@ -82,16 +82,10 @@ Route::get('/produk', function (Request $request) {
 
 //checkout
 Route::get('/checkout', [CheckoutController::class, 'show']);
-Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::post('/checkout', [CheckoutController::class, 'prepare']);
 
-// payment
-Route::get('/payment'/* /{orderId} */, function (/* $orderId */) {
-    return view('pages.payment');
-    /* return view('pages.payment', [
-        'orderId' => $orderId,
-        'total' => 22000
-    ]); */
-});
+// midtrans webhook
+Route::post('/payment/webhook', [\App\Http\Controllers\PaymentController::class, 'handleWebhook']);
 
 /* temp route buat preview halaman pembayaran berhasil */
 Route::get('/preview-paymentsuccess', function () {
