@@ -287,8 +287,7 @@ function loadProductData(id) {
 
         productId.value = id;
         productForm.action = `/admin/produk/${id}`;
-    }
-}
+    }}
 
 function editProduct(id) {
     openProductModal(id);
