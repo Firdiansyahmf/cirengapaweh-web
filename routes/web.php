@@ -11,6 +11,9 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PengirimanController;
+use App\Http\Controllers\PemesananController;
 // produk
 use App\Models\Product;
 // promo
@@ -60,8 +63,8 @@ Route::get('/produk', function (Request $request) {
         return redirect('/'); // ke 404 -> halaman tidak ditemukan
     }
 
-    $product = \App\Models\Product::findOrFail($id);
-    $activePromo = \App\Models\Promo::whereHas('products', function ($query) use ($id) {
+    $product = Product::findOrFail($id);
+    $activePromo = Promo::whereHas('products', function ($query) use ($id) {
         $query->where('products.id', $id);
     })
         ->where('is_active', true)
@@ -84,19 +87,15 @@ Route::get('/produk', function (Request $request) {
 Route::get('/checkout', [CheckoutController::class, 'show']);
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
-// payment
-Route::get('/payment'/* /{orderId} */, function (/* $orderId */) {
-    return view('pages.payment');
-    /* return view('pages.payment', [
-        'orderId' => $orderId,
-        'total' => 22000
-    ]); */
-});
+// Order routes
+Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 
-/* temp route buat preview halaman pembayaran berhasil */
-Route::get('/preview-paymentsuccess', function () {
-    return view('pages.paymentSuccess');
-});
+// Tracking API
+Route::get('/api/tracking/{delivery}', [PengirimanController::class, 'showTracking'])->name('api.tracking.show');
+
+// Shipment webhook from Biteship
+Route::post('/webhooks/biteship', [PengirimanController::class, 'handleWebhook'])->name('biteship.webhook');
 // END : RUTE UTAMA
 
 
@@ -141,9 +140,20 @@ Route::prefix('admin')->group(function () {
         Route::delete('/lokasi/{location}', [LocationController::class, 'destroy'])->name('lokasi.destroy');
 
         // Pemesanan Routes
-        Route::get('/pemesanan', function () {
-            return view('admin.pemesanan');
-        });
+        Route::get('/pemesanan', [PemesananController::class, 'index'])->name('pemesanan.index');
+        Route::post('/pemesanan/{order}/process', [PemesananController::class, 'processShipment'])->name('pemesanan.processShipment');
+        Route::post('/pemesanan/{order}/cancel', [PemesananController::class, 'cancelOrder'])->name('pemesanan.cancel');
+        Route::get('/pemesanan/status/{status}', [OrderController::class, 'getByStatus'])->name('pemesanan.status');
+        Route::put('/pemesanan/{order}/status', [OrderController::class, 'updateStatus'])->name('pemesanan.updateStatus');
+
+        // Pengiriman Routes
+        Route::get('/pengiriman', [PengirimanController::class, 'index'])->name('pengiriman.index');
+        Route::get('/pengiriman/menunggu-pembayaran', [PengirimanController::class, 'awaitingPayment'])->name('pengiriman.awaitingPayment');
+        Route::post('/pengiriman/{order}/create-shipment', [PengirimanController::class, 'createShipment'])->name('pengiriman.createShipment');
+        Route::get('/pengiriman/{order}/couriers', [PengirimanController::class, 'getAvailableCouriers'])->name('pengiriman.couriers');
+        Route::post('/pengiriman/{order}/update-courier', [PengirimanController::class, 'updateCourier'])->name('pengiriman.updateCourier');
+        Route::get('/pengiriman/{delivery}/status', [PengirimanController::class, 'getStatus'])->name('pengiriman.status');
+        Route::post('/pengiriman/{order}/process', [PengirimanController::class, 'processShipment'])->name('pengiriman.process');
 
         // Dashboard dan CRUD
         Route::get('/dashboard', [DashboardController::class, 'index']);
@@ -171,10 +181,6 @@ Route::prefix('admin')->group(function () {
         Route::post('/lokasi', [LocationController::class, 'store'])->name('lokasi.store');
         Route::put('/lokasi/{location}', [LocationController::class, 'update'])->name('lokasi.update');
         Route::delete('/lokasi/{location}', [LocationController::class, 'destroy'])->name('lokasi.destroy');
-
-        Route::get('/pemesanan', function () {
-            return view('admin.pemesanan');
-        });
 
         // User Management Routes
         Route::get('/pengguna', [UserController::class, 'index'])->name('pengguna.index');
