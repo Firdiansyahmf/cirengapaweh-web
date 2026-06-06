@@ -53,6 +53,7 @@ class PaymentController extends Controller
             "customer_email" => "nullable|email|max:100",
             "whatsapp" => 'required|string|regex:/^[0-9]+$/|min:8|max:15',
             "shipping_address" => "required|string|max:200",
+            /* "postal_code" => "required|string|max:5", */
             "payment_method" => "required|string|in:qris,bca,bni,bri",
         ]);
 
@@ -74,6 +75,7 @@ class PaymentController extends Controller
                     $validated["customer_email"] ?? "customer@example.com",
                 "customer_phone" => $validated["whatsapp"],
                 "shipping_address" => $validated["shipping_address"],
+                /* "postal_code" => $validated["postal_code"], */
                 "total_amount" => $totalAmount,
                 "status" => "unpaid",
             ]);
@@ -93,6 +95,7 @@ class PaymentController extends Controller
                 "status" => "pending",
             ]);
 
+            /* parameter untuk dikirim ke midtrans */
             $params = [
                 "transaction_details" => [
                     "order_id" => $invoiceNumber,
