@@ -29,7 +29,7 @@
                             <div class="inputGroup">
                                 <label class="bodyMain charcoalGrey">No. WhatsApp <span class="primaryBrandRed">*</span></label>
                                 <div class="withLabel">
-                                    <input type="tel" name="whatsapp" id="inputWa" placeholder="+62 XXX XXXX XXXX" required pattern="[0-9]{8,15}" class="bodyMain"/>
+                                    <input type="tel" name="whatsapp" id="inputWa" placeholder="08XXXXXXXXXX" required pattern="[0-9]{8,15}" class="bodyMain"/>
                                     <span class="caption"><i>*Nomor ini akan dihubungi jika ada kendala</i></span>
                                 </div>
                             </div>
