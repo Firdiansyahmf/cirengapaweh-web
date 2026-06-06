@@ -10,7 +10,7 @@
 
     <div class="detail flexRow">
         <div class="breakpoint">
-            <button href="{{ url('/') }}" class="btnOutline kembali">Kembali</button> <!-- sama anaqi -->
+            <a href="{{ url('/') }}" class="btnOutline kembali">Kembali</a> <!-- sama anaqi -->
             <div class="box1 flexRow">
                 <div class="productVisual">
                     <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://placehold.co/800x800.png' }}"
@@ -25,12 +25,11 @@
                         </h1>
 
                         @if ($activePromo)
-                            <div style="display: flex; gap: var(--gap-small); align-items: center;">
-                                <span
-                                    style="background-color: var(--fdn-yellow-normal); padding: 4px 8px; border-radius: 8px; font-weight: bold; font-size: var(--fs-body-main);">
+                            <div class="promoWrapper">
+                                <span class="discountBadge">
                                     Diskon {{ $activePromo->discount_percentage }}%
                                 </span>
-                                <span style="text-decoration: line-through; color: #888; font-size: var(--fs-h4);">
+                                <span class="originalPrice">
                                     Rp{{ number_format($product->price, 0, ',', '.') }}
                                 </span>
                             </div>
@@ -49,7 +48,7 @@
                             <img src="{{ asset('assets/icon/kutip.svg') }}" alt="Quote" class="charcoalGrey">
                             <h4 class="subH4">Deskripsi Produk</h4>
                         </div>
-                        <span class="bodyLg" style="text-align: justify; font-weight: normal;">
+                        <span class="bodyLg descriptionText">
                             {{ $product->description }}
                         </span>
                     </div>
@@ -60,6 +59,7 @@
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <input type="hidden" name="product_name" value="{{ $product->name }}">
+                            <input type="hidden" name="product_image" value="{{ $product->image }}">
                             <input type="hidden" name="price" id="rawPrice" value="{{ $finalPrice }}">
 
                             <div class="flexCol">
@@ -71,8 +71,7 @@
                                     <button type="button" id="btnPlus"><img src="{{ asset('assets/icon/plus.svg') }}"
                                             alt="plus"></button>
                                 </div>
-                                <div class="subtotal flexRow bodyMain"
-                                    style="align-items: center; justify-content: space-between;">
+                                <div class="subtotal flexRow bodyMain">
                                     Subtotal
                                     <span class="bodyLg"><b>Rp<span
                                                 id="subtotalDisplay">{{ number_format($finalPrice, 0, ',', '.') }}</span></b></span>
