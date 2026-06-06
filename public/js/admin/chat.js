@@ -1,285 +1,171 @@
-/**
- * Chat Management - Admin Chat System
- * Handles session selection, messaging, and session management
- */
+let allSessions = [];
+let currentFilter = 'all';
+let activeSessionId = null;
+let activeSessionStatus = 'open';
+let sessionPollInterval = null;
+let messagePollInterval = null;
 
-let currentSessionId = null;
-let currentSessionStatus = 'open';
+document.addEventListener("DOMContentLoaded", () => {
+    fetchSessions();
+    sessionPollInterval = setInterval(fetchSessions, 3000);
+});
 
-/**
- * Select a chat session to view
- */
-function selectSession(sessionId) {
-    currentSessionId = sessionId;
-    
-    // Update active state in list
-    document.querySelectorAll('.sessionItem').forEach(item => {
-        item.classList.remove('active');
-    });
-    document.querySelector(`.sessionItem[data-session-id="${sessionId}"]`).classList.add('active');
-
-    // Show chat content
-    document.getElementById('chatEmpty').style.display = 'none';
-    document.getElementById('chatContent').style.display = 'flex';
-
-    // Load session details and messages
-    loadSessionDetails(sessionId);
+function filterSessions(filter, btnElement) {
+    currentFilter = filter;
+    document.querySelectorAll('.chatTab').forEach(el => el.classList.remove('active'));
+    btnElement.classList.add('active');
+    renderSessions();
 }
 
-/**
- * Load session details and messages from server
- */
-function loadSessionDetails(sessionId) {
-    fetch(`/admin/chat/${sessionId}`, {
-        method: 'GET',
+function fetchSessions() {
+    fetch('/admin/chat-sync/sessions', {
         headers: {
-            'Accept': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+            'Accept': 'application/json'
         }
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            const session = data.session;
-            const messages = data.messages;
-
-            // Update header
-            document.getElementById('chatSessionName').textContent = `Session #${session.id}`;
-            document.getElementById('chatSessionPhone').textContent = session.customer_phone || '-';
-
-            // Update status badge
-            currentSessionStatus = session.status;
-            const badge = document.getElementById('sessionStatusBadge');
-            if (session.status === 'open') {
-                badge.textContent = 'Dibuka';
-                badge.className = 'statusBadge statusOpen';
-                document.getElementById('toggleText').textContent = 'Tutup Session';
-                document.getElementById('toggleIcon').textContent = 'lock_open';
-            } else {
-                badge.textContent = 'Ditutup';
-                badge.className = 'statusBadge statusClosed';
-                document.getElementById('toggleText').textContent = 'Buka Session';
-                document.getElementById('toggleIcon').textContent = 'lock';
+        .then(async res => {
+            if (!res.ok) {
+                const errText = await res.text();
+                throw new Error("HTTP " + res.status + " - " + errText);
             }
-
-            // Load messages
-            loadMessages(messages);
-        }
-    })
-    .catch(error => {
-        console.error('Error loading session:', error);
-        alert('Gagal memuat session chat');
-    });
-}
-
-/**
- * Load and display messages
- */
-function loadMessages(messages) {
-    const messagesArea = document.getElementById('messagesArea');
-    messagesArea.innerHTML = '';
-
-    if (messages.length === 0) {
-        messagesArea.innerHTML = `
-            <div style="flex: 1; display: flex; align-items: center; justify-content: center; color: #999;">
-                <p>Belum ada pesan dalam session ini</p>
-            </div>
-        `;
-        return;
-    }
-
-    messages.forEach(msg => {
-        const messageGroup = document.createElement('div');
-        messageGroup.className = `messageGroup ${msg.sender_type === 'admin' ? 'admin' : 'customer'}`;
-
-        const messageEl = document.createElement('div');
-        messageEl.className = 'message';
-        messageEl.textContent = msg.message;
-
-        const timeEl = document.createElement('div');
-        timeEl.className = 'messageTime';
-        const date = new Date(msg.created_at);
-        timeEl.textContent = date.toLocaleTimeString('id-ID', { 
-            hour: '2-digit', 
-            minute: '2-digit' 
+            return res.json();
+        })
+        .then(data => {
+            allSessions = data;
+            renderSessions();
+        })
+        .catch(err => {
+            document.getElementById('sessionListAdmin').innerHTML =
+                `<div style="color:red; font-size:12px; padding:15px; background:#ffebeb; border-radius:8px;"><b>GAGAL MEMUAT DATA:</b><br>${err.message.substring(0, 100)}...</div>`;
         });
-
-        messageGroup.appendChild(messageEl);
-        messageGroup.appendChild(timeEl);
-        messagesArea.appendChild(messageGroup);
-    });
-
-    // Scroll to bottom
-    messagesArea.scrollTop = messagesArea.scrollHeight;
 }
 
-/**
- * Send message in current session
- */
-function sendMessage(event) {
-    event.preventDefault();
+function renderSessions() {
+    const listContainer = document.getElementById("sessionListAdmin");
+    listContainer.innerHTML = '';
 
-    if (!currentSessionId) {
-        alert('Pilih session terlebih dahulu');
+    let filtered = allSessions;
+    if (currentFilter === 'open') filtered = allSessions.filter(s => s.status === 'open');
+    if (currentFilter === 'closed') filtered = allSessions.filter(s => s.status === 'closed');
+
+    if (filtered.length === 0) {
+        listContainer.innerHTML =
+            `<p style="text-align: center; margin-top: 20px; color: #888; font-size: 14px;">Tidak ada obrolan.</p>`;
         return;
     }
 
-    const messageInput = document.getElementById('messageInput');
-    const message = messageInput.value.trim();
+    filtered.forEach(session => {
+        const time = new Date(session.updated_at).toLocaleTimeString('id-ID', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        const isActive = session.id === activeSessionId ? 'active' : '';
+        const badgeClass = session.status === 'open' ? 'open' : 'closed';
+        const badgeText = session.status === 'open' ? 'Dibuka' : 'Ditutup';
+        // customer name dinamis
+        const custName = session.customer_name ? session.customer_name : `User #${session.id}`;
+        const safeName = custName.replace(/'/g, "\\'");
+        const html = `
+                <div class="sessionItem ${isActive}" onclick="openChatRoom(${session.id}, '${session.status}', '${safeName}')">
+                    <div class="sessionItemTop">
+                        <span class="sessionName">${custName}</span>
+                        <span class="sessionTime">${time}</span>
+                    </div>
+                    <div class="statusBadge ${badgeClass}">${badgeText}</div>
+                </div>
+            `;
+        listContainer.insertAdjacentHTML('beforeend', html);
+    });
+}
 
-    if (!message) {
-        return;
+function openChatRoom(id, status, name) {
+    activeSessionId = id;
+    activeSessionStatus = status;
+    document.getElementById("chatEmptyState").style.display = "none";
+    document.getElementById("chatRoomArea").style.display = "flex";
+    document.getElementById("activeRoomTitle").innerText = name;
+    if (status === 'closed') {
+        document.getElementById("roomFooterAdmin").style.display = "none";
+        document.getElementById("closedNoticeAdmin").style.display = "block";
+        document.getElementById("btnCloseSession").style.display = "none";
+    } else {
+        document.getElementById("roomFooterAdmin").style.display = "flex";
+        document.getElementById("closedNoticeAdmin").style.display = "none";
+        document.getElementById("btnCloseSession").style.display = "block";
     }
+    renderSessions();
+    fetchMessages();
+    clearInterval(messagePollInterval);
+    messagePollInterval = setInterval(fetchMessages, 2000);
+}
 
-    // Disable button
-    const btnSend = document.getElementById('btnSend');
-    btnSend.disabled = true;
+function fetchMessages() {
+    if (!activeSessionId) return;
+    fetch(`/admin/chat-sync/${activeSessionId}/messages`)
+        .then(res => res.json())
+        .then(messages => {
+            const msgContainer = document.getElementById("roomMessagesAdmin");
+            // scroll plg bawah?
+            const isScrolledToBottom = msgContainer.scrollHeight - msgContainer.clientHeight <= msgContainer
+                .scrollTop + 50;
+            msgContainer.innerHTML = '';
+            messages.forEach(msg => {
+                const time = new Date(msg.created_at).toLocaleTimeString('id-ID', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                const alignClass = msg.sender_type === 'admin' ? 'admin' : 'customer';
 
-    fetch(`/admin/chat/${currentSessionId}/send`, {
+                msgContainer.insertAdjacentHTML('beforeend', `
+                    <div class="msgRow ${alignClass}">
+                        <div class="msgBubble">${msg.message}</div>
+                        <div class="msgTime">${time}</div>
+                    </div>
+                `);
+            });
+            if (isScrolledToBottom) {
+                msgContainer.scrollTop = msgContainer.scrollHeight;
+            }
+        });
+}
+
+function handleAdminEnter(e) {
+    if (e.key === 'Enter') sendAdminMessage();
+}
+
+function sendAdminMessage() {
+    const input = document.getElementById("adminChatInput");
+    const text = input.value.trim();
+    if (!text || !activeSessionId || activeSessionStatus === 'closed') return;
+    input.value = "";
+    const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+    const token = csrfMeta ? csrfMeta.getAttribute('content') : '';
+    fetch(`/admin/chat-sync/${activeSessionId}/send`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
-            'Accept': 'application/json'
+            'X-CSRF-TOKEN': token
         },
-        body: JSON.stringify({ message: message })
+        body: JSON.stringify({
+            message: text
+        })
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            messageInput.value = '';
-            messageInput.style.height = 'auto';
-            // Reload messages to show the new one
-            loadSessionDetails(currentSessionId);
-        } else {
-            alert(data.message || 'Gagal mengirim pesan');
-        }
-    })
-    .catch(error => {
-        console.error('Error sending message:', error);
-        alert('Terjadi kesalahan saat mengirim pesan');
-    })
-    .finally(() => {
-        btnSend.disabled = false;
-    });
+        .then(() => fetchMessages());
 }
 
-/**
- * Toggle session status (open/close)
- */
-function toggleSessionStatus() {
-    if (!currentSessionId) return;
-
-    const newStatus = currentSessionStatus === 'open' ? 'closed' : 'open';
-    const endpoint = currentSessionStatus === 'open' ? 'close' : 'reopen';
-
-    fetch(`/admin/chat/${currentSessionId}/${endpoint}`, {
+function forceCloseSession() {
+    if (!confirm('Yakin ingin menutup sesi obrolan ini? Kustomer tidak akan bisa membalas lagi.')) return;
+    const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+    const token = csrfMeta ? csrfMeta.getAttribute('content') : '';
+    fetch(`/chat-api/${activeSessionId}/close`, {
         method: 'POST',
         headers: {
-            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
-            'Accept': 'application/json'
+            'X-CSRF-TOKEN': token
         }
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            currentSessionStatus = newStatus;
-            
-            // Update UI
-            const badge = document.getElementById('sessionStatusBadge');
-            if (newStatus === 'open') {
-                badge.textContent = 'Dibuka';
-                badge.className = 'statusBadge statusOpen';
-                document.getElementById('toggleText').textContent = 'Tutup Session';
-                document.getElementById('toggleIcon').textContent = 'lock_open';
-            } else {
-                badge.textContent = 'Ditutup';
-                badge.className = 'statusBadge statusClosed';
-                document.getElementById('toggleText').textContent = 'Buka Session';
-                document.getElementById('toggleIcon').textContent = 'lock';
-            }
-
-            // Update session list item
-            const sessionItem = document.querySelector(`.sessionItem[data-session-id="${currentSessionId}"]`);
-            if (sessionItem) {
-                sessionItem.setAttribute('data-status', newStatus);
-                const statusBadge = sessionItem.querySelector('.statusBadge');
-                if (newStatus === 'open') {
-                    statusBadge.textContent = 'Dibuka';
-                    statusBadge.className = 'statusBadge statusOpen';
-                } else {
-                    statusBadge.textContent = 'Ditutup';
-                    statusBadge.className = 'statusBadge statusClosed';
-                }
-            }
-        }
-    })
-    .catch(error => {
-        console.error('Error toggling session:', error);
-    });
+        .then(() => {
+            activeSessionStatus = 'closed';
+            openChatRoom(activeSessionId, 'closed', document.getElementById("activeRoomTitle").innerText);
+            fetchSessions();
+        });
 }
-
-/**
- * Search sessions
- */
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchSession');
-    if (searchInput) {
-        searchInput.addEventListener('keyup', function() {
-            const searchTerm = this.value.toLowerCase();
-            const sessionItems = document.querySelectorAll('.sessionItem');
-
-            sessionItems.forEach(item => {
-                const userName = item.querySelector('.userName').textContent.toLowerCase();
-                const phone = item.querySelector('.sessionPhone').textContent.toLowerCase();
-
-                if (userName.includes(searchTerm) || phone.includes(searchTerm)) {
-                    item.style.display = '';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
-    }
-
-    // Tab filtering
-    const tabBtns = document.querySelectorAll('.tabBtn');
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const status = this.getAttribute('data-status');
-            
-            // Update active tab
-            tabBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-
-            // Filter sessions
-            const sessionItems = document.querySelectorAll('.sessionItem');
-            sessionItems.forEach(item => {
-                const itemStatus = item.getAttribute('data-status');
-                
-                if (status === 'all' || itemStatus === status) {
-                    item.style.display = '';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
-    });
-
-    // Auto-resize textarea
-    const messageInput = document.getElementById('messageInput');
-    if (messageInput) {
-        messageInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
-        });
-    }
-
-    // Close action menu when clicking outside
-    document.addEventListener('click', function(e) {
-        const actionMenu = document.getElementById('actionMenu');
-        if (actionMenu && !e.target.closest('.btnIcon') && !e.target.closest('.actionMenu')) {
-            actionMenu.style.display = 'none';
-        }
-    });
-});
