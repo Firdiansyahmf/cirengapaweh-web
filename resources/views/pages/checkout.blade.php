@@ -28,26 +28,34 @@
                             <span class="subH4 charcoalGrey">Detail Pengiriman</span>
                             <div class="inputGroup">
                                 <label class="bodyMain charcoalGrey">No. WhatsApp <span class="primaryBrandRed">*</span></label>
-                                <input type="tel" name="whatsapp" id="inputWa" placeholder="+62 XXX XXXX XXXX" required pattern="[0-9]{8,15}" class="bodyMain"/>
-                                <span class="caption"><i>*Nomor ini akan dihubungi jika ada kendala</i></span>
+                                <div class="withLabel">
+                                    <input type="tel" name="whatsapp" id="inputWa" placeholder="+62 XXX XXXX XXXX" required pattern="[0-9]{8,15}" class="bodyMain"/>
+                                    <span class="caption"><i>*Nomor ini akan dihubungi jika ada kendala</i></span>
+                                </div>
                             </div>
                             <div class="inputGroup">
                                 <label class="bodyMain charcoalGrey">Email</label>
                                 <input type="email" name="customer_email" placeholder="contoh@email.com" class="bodyMain"/>
                             </div>
-                            <div class="inputGroup">
-                                <label class="bodyMain charcoalGrey">Alamat Lengkap<span class="primaryBrandRed">*</span></label>
-                                <input type="text" id="inputAddress" name="shipping_address" placeholder="Isian Alamat" required maxlength="200" class="bodyMain"/>
-                                <span class="caption textRight" id="addressCount">0/200</span>
-                            </div>
-                            <div class="inputGroup">
-                                <label class="bodyMain charcoalGrey">Kode Pos<span class="primaryBrandRed">*</span></label>
-                                <input type="text" id="inputAddress" name="postal_code" placeholder="Kode Pos" required class="bodyMain"/>
+                            <div class="inputAddress">
+                                <div class="inputGroup">
+                                    <label class="bodyMain charcoalGrey">Alamat Lengkap<span class="primaryBrandRed">*</span></label>
+                                    <div class="withLabel">
+                                        <input type="text" id="inputAddress" name="shipping_address" placeholder="Isian Alamat" required maxlength="200" class="bodyMain"/>
+                                        <span class="caption textRight" id="addressCount">0/200</span>
+                                    </div>
+                                </div>
+                                <div class="inputGroup inputPostal">
+                                    <label class="bodyMain charcoalGrey">Kode Pos<span class="primaryBrandRed">*</span></label>
+                                    <input type="text" id="inputPostal" name="postal_code" inputmode="numeric" pattern="[0-9]*" placeholder="Kode Pos" required maxlength="5" class="bodyMain"/>
+                                </div>
                             </div>
                             <div class="inputGroup">
                                 <label class="bodyMain charcoalGrey">Nama Penerima <span class="primaryBrandRed">*</span></label>
-                                <input type="text" id="inputName" name="customer_name" placeholder="Nama" required maxlength="50" class="bodyMain"/>
-                                <span class="caption textRight" id="nameCount">0/50</span>
+                                <div class="withLabel">
+                                    <input type="text" id="inputName" name="customer_name" placeholder="Nama" required maxlength="50" class="bodyMain"/>
+                                    <span class="caption textRight" id="nameCount">0/50</span>
+                                </div>
                             </div>
                         </div> {{-- end addressCard --}}
                         <div class="card"> {{-- start detailCard --}}

@@ -63,17 +63,50 @@
 }
 
 .checkout .inputGroup input {
-    border: none;
-    background: transparent;
-    outline: none;
     width: 100%;
-    padding: 0;
-    border-bottom: 1px solid rgba(38, 38, 38, 0.5);
+    padding: 10px 12px;
+    border: 1px solid var(--fdn-grey-light-hover);
+    border-radius: 6px;
+    color: var(--charcoal-grey);
+    transition: all 0.3s ease;
+}
+
+.checkout .inputGroup input:hover {
+    outline: none;
+    border-color: var(--fdn-red-normal);
+    box-shadow: 0 0 0 3px rgba(242, 61, 61, 0.1);
+}
+
+.checkout .inputGroup input[type="number"]::-webkit-outer-spin-button,
+.checkout .inputGroup input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.checkout .withLabel {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.checkout .withLabel .caption {
+    opacity: 70%;
+}
+
+.checkout .inputAddress {
+    display: grid;
+    grid-template-columns: auto max-content;
+    gap: var(--gap-medium);
+}
+
+.checkout .inputAddress .inputPostal {
+    width: 152px;
 }
 
 .checkout .inputPromo {
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: var(--gap-small);
 }
 

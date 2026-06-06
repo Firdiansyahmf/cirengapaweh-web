@@ -55,6 +55,14 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    const postalInput = document.getElementById("inputPostal");
+
+    if (postalInput) {
+        postalInput.addEventListener("input", function () {
+            this.value = this.value.replace(/[^0-9]/g, "");
+        });
+    }
+
     const nameInput = document.getElementById("inputName");
     const nameCounter = document.getElementById("nameCount");
 
