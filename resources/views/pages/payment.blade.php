@@ -11,6 +11,7 @@
 
     <div class="payment flexRow">
         <div class="breakpoint">
+
             <div class="paymentCard">
                 @if(session('error'))
                     <div class="errorAlert">
@@ -132,7 +133,12 @@
                     @endif
                     <button onclick="checkPaymentStatus()" class="btnPrimary">Cek Status Pembayaran</button>
                 </div>
+                <form id="paymentSuccessForm" action="{{ url('/payment/success') }}" method="POST" style="display: none;">
+                    @csrf
+                    <input type="hidden" name="invoice_number" value="{{ $order->invoice_number }}">
+                </form>
             </div> {{-- end paymentCard --}}
+            
         </div> {{-- end breakpoint --}}
     </div> {{-- end payment --}}
 
@@ -143,7 +149,7 @@
         window.paymentConfig = {
             timeRemaining: {{ $timeRemaining }},
             statusUrl: "{{ url('/payment?check_status=1') }}",
-            successUrl: "{{ url('/preview-paymentsuccess') }}",
+            successUrl: "{{ url('/payment/success') }}",
             isPending: {{ $payment->status === 'pending' ? 'true' : 'false' }}
         };
     </script>

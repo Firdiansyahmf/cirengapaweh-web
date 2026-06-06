@@ -17,6 +17,8 @@ use App\Http\Controllers\PaymentController;
 use App\Models\Product;
 // promo
 use App\Models\Promo;
+// order
+use App\Models\Order;
 // detail produk
 use Illuminate\Http\Request;
 // chatbot
@@ -102,6 +104,15 @@ Route::post('/payment/webhook', [PaymentController::class, 'handleWebhook']);
 /* temp route buat preview halaman pembayaran berhasil */
 Route::get('/preview-paymentsuccess', function () {
     return view('pages.paymentSuccess');
+});
+
+Route::post('/payment/success', function (Request $request) {
+    $invoiceNumber = $request->input('invoice_number');
+    $order = Order::where('invoice_number', $invoiceNumber)->firstOrFail();
+    $payment = $order->payment;
+    $orderItem = $order->items()->first();
+
+    return view('pages.paymentSuccess', compact('order', 'payment', 'orderItem'));
 });
 
 // cek order

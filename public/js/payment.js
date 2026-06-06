@@ -46,7 +46,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (data.status === 'paid' || data.payment_status === 'settlement') {
                     alert('Pembayaran sukses terkonfirmasi!');
                     if (config.successUrl) {
-                        window.location.href = config.successUrl;
+                        const form = document.getElementById('paymentSuccessForm');
+                        if (form) {
+                            form.submit();
+                        } else {
+                            window.location.href = config.successUrl;
+                        }
                     }
                 } else if (data.status === 'cancelled' || data.payment_status === 'expire' || data.payment_status === 'cancel') {
                     alert('Transaksi ini telah dibatalkan atau kedaluwarsa.');
@@ -69,7 +74,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (data.status === 'paid' || data.payment_status === 'settlement') {
                         clearInterval(autoPollInterval);
                         if (config.successUrl) {
-                            window.location.href = config.successUrl;
+                            const form = document.getElementById('paymentSuccessForm');
+                            if (form) {
+                                form.submit();
+                            } else {
+                                window.location.href = config.successUrl;
+                            }
                         }
                     }
                 })
