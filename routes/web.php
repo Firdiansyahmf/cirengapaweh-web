@@ -9,6 +9,9 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PengirimanController;
+use App\Http\Controllers\PemesananController;
 // produk
 use App\Models\Product;
 // promo
@@ -55,8 +58,10 @@ Route::get('/produk', function (Request $request) {
     if (!$id) {
         return redirect('/');
     }
-    $product = \App\Models\Product::findOrFail($id);
-    $activePromo = \App\Models\Promo::whereHas('products', function ($query) use ($id) {
+
+    $product = Product::findOrFail($id);
+    $activePromo = Promo::whereHas('products', function ($query) use ($id) {
+
         $query->where('products.id', $id);
     })
         ->where('is_active', true)
@@ -97,8 +102,18 @@ Route::post('/payment/webhook', [\App\Http\Controllers\PaymentController::class,
 Route::get('/preview-paymentsuccess', function () {
     return view('pages.paymentSuccess');
 });
-// END RUTE CUSTOMER (WEB UTAMA)____________<
 
+// Order routes
+Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+
+// Tracking API
+Route::get('/api/tracking/{delivery}', [PengirimanController::class, 'showTracking'])->name('api.tracking.show');
+
+// Shipment webhook from Biteship
+Route::post('/webhooks/biteship', [PengirimanController::class, 'handleWebhook'])->name('biteship.webhook');
+
+// END RUTE CUSTOMER (WEB UTAMA)____________<
 
 // >____________RUTE ADMIN DASHBOARD (CMS)
 Route::prefix('admin')->group(function () {
@@ -131,11 +146,52 @@ Route::prefix('admin')->group(function () {
         Route::post('/lokasi', [LocationController::class, 'store'])->name('lokasi.store');
         Route::put('/lokasi/{location}', [LocationController::class, 'update'])->name('lokasi.update');
         Route::delete('/lokasi/{location}', [LocationController::class, 'destroy'])->name('lokasi.destroy');
-        // pemesanan
-        Route::get('/pemesanan', function () {
-            return view('admin.pemesanan');
-        });
-        // pengguna
+
+        // Pemesanan Routes
+        Route::get('/pemesanan', [PemesananController::class, 'index'])->name('pemesanan.index');
+        Route::post('/pemesanan/{order}/process', [PemesananController::class, 'processShipment'])->name('pemesanan.processShipment');
+        Route::post('/pemesanan/{order}/cancel', [PemesananController::class, 'cancelOrder'])->name('pemesanan.cancel');
+        Route::get('/pemesanan/status/{status}', [OrderController::class, 'getByStatus'])->name('pemesanan.status');
+        Route::put('/pemesanan/{order}/status', [OrderController::class, 'updateStatus'])->name('pemesanan.updateStatus');
+
+        // Pengiriman Routes
+        Route::get('/pengiriman', [PengirimanController::class, 'index'])->name('pengiriman.index');
+        Route::get('/pengiriman/menunggu-pembayaran', [PengirimanController::class, 'awaitingPayment'])->name('pengiriman.awaitingPayment');
+        Route::post('/pengiriman/{order}/create-shipment', [PengirimanController::class, 'createShipment'])->name('pengiriman.createShipment');
+        Route::get('/pengiriman/{order}/couriers', [PengirimanController::class, 'getAvailableCouriers'])->name('pengiriman.couriers');
+        Route::post('/pengiriman/{order}/update-courier', [PengirimanController::class, 'updateCourier'])->name('pengiriman.updateCourier');
+        Route::get('/pengiriman/{delivery}/status', [PengirimanController::class, 'getStatus'])->name('pengiriman.status');
+        Route::post('/pengiriman/{order}/process', [PengirimanController::class, 'processShipment'])->name('pengiriman.process');
+
+        // Dashboard dan CRUD
+        Route::get('/dashboard', [DashboardController::class, 'index']);
+
+        // Produk Routes
+        Route::get('/produk', [ProductController::class, 'index'])->name('produk.index');
+        Route::post('/produk', [ProductController::class, 'store'])->name('produk.store');
+        Route::put('/produk/{product}', [ProductController::class, 'update'])->name('produk.update');
+        Route::patch('/produk/{product}', [ProductController::class, 'updateStatus'])->name('produk.updateStatus');
+        Route::delete('/produk/{product}', [ProductController::class, 'destroy'])->name('produk.destroy');
+
+        // Promo Routes
+        Route::get('/promo', [PromoController::class, 'index'])->name('promo.index');
+        Route::get('/promo/get-products', [PromoController::class, 'getProducts'])->name('promo.getProducts');
+        Route::get('/promo/{promo}', [PromoController::class, 'show'])->name('promo.show');
+        Route::post('/promo', [PromoController::class, 'store'])->name('promo.store');
+        Route::get('/promo/{promo}/edit', [PromoController::class, 'edit'])->name('promo.edit');
+        Route::put('/promo/{promo}', [PromoController::class, 'update'])->name('promo.update');
+        Route::patch('/promo/{promo}', [PromoController::class, 'updateStatus'])->name('promo.updateStatus');
+        Route::delete('/promo/{promo}', [PromoController::class, 'destroy'])->name('promo.destroy');
+
+        // Lokasi Routes
+        Route::get('/lokasi', [LocationController::class, 'index'])->name('lokasi.index');
+        Route::get('/lokasi/{location}', [LocationController::class, 'show'])->name('lokasi.show');
+        Route::post('/lokasi', [LocationController::class, 'store'])->name('lokasi.store');
+        Route::put('/lokasi/{location}', [LocationController::class, 'update'])->name('lokasi.update');
+        Route::delete('/lokasi/{location}', [LocationController::class, 'destroy'])->name('lokasi.destroy');
+
+        // User Management Routes
+
         Route::get('/pengguna', [UserController::class, 'index'])->name('pengguna.index');
         Route::post('/pengguna', [UserController::class, 'store'])->name('pengguna.store');
         Route::put('/pengguna/{user}', [UserController::class, 'update'])->name('pengguna.update');
@@ -148,24 +204,24 @@ Route::prefix('admin')->group(function () {
         });
         // api sinkronisasi live chat
         Route::get('/chat-sync/sessions', function () {
-            $sessions = \App\Models\ChatSession::query()->orderBy('updated_at', 'desc')->get();
+            $sessions = ChatSession::query()->orderBy('updated_at', 'desc')->get();
             return response()->json($sessions);
         });
         Route::get('/chat-sync/{id}/messages', function ($id) {
-            $messages = \App\Models\ChatMessage::query()
+            $messages = ChatMessage::query()
                 ->where('session_id', $id)
                 ->orderBy('created_at', 'asc')
                 ->get();
             return response()->json($messages);
         });
-        Route::post('/chat-sync/{id}/send', function (\Illuminate\Http\Request $request, $id) {
-            \App\Models\ChatMessage::query()->create([
+        Route::post('/chat-sync/{id}/send', function (Request $request, $id) {
+            ChatMessage::query()->create([
                 'session_id' => $id,
-                'user_id' => \Illuminate\Support\Facades\Auth::id() ?? 1,
+                'user_id' => Auth::id() ?? 1,
                 'message' => $request->message,
                 'sender_type' => 'admin',
             ]);
-            \App\Models\ChatSession::query()->where('id', $id)->update(['updated_at' => now()]);
+            ChatSession::query()->where('id', $id)->update(['updated_at' => now()]);
             return response()->json(['success' => true]);
         });
     });
@@ -173,7 +229,7 @@ Route::prefix('admin')->group(function () {
 // route api kustomer (diluar middleware)
 // api new session
 Route::post('/chat-api/create', function () {
-    $session = \App\Models\ChatSession::create([
+    $session = ChatSession::create([
         'customer_name' => 'Guest A\'paweh ' . rand(1000, 9999),
         'status' => 'open'
     ]);
@@ -181,21 +237,21 @@ Route::post('/chat-api/create', function () {
 });
 // api send messages
 Route::post('/chat-api/{sessionId}/send', function (Request $request, $sessionId) {
-    \App\Models\ChatMessage::query()->create([
+    ChatMessage::query()->create([
         'session_id' => $sessionId,
         'user_id' => null,
         'message' => $request->message,
         'sender_type' => 'customer' // 'customer'
     ]);
-    \App\Models\ChatSession::query()->where('id', $sessionId)->update(['updated_at' => now()]);
+    ChatSession::query()->where('id', $sessionId)->update(['updated_at' => now()]);
     return response()->json(['success' => true]);
 });
 // api check reply from admin
 Route::get('/chat-api/{sessionId}/messages', function (Request $request, $sessionId) {
-    $session = \App\Models\ChatSession::query()->find($sessionId);
+    $session = ChatSession::query()->find($sessionId);
     if (!$session) return response()->json(['session_status' => 'closed']);
     $lastId = $request->query('last_id', 0);
-    $newMessages = \App\Models\ChatMessage::query()
+    $newMessages = ChatMessage::query()
         ->where('session_id', $sessionId)
         ->where('id', '>', $lastId)
         ->orderBy('id', 'asc')
@@ -207,7 +263,7 @@ Route::get('/chat-api/{sessionId}/messages', function (Request $request, $sessio
 });
 // api close session
 Route::post('/chat-api/{sessionId}/close', function ($sessionId) {
-    \App\Models\ChatSession::query()->where('id', $sessionId)->update(['status' => 'closed']);
+    ChatSession::query()->where('id', $sessionId)->update(['status' => 'closed']);
     return response()->json(['success' => true]);
 });
 // END RUTE ADMIN DASHBOARD (CMS)____________<

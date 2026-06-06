@@ -35,4 +35,18 @@ return [
         ],
     ],
 
+    'midtrans' => [
+        'server_key' => env('MIDTRANS_SERVER_KEY'),
+        'client_key' => env('MIDTRANS_CLIENT_KEY'),
+        'is_production' => env('MIDTRANS_IS_PRODUCTION', false),
+        'api_url' => env('MIDTRANS_IS_PRODUCTION', false) 
+            ? 'https://api.midtrans.com'
+            : 'https://api.sandbox.midtrans.com',
+    ],
+
+    'biteship' => [
+        'api_key' => env('BITESHIP_API_KEY'),
+        'api_url' => env('BITESHIP_API_URL', 'https://api.biteship.com'),
+    ],
+
 ];

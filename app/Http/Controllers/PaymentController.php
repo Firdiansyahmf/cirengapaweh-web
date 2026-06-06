@@ -75,6 +75,8 @@ class PaymentController extends Controller
                     $validated["customer_email"] ?? "customer@example.com",
                 "customer_phone" => $validated["whatsapp"],
                 "shipping_address" => $validated["shipping_address"],
+                "subtotal_amount" => $subtotal,
+                "shipping_cost" => $ongkir,
                 /* "postal_code" => $validated["postal_code"], */
                 "total_amount" => $totalAmount,
                 "status" => "unpaid",

@@ -1,3 +1,17 @@
+/* ====== EMPTY STATE ====== */
+.emptyState {
+    text-align: center;
+    padding: 40px;
+    color: var(--charcoal-grey);
+}
+
+.emptyStateIcon {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 16px;
+    color: var(--fdn-grey-light-hover);
+}
+
 /* ====== PAYMENT STATUS BADGES ====== */
 .badgePaymentStatus {
     display: inline-block;
@@ -45,8 +59,8 @@
     color: #2e7d32;
 }
 
-/* ====== PEMESANAN ACTION BUTTONS ====== */
-.btnProsesPesanan {
+/* ====== ACTION BUTTONS - GENERIC ====== */
+.btnAction {
     background-color: var(--fdn-red-normal);
     color: var(--clean-white);
     padding: 8px 16px;
@@ -64,35 +78,34 @@
     white-space: nowrap;
 }
 
-.btnProsesPesanan:hover:not(:disabled) {
-    background-color: var(--fdn-red-normal-hover);
+.btnAction:hover:not(:disabled) {
+    background-color: var(--fdn-red-normal);
+    opacity: 0.9;
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(242, 61, 61, 0.2);
 }
 
-.btnProsesPesanan:disabled {
+.btnAction:disabled {
     background-color: var(--fdn-grey-light);
-    color: var(--fdn-white-dark-hover);
+    color: var(--fdn-grey-normal);
     cursor: not-allowed;
     opacity: 0.6;
+}
+
+/* ====== SPECIFIC BUTTON VARIANTS ====== */
+.btnProsesPesanan {
+    background-color: var(--fdn-red-normal);
+    color: var(--clean-white);
+}
+
+.btnProsesPesanan:hover:not(:disabled) {
+    background-color: var(--fdn-red-dark);
 }
 
 .btnBatalkanPesanan {
     background-color: transparent;
     color: var(--fdn-red-normal);
     border: 2px solid var(--fdn-red-normal);
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: var(--fw-semibold);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    white-space: nowrap;
 }
 
 .btnBatalkanPesanan:hover {
@@ -104,73 +117,26 @@
 .btnKirimPesanan {
     background-color: var(--fdn-red-normal);
     color: var(--clean-white);
-    padding: 8px 16px;
-    border-radius: 6px;
-    border: none;
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: var(--fw-semibold);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    white-space: nowrap;
 }
 
 .btnKirimPesanan:hover {
-    background-color: var(--fdn-red-normal-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(242, 61, 61, 0.2);
+    background-color: var(--fdn-red-dark);
 }
 
 .btnLacakPaket {
     background-color: var(--fdn-red-normal);
     color: var(--clean-white);
-    padding: 8px 16px;
-    border-radius: 6px;
-    border: none;
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: var(--fw-semibold);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    white-space: nowrap;
 }
 
 .btnLacakPaket:hover {
-    background-color: var(--fdn-red-normal-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(242, 61, 61, 0.2);
+    background-color: var(--fdn-red-dark);
 }
 
-.btnLihatDetail {
-    background-color: transparent;
-    color: var(--fdn-red-normal);
-    border: 2px solid var(--fdn-red-normal);
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: var(--fw-semibold);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    white-space: nowrap;
-}
-
-.btnLihatDetail:hover {
-    background-color: var(--fdn-red-light);
-    color: var(--fdn-red-dark);
-    border-color: var(--fdn-red-dark);
+.btnLacakPaket:disabled {
+    background-color: var(--fdn-grey-light);
+    color: var(--fdn-grey-normal);
+    cursor: not-allowed;
+    opacity: 0.6;
 }
 
 /* ====== ICON BUTTONS ====== */
@@ -195,15 +161,6 @@
 .btnViewInvoice:hover {
     background-color: var(--fdn-red-light);
     color: var(--fdn-red-dark);
-}
-
-.btnMore {
-    color: var(--charcoal-grey);
-}
-
-.btnMore:hover {
-    background-color: var(--fdn-grey-light-hover);
-    color: var(--fdn-grey-dark);
 }
 
 /* ====== INVOICE MODAL STYLING ====== */

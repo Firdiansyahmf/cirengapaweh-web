@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/global.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/admin/pemesanan.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/admin/modal-confirmation.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/admin/tracking.css') }}" />
     <div>
         <div class="pageHeader">
             <div class="headerContent">
@@ -56,86 +57,82 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>12 Okt 2023, 10:30</td>
-                            <td class="idPesanan">ORD-20230501-001</td>
-                            <td class="namaPelanggan">Andi Wijaya</td>
-                            <td class="pesanan">3x Cireng Rujak, 1x Es Teh</td>
-                            <td class="totalHarga"><strong>Rp 45.000</strong></td>
-                            <td><span class="badge badgePaymentStatus badgePaymentCompleted">Lunas</span></td>
-                            <td class="aksiCell">
-                                <button class="btnAction btnProsesPesanan" onclick="openConfirmModal('proses', 'ORD-20230501-001')">Proses Pesanan</button>
-                                <button class="btnAction btnBatalkanPesanan" onclick="openConfirmModal('batalkan', 'ORD-20230501-001')">Batalkan Pesanan</button>
-                                <button class="btnIcon btnViewInvoice" title="Lihat Invoice" onclick="openInvoiceModal('ORD-20230501-001')">
-                                    <span class="material-symbols-outlined">visibility</span>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>12 Okt 2023, 11:15</td>
-                            <td class="idPesanan">ORD-20230501-002</td>
-                            <td class="namaPelanggan">Siti Aminah</td>
-                            <td class="pesanan">2x Cireng Keju, 2x Ciliok Kuah</td>
-                            <td class="totalHarga"><strong>Rp 62.000</strong></td>
-                            <td><span class="badge badgePaymentStatus badgePaymentPending">Menunggu Pembayaran</span></td>
-                            <td class="aksiCell">
-                                <button class="btnAction btnProsesPesanan" disabled>Proses Pesanan</button>
-                                <button class="btnAction btnBatalkanPesanan" onclick="openConfirmModal('batalkan', 'ORD-20230501-002')">Batalkan Pesanan</button>
-                                <button class="btnIcon btnViewInvoice" title="Lihat Invoice" onclick="openInvoiceModal('ORD-20230501-002')">
-                                    <span class="material-symbols-outlined">visibility</span>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>12 Okt 2023, 11:45</td>
-                            <td class="idPesanan">ORD-20230501-003</td>
-                            <td class="namaPelanggan">Budi Santoso</td>
-                            <td class="pesanan">5x Cireng Rujak (Family Pack)</td>
-                            <td class="totalHarga"><strong>Rp 125.000</strong></td>
-                            <td><span class="badge badgePaymentStatus badgePaymentCompleted">Lunas</span></td>
-                            <td class="aksiCell">
-                                <button class="btnAction btnProsesPesanan" onclick="openConfirmModal('proses', 'ORD-20230501-003')">Proses Pesanan</button>
-                                <button class="btnAction btnBatalkanPesanan" onclick="openConfirmModal('batalkan', 'ORD-20230501-003')">Batalkan Pesanan</button>
-                                <button class="btnIcon btnViewInvoice" title="Lihat Invoice" onclick="openInvoiceModal('ORD-20230501-003')">
-                                    <span class="material-symbols-outlined">visibility</span>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>12 Okt 2023, 12:05</td>
-                            <td class="idPesanan">ORD-20230501-004</td>
-                            <td class="namaPelanggan">Dewi Lestari</td>
-                            <td class="pesanan">1x Cireng Campur, 1x Kopi Tubruk</td>
-                            <td class="totalHarga"><strong>Rp 38.500</strong></td>
-                            <td><span class="badge badgePaymentStatus badgePaymentCompleted">Lunas</span></td>
-                            <td class="aksiCell">
-                                <button class="btnAction btnProsesPesanan" onclick="openConfirmModal('proses', 'ORD-20230501-004')">Proses Pesanan</button>
-                                <button class="btnAction btnBatalkanPesanan" onclick="openConfirmModal('batalkan', 'ORD-20230501-004')">Batalkan Pesanan</button>
-                                <button class="btnIcon btnViewInvoice" title="Lihat Invoice" onclick="openInvoiceModal('ORD-20230501-004')">
-                                    <span class="material-symbols-outlined">visibility</span>
-                                </button>
-                            </td>
-                        </tr>
+                        @forelse($pesananBaru as $order)
+                            <tr>
+                                <td>{{ $order->created_at->format('d M Y, H:i') }}</td>
+                                <td class="idPesanan">{{ $order->invoice_number }}</td>
+                                <td class="namaPelanggan">{{ $order->customer_name }}</td>
+                                <td class="pesanan">
+                                    @foreach($order->items as $item)
+                                        {{ $item->quantity }}x {{ $item->product->name }}@if(!$loop->last), @endif
+                                    @endforeach
+                                </td>
+                                <td class="totalHarga"><strong>Rp {{ number_format($order->total_amount, 0, ',', '.') }}</strong></td>
+                                <td>
+                                    @if($order->payment && $order->payment->status === 'settlement')
+                                        <span class="badge badgePaymentStatus badgePaymentCompleted">Lunas</span>
+                                    @else
+                                        <span class="badge badgePaymentStatus badgePaymentPending">Menunggu Pembayaran</span>
+                                    @endif
+                                </td>
+                                <td class="aksiCell">
+                                    @if($order->payment && $order->payment->status === 'settlement')
+                                        <button class="btnAction btnProsesPesanan" onclick="openConfirmModal('proses', '{{ $order->id }}', '{{ $order->invoice_number }}')">Proses Pesanan</button>
+                                    @else
+                                        <button class="btnAction btnProsesPesanan" disabled>Proses Pesanan</button>
+                                    @endif
+                                    <button class="btnAction btnBatalkanPesanan" onclick="openConfirmModal('batalkan', '{{ $order->id }}', '{{ $order->invoice_number }}')">Batalkan Pesanan</button>
+                                    <button class="btnIcon btnViewInvoice" title="Lihat Invoice" onclick="openInvoiceModal('{{ $order->id }}', '{{ $order->invoice_number }}')">
+                                        <span class="material-symbols-outlined">visibility</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="emptyState">
+                                    <span class="material-symbols-outlined emptyStateIcon">inbox</span>
+                                    <p>Tidak ada pesanan baru</p>
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
 
             <div class="paginationWrapper">
-                <button class="paginationBtn paginationPrev">
-                    <span class="material-symbols-outlined">chevron_left</span>
-                </button>
+                @if($pesananBaru->onFirstPage())
+                    <button class="paginationBtn paginationPrev" disabled>
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+                @else
+                    <a href="{{ $pesananBaru->previousPageUrl() }}&page_baru={{ $pesananBaru->currentPage() - 1 }}" class="paginationBtn paginationPrev">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </a>
+                @endif
+
                 <div class="paginationNumbers">
-                    <button class="paginationNumber active">1</button>
-                    <button class="paginationNumber">2</button>
-                    <button class="paginationNumber">3</button>
+                    @foreach($pesananBaru->getUrlRange(1, $pesananBaru->lastPage()) as $page => $url)
+                        @if($page == $pesananBaru->currentPage())
+                            <button class="paginationNumber active">{{ $page }}</button>
+                        @else
+                            <a href="{{ $url }}&page_baru={{ $page }}" class="paginationNumber">{{ $page }}</a>
+                        @endif
+                    @endforeach
                 </div>
-                <button class="paginationBtn paginationNext">
-                    <span class="material-symbols-outlined">chevron_right</span>
-                </button>
+
+                @if($pesananBaru->hasMorePages())
+                    <a href="{{ $pesananBaru->nextPageUrl() }}&page_baru={{ $pesananBaru->currentPage() + 1 }}" class="paginationBtn paginationNext">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </a>
+                @else
+                    <button class="paginationBtn paginationNext" disabled>
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+                @endif
             </div>
 
             <div class="paginationInfo">
-                <p>Menampilkan 4 dari 24 pesanan</p>
+                <p>Menampilkan {{ $pesananBaru->count() }} dari {{ $pesananBaru->total() }} pesanan</p>
             </div>
         </div>
 
@@ -154,82 +151,71 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>13 Okt 2023, 08:30</td>
-                            <td class="idPesanan">ORD-20230501-005</td>
-                            <td class="namaPelanggan">Rina Wijaya</td>
-                            <td class="pesanan">4x Cireng Rujak Pedas</td>
-                            <td class="totalHarga"><strong>Rp 65.000</strong></td>
-                            <td class="aksiCell">
-                                <button class="btnAction btnKirimPesanan" onclick="openConfirmModal('kirim', 'ORD-20230501-005')">Kirim Pesanan</button>
-                                <button class="btnAction btnBatalkanPesanan" onclick="openConfirmModal('batalkan', 'ORD-20230501-005')">Batalkan Pesanan</button>
-                                <button class="btnIcon btnViewInvoice" title="Lihat Invoice" onclick="openInvoiceModal('ORD-20230501-005')">
-                                    <span class="material-symbols-outlined">visibility</span>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>13 Okt 2023, 09:15</td>
-                            <td class="idPesanan">ORD-20230501-006</td>
-                            <td class="namaPelanggan">Bambang Heru</td>
-                            <td class="pesanan">2x Cireng Keju Melt, 1x Es Jeruk</td>
-                            <td class="totalHarga"><strong>Rp 50.000</strong></td>
-                            <td class="aksiCell">
-                                <button class="btnAction btnKirimPesanan" onclick="openConfirmModal('kirim', 'ORD-20230501-006')">Kirim Pesanan</button>
-                                <button class="btnAction btnBatalkanPesanan" onclick="openConfirmModal('batalkan', 'ORD-20230501-006')">Batalkan Pesanan</button>
-                                <button class="btnIcon btnViewInvoice" title="Lihat Invoice" onclick="openInvoiceModal('ORD-20230501-006')">
-                                    <span class="material-symbols-outlined">visibility</span>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>13 Okt 2023, 10:00</td>
-                            <td class="idPesanan">ORD-20230501-007</td>
-                            <td class="namaPelanggan">Siska Pratama</td>
-                            <td class="pesanan">10x Cireng Campur (Bulk)</td>
-                            <td class="totalHarga"><strong>Rp 150.000</strong></td>
-                            <td class="aksiCell">
-                                <button class="btnAction btnKirimPesanan" onclick="openConfirmModal('kirim', 'ORD-20230501-007')">Kirim Pesanan</button>
-                                <button class="btnAction btnBatalkanPesanan" onclick="openConfirmModal('batalkan', 'ORD-20230501-007')">Batalkan Pesanan</button>
-                                <button class="btnIcon btnViewInvoice" title="Lihat Invoice" onclick="openInvoiceModal('ORD-20230501-007')">
-                                    <span class="material-symbols-outlined">visibility</span>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>13 Okt 2023, 11:45</td>
-                            <td class="idPesanan">ORD-20230501-008</td>
-                            <td class="namaPelanggan">Fajar Nugraha</td>
-                            <td class="pesanan">3x Cireng Rujak, 2x Ciliok</td>
-                            <td class="totalHarga"><strong>Rp 75.000</strong></td>
-                            <td class="aksiCell">
-                                <button class="btnAction btnKirimPesanan" onclick="openConfirmModal('kirim', 'ORD-20230501-008')">Kirim Pesanan</button>
-                                <button class="btnAction btnBatalkanPesanan" onclick="openConfirmModal('batalkan', 'ORD-20230501-008')">Batalkan Pesanan</button>
-                                <button class="btnIcon btnViewInvoice" title="Lihat Invoice" onclick="openInvoiceModal('ORD-20230501-008')">
-                                    <span class="material-symbols-outlined">visibility</span>
-                                </button>
-                            </td>
-                        </tr>
+                        @forelse($perluDikirim as $order)
+                            <tr>
+                                <td>{{ $order->created_at->format('d M Y, H:i') }}</td>
+                                <td class="idPesanan">{{ $order->invoice_number }}</td>
+                                <td class="namaPelanggan">{{ $order->customer_name }}</td>
+                                <td class="pesanan">
+                                    @foreach($order->items as $item)
+                                        {{ $item->quantity }}x {{ $item->product->name }}@if(!$loop->last), @endif
+                                    @endforeach
+                                </td>
+                                <td class="totalHarga"><strong>Rp {{ number_format($order->total_amount, 0, ',', '.') }}</strong></td>
+                                <td class="aksiCell">
+                                    <button class="btnAction btnKirimPesanan" onclick="openConfirmModal('kirim', '{{ $order->id }}', '{{ $order->invoice_number }}')">Kirim Pesanan</button>
+                                    <button class="btnAction btnBatalkanPesanan" onclick="openConfirmModal('batalkan', '{{ $order->id }}', '{{ $order->invoice_number }}')">Batalkan Pesanan</button>
+                                    <button class="btnIcon btnViewInvoice" title="Lihat Invoice" onclick="openInvoiceModal('{{ $order->id }}', '{{ $order->invoice_number }}')">
+                                        <span class="material-symbols-outlined">visibility</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="emptyState">
+                                    <span class="material-symbols-outlined emptyStateIcon">local_shipping</span>
+                                    <p>Tidak ada pesanan yang perlu dikirim</p>
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
 
             <div class="paginationWrapper">
-                <button class="paginationBtn paginationPrev">
-                    <span class="material-symbols-outlined">chevron_left</span>
-                </button>
+                @if($perluDikirim->onFirstPage())
+                    <button class="paginationBtn paginationPrev" disabled>
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+                @else
+                    <a href="{{ $perluDikirim->previousPageUrl() }}&page_dikirim={{ $perluDikirim->currentPage() - 1 }}" class="paginationBtn paginationPrev">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </a>
+                @endif
+
                 <div class="paginationNumbers">
-                    <button class="paginationNumber active">1</button>
-                    <button class="paginationNumber">2</button>
-                    <button class="paginationNumber">3</button>
+                    @foreach($perluDikirim->getUrlRange(1, $perluDikirim->lastPage()) as $page => $url)
+                        @if($page == $perluDikirim->currentPage())
+                            <button class="paginationNumber active">{{ $page }}</button>
+                        @else
+                            <a href="{{ $url }}&page_dikirim={{ $page }}" class="paginationNumber">{{ $page }}</a>
+                        @endif
+                    @endforeach
                 </div>
-                <button class="paginationBtn paginationNext">
-                    <span class="material-symbols-outlined">chevron_right</span>
-                </button>
+
+                @if($perluDikirim->hasMorePages())
+                    <a href="{{ $perluDikirim->nextPageUrl() }}&page_dikirim={{ $perluDikirim->currentPage() + 1 }}" class="paginationBtn paginationNext">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </a>
+                @else
+                    <button class="paginationBtn paginationNext" disabled>
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+                @endif
             </div>
 
             <div class="paginationInfo">
-                <p>Menampilkan 4 dari 24 pesanan</p>
+                <p>Menampilkan {{ $perluDikirim->count() }} dari {{ $perluDikirim->total() }} pesanan</p>
             </div>
         </div>
 
@@ -249,90 +235,92 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>14 Okt 2023, 10:20</td>
-                            <td class="idPesanan">ORD-20230501-009</td>
-                            <td class="namaPelanggan">Andi Pratama</td>
-                            <td class="pesanan">2x Cireng Rujak</td>
-                            <td class="totalHarga"><strong>Rp 30.000</strong></td>
-                            <td>
-                                <span class="badge badgeShippingStatus badgeShippingDalam">Dalam Perjalanan</span>
-                            </td>
-                            <td class="aksiCell">
-                                <button class="btnAction btnLacakPaket">Lacak Paket</button>
-                                <button class="btnIcon btnViewInvoice" title="Lihat Detail" onclick="openInvoiceModal('ORD-20230501-009')">
-                                    <span class="material-symbols-outlined">visibility</span>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>14 Okt 2023, 11:45</td>
-                            <td class="idPesanan">ORD-20230501-010</td>
-                            <td class="namaPelanggan">Siti Aminah</td>
-                            <td class="pesanan">5x Cireng Keju Melt</td>
-                            <td class="totalHarga"><strong>Rp 75.000</strong></td>
-                            <td>
-                                <span class="badge badgeShippingStatus badgeShippingSampai">Sampai</span>
-                            </td>
-                            <td class="aksiCell">
-                                <button class="btnAction btnLacakPaket">Lacak Paket</button>
-                                <button class="btnIcon btnViewInvoice" title="Lihat Detail" onclick="openInvoiceModal('ORD-20230501-010')">
-                                    <span class="material-symbols-outlined">visibility</span>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>14 Okt 2023, 13:10</td>
-                            <td class="idPesanan">ORD-20230501-011</td>
-                            <td class="namaPelanggan">Budi Santoso</td>
-                            <td class="pesanan">1x Paket Komplit Family</td>
-                            <td class="totalHarga"><strong>Rp 95.000</strong></td>
-                            <td>
-                                <span class="badge badgeShippingStatus badgeShippingDalam">Dalam Perjalanan</span>
-                            </td>
-                            <td class="aksiCell">
-                                <button class="btnAction btnLacakPaket">Lacak Paket</button>
-                                <button class="btnIcon btnViewInvoice" title="Lihat Detail" onclick="openInvoiceModal('ORD-20230501-011')">
-                                    <span class="material-symbols-outlined">visibility</span>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>14 Okt 2023, 14:05</td>
-                            <td class="idPesanan">ORD-20230501-012</td>
-                            <td class="namaPelanggan">Dewi Lestari</td>
-                            <td class="pesanan">3x Cireng Original</td>
-                            <td class="totalHarga"><strong>Rp 50.000</strong></td>
-                            <td>
-                                <span class="badge badgeShippingStatus badgeShippingSelesai">Selesai</span>
-                            </td>
-                            <td class="aksiCell">
-                                <button class="btnAction btnLacakPaket">Lacak Paket</button>
-                                <button class="btnIcon btnViewInvoice" title="Lihat Detail" onclick="openInvoiceModal('ORD-20230501-012')">
-                                    <span class="material-symbols-outlined">visibility</span>
-                                </button>
-                            </td>
-                        </tr>
+                        @forelse($sedangDikirim as $order)
+                            <tr>
+                                <td>{{ $order->created_at->format('d M Y, H:i') }}</td>
+                                <td class="idPesanan">{{ $order->invoice_number }}</td>
+                                <td class="namaPelanggan">{{ $order->customer_name }}</td>
+                                <td class="pesanan">
+                                    @foreach($order->items as $item)
+                                        {{ $item->quantity }}x {{ $item->product->name }}@if(!$loop->last), @endif
+                                    @endforeach
+                                </td>
+                                <td class="totalHarga"><strong>Rp {{ number_format($order->total_amount, 0, ',', '.') }}</strong></td>
+                                <td>
+                                    @if($order->delivery)
+                                        @if($order->delivery->status === 'on_delivery')
+                                            <span class="badge badgeShippingStatus badgeShippingDalam">Dalam Perjalanan</span>
+                                        @elseif($order->delivery->status === 'picked_up')
+                                            <span class="badge badgeShippingStatus badgeShippingDalam">Diambil Kurir</span>
+                                        @elseif($order->delivery->status === 'delivered')
+                                            <span class="badge badgeShippingStatus badgeShippingSelesai">Sampai</span>
+                                        @else
+                                            <span class="badge badgeShippingStatus badgeShippingDalam">{{ $order->delivery->status }}</span>
+                                        @endif
+                                    @else
+                                        <span class="badge badgeShippingStatus badgeShippingSampai">-</span>
+                                    @endif
+                                </td>
+                                <td class="aksiCell">
+                                    <button class="btnAction btnLacakPaket" 
+                                        @if($order->delivery && $order->delivery->tracking_number)
+                                            onclick="openTrackingModal({{ $order->delivery->id }}, '{{ $order->invoice_number }}')"
+                                        @else
+                                            disabled
+                                        @endif>
+                                        Lacak Paket
+                                    </button>
+                                    <button class="btnIcon btnViewInvoice" title="Lihat Detail" onclick="openInvoiceModal('{{ $order->id }}', '{{ $order->invoice_number }}')">
+                                        <span class="material-symbols-outlined">visibility</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="emptyState">
+                                    <span class="material-symbols-outlined emptyStateIcon">directions_car</span>
+                                    <p>Tidak ada pesanan yang sedang dikirim</p>
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
 
             <div class="paginationWrapper">
-                <button class="paginationBtn paginationPrev">
-                    <span class="material-symbols-outlined">chevron_left</span>
-                </button>
+                @if($sedangDikirim->onFirstPage())
+                    <button class="paginationBtn paginationPrev" disabled>
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+                @else
+                    <a href="{{ $sedangDikirim->previousPageUrl() }}&page_sedang={{ $sedangDikirim->currentPage() - 1 }}" class="paginationBtn paginationPrev">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </a>
+                @endif
+
                 <div class="paginationNumbers">
-                    <button class="paginationNumber active">1</button>
-                    <button class="paginationNumber">2</button>
-                    <button class="paginationNumber">3</button>
+                    @foreach($sedangDikirim->getUrlRange(1, $sedangDikirim->lastPage()) as $page => $url)
+                        @if($page == $sedangDikirim->currentPage())
+                            <button class="paginationNumber active">{{ $page }}</button>
+                        @else
+                            <a href="{{ $url }}&page_sedang={{ $page }}" class="paginationNumber">{{ $page }}</a>
+                        @endif
+                    @endforeach
                 </div>
-                <button class="paginationBtn paginationNext">
-                    <span class="material-symbols-outlined">chevron_right</span>
-                </button>
+
+                @if($sedangDikirim->hasMorePages())
+                    <a href="{{ $sedangDikirim->nextPageUrl() }}&page_sedang={{ $sedangDikirim->currentPage() + 1 }}" class="paginationBtn paginationNext">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </a>
+                @else
+                    <button class="paginationBtn paginationNext" disabled>
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+                @endif
             </div>
 
             <div class="paginationInfo">
-                <p>Menampilkan 4 dari 18 pesanan</p>
+                <p>Menampilkan {{ $sedangDikirim->count() }} dari {{ $sedangDikirim->total() }} pesanan</p>
             </div>
         </div>
 
@@ -352,78 +340,72 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>15 Okt 2023, 09:15</td>
-                            <td class="idPesanan">ORD-20230501-013</td>
-                            <td class="namaPelanggan">Budi Raharjo</td>
-                            <td class="pesanan">3x Cireng Keju</td>
-                            <td class="totalHarga"><strong>Rp 45.000</strong></td>
-                            <td>
-                                <span class="badge badgeShippingStatus badgeShippingSelesai">Selesai</span>
-                            </td>
-                            <td class="aksiCell">
-                                <button class="btnAction btnLihatDetail" onclick="openInvoiceModal('ORD-20230501-013')">Lihat Detail</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>15 Okt 2023, 14:30</td>
-                            <td class="idPesanan">ORD-20230501-014</td>
-                            <td class="namaPelanggan">Ani Wijaya</td>
-                            <td class="pesanan">2x Cireng Rujak</td>
-                            <td class="totalHarga"><strong>Rp 30.000</strong></td>
-                            <td>
-                                <span class="badge badgeShippingStatus badgeShippingSelesai">Selesai</span>
-                            </td>
-                            <td class="aksiCell">
-                                <button class="btnAction btnLihatDetail" onclick="openInvoiceModal('ORD-20230501-014')">Lihat Detail</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>16 Okt 2023, 10:05</td>
-                            <td class="idPesanan">ORD-20230501-015</td>
-                            <td class="namaPelanggan">Dedi Kurniawan</td>
-                            <td class="pesanan">5x Cireng Original</td>
-                            <td class="totalHarga"><strong>Rp 60.000</strong></td>
-                            <td>
-                                <span class="badge badgeShippingStatus badgeShippingSelesai">Selesai</span>
-                            </td>
-                            <td class="aksiCell">
-                                <button class="btnAction btnLihatDetail" onclick="openInvoiceModal('ORD-20230501-015')">Lihat Detail</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>16 Okt 2023, 11:20</td>
-                            <td class="idPesanan">ORD-20230501-016</td>
-                            <td class="namaPelanggan">Linda Sari</td>
-                            <td class="pesanan">1x Paket Komplit Family</td>
-                            <td class="totalHarga"><strong>Rp 35.000</strong></td>
-                            <td>
-                                <span class="badge badgeShippingStatus badgeShippingSelesai">Selesai</span>
-                            </td>
-                            <td class="aksiCell">
-                                <button class="btnAction btnLihatDetail" onclick="openInvoiceModal('ORD-20230501-016')">Lihat Detail</button>
-                            </td>
-                        </tr>
+                        @forelse($selesai as $order)
+                            <tr>
+                                <td>{{ $order->created_at->format('d M Y, H:i') }}</td>
+                                <td class="idPesanan">{{ $order->invoice_number }}</td>
+                                <td class="namaPelanggan">{{ $order->customer_name }}</td>
+                                <td class="pesanan">
+                                    @foreach($order->items as $item)
+                                        {{ $item->quantity }}x {{ $item->product->name }}@if(!$loop->last), @endif
+                                    @endforeach
+                                </td>
+                                <td class="totalHarga"><strong>Rp {{ number_format($order->total_amount, 0, ',', '.') }}</strong></td>
+                                <td>
+                                    <span class="badge badgeShippingStatus badgeShippingSelesai">Selesai</span>
+                                </td>
+                                <td class="aksiCell">
+                                    <button class="btnIcon btnViewInvoice" title="Lihat Detail" onclick="openInvoiceModal('{{ $order->id }}', '{{ $order->invoice_number }}')">
+                                        <span class="material-symbols-outlined">visibility</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="emptyState">
+                                    <span class="material-symbols-outlined emptyStateIcon">done_all</span>
+                                    <p>Tidak ada pesanan yang selesai</p>
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
 
             <div class="paginationWrapper">
-                <button class="paginationBtn paginationPrev">
-                    <span class="material-symbols-outlined">chevron_left</span>
-                </button>
+                @if($selesai->onFirstPage())
+                    <button class="paginationBtn paginationPrev" disabled>
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+                @else
+                    <a href="{{ $selesai->previousPageUrl() }}&page_selesai={{ $selesai->currentPage() - 1 }}" class="paginationBtn paginationPrev">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </a>
+                @endif
+
                 <div class="paginationNumbers">
-                    <button class="paginationNumber active">1</button>
-                    <button class="paginationNumber">2</button>
-                    <button class="paginationNumber">3</button>
+                    @foreach($selesai->getUrlRange(1, $selesai->lastPage()) as $page => $url)
+                        @if($page == $selesai->currentPage())
+                            <button class="paginationNumber active">{{ $page }}</button>
+                        @else
+                            <a href="{{ $url }}&page_selesai={{ $page }}" class="paginationNumber">{{ $page }}</a>
+                        @endif
+                    @endforeach
                 </div>
-                <button class="paginationBtn paginationNext">
-                    <span class="material-symbols-outlined">chevron_right</span>
-                </button>
+
+                @if($selesai->hasMorePages())
+                    <a href="{{ $selesai->nextPageUrl() }}&page_selesai={{ $selesai->currentPage() + 1 }}" class="paginationBtn paginationNext">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </a>
+                @else
+                    <button class="paginationBtn paginationNext" disabled>
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+                @endif
             </div>
 
             <div class="paginationInfo">
-                <p>Menampilkan 4 dari 120 pesanan</p>
+                <p>Menampilkan {{ $selesai->count() }} dari {{ $selesai->total() }} pesanan</p>
             </div>
         </div>
     </div>
@@ -592,4 +574,6 @@
     </div>
 
     <script src="{{ asset('js/admin/pemesanan.js') }}"></script>
+    @include('components.tracking-modal')
+    <script src="{{ asset('js/tracking.js') }}"></script>
 @endsection
