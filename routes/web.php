@@ -84,6 +84,20 @@ Route::get('/produk', function (Request $request) {
 Route::get('/checkout', [CheckoutController::class, 'show']);
 Route::post('/checkout', [CheckoutController::class, 'prepare']);
 
+// payment
+Route::post('/payment', [CheckoutController::class, 'store'])->name('checkout.process');
+Route::get('/payment', function () {
+    $midtransResponse = session('midtrans_response');
+    $invoiceNumber = session('active_invoice');
+    
+    // mengeluarkan user jika tidak punya memiliki session checkout
+    if (!$midtransResponse || !$invoiceNumber) {
+        return redirect('/'); 
+    }
+
+    return view('pages.payment', compact('invoiceNumber', 'midtransResponse'));
+})->name('payment.show');
+
 // midtrans webhook
 Route::post('/payment/webhook', [\App\Http\Controllers\PaymentController::class, 'handleWebhook']);
 

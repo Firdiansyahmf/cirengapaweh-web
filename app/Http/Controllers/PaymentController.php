@@ -192,7 +192,12 @@ class PaymentController extends Controller
                 "checkout_quantity",
             ]);
 
-            return redirect("/payment/" . $order->id);
+            session([
+                "midtrans_response" => $response,
+                "active_invoice" => $order->invoice_number,
+            ]);
+
+            return redirect("/payment");
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("Payment processing failed: " . $e->getMessage(), [
@@ -383,5 +388,31 @@ class PaymentController extends Controller
             ]);
             return response()->json(["error" => $e->getMessage()], 500);
         }
+    }
+
+    public function getPaymentData()
+    {
+        $invoiceNumber = session("active_invoice");
+        if (!$invoiceNumber) {
+            header("Location: " . url("/"));
+            exit;
+        }
+
+        $order = Order::with(["payment", "items.product"])->where("invoice_number", $invoiceNumber)->firstOrFail();
+
+        if (request()->has("check_status")) {
+            $statusResponse = $this->checkStatus($order->id);
+            $statusResponse->send();
+            exit;
+        }
+
+        $payment = $order->payment;
+        $orderItem = $order->items()->first();
+        $timeRemaining = 0;
+        if ($payment && $payment->expiry_time && $payment->status === "pending") {
+            $timeRemaining = max(0, now()->diffInSeconds($payment->expiry_time, false));
+        }
+
+        return compact("order", "payment", "orderItem", "timeRemaining");
     }
 }
