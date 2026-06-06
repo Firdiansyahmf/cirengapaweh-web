@@ -255,14 +255,38 @@ function loadPromoData(id) {
     fetch(`/admin/promo/${id}/edit`)
         .then(r => r.json())
         .then(promo => {
-            document.getElementById("promoTitle").value = promo.title;
+            // Fill all form fields with promo data
+            document.getElementById("promoTitle").value = promo.title || '';
             document.getElementById("promoCode").value = promo.promo_code || '';
             document.getElementById("promoDescription").value = promo.description || '';
             document.getElementById("promoType").value = promo.promo_type || 'otomatis';
             document.getElementById("promoDiscount").value = promo.discount_percentage || 0;
             document.getElementById("promoMaxUsage").value = promo.max_usage || 100;
-            document.getElementById("promoStartDate").value = promo.start_date || '';
-            document.getElementById("promoEndDate").value = promo.end_date || '';
+
+            // Format date properly for HTML5 date input (YYYY-MM-DD)
+            let startDateValue = '';
+            let endDateValue = '';
+
+            if (promo.start_date) {
+                // If it's a string like "2024-01-15", use it directly
+                // If it's in another format, parse and format it
+                if (typeof promo.start_date === 'string') {
+                    startDateValue = promo.start_date.split(' ')[0]; // Get only date part if datetime
+                } else {
+                    startDateValue = promo.start_date;
+                }
+            }
+
+            if (promo.end_date) {
+                if (typeof promo.end_date === 'string') {
+                    endDateValue = promo.end_date.split(' ')[0]; // Get only date part if datetime
+                } else {
+                    endDateValue = promo.end_date;
+                }
+            }
+
+            document.getElementById("promoStartDate").value = startDateValue;
+            document.getElementById("promoEndDate").value = endDateValue;
             document.getElementById("promoStatus").value = promo.is_active ? "1" : "0";
 
             promoId.value = id;
@@ -272,6 +296,7 @@ function loadPromoData(id) {
                 tomSelectInstance.setValue(productIds);
             }
 
+            // Show modal after all data is filled
             promoModal.classList.add("show");
         })
         .catch(error => {

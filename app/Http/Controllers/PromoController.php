@@ -94,7 +94,19 @@ class PromoController extends Controller
     public function edit(Promo $promo)
     {
         $promo->load('products');
-        return response()->json($promo);
+        return response()->json([
+            'id' => $promo->id,
+            'title' => $promo->title,
+            'promo_code' => $promo->promo_code,
+            'description' => $promo->description,
+            'promo_type' => $promo->promo_type,
+            'discount_percentage' => $promo->discount_percentage,
+            'max_usage' => $promo->max_usage,
+            'start_date' => $promo->start_date->format('Y-m-d'),
+            'end_date' => $promo->end_date->format('Y-m-d'),
+            'is_active' => $promo->is_active,
+            'products' => $promo->products,
+        ]);
     }
 
     public function show(Promo $promo)
