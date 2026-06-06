@@ -91,18 +91,32 @@
 .payment .qrContainer {
     width: 100%;
     align-items: center;
+    margin: 20px 0;
+    text-align: center;
 }
 
 .payment .qrCode {
     width: 256px;
     height: 256px;
+    max-width: 250px;
+    margin: 0 auto;
+    display: block;
+    border: 4px solid #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     object-fit: contain;
+}
+
+.payment .orderIdValue {
+    font-family: monospace;
+    font-weight: bold;
 }
 
 .payment .paymentTotal {
     position: relative;
     width: 100%;
     gap: var(--gap-micro);
+    margin-top: 15px;
 }
 
 .payment .paymentDetail {
@@ -114,11 +128,150 @@
 
 .payment .paymentGuide {
     gap: var(--gap-micro);
+    text-align: left;
+    margin-top: 20px;
 }
 
 .payment .paymentButtons {
-    gap: var(--gap-small);
+    gap: 10px;
     width: 100%;
+    margin-top: 25px;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.payment .vaContainer,
+.payment .ewalletContainer {
+    padding: 20px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    margin: 15px 0;
+    text-align: left;
+}
+
+.payment .textSuccess {
+    color: #10b981;
+}
+
+.payment .textDanger {
+    color: #ef4444;
+}
+
+.payment .copyBtn {
+    background-color: #e5e7eb;
+    border: none;
+    padding: 4px 8px;
+    margin-left: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.payment .copyBtn:hover {
+    background-color: #d1d5db;
+}
+
+.payment .btnPrimaryLink {
+    display: inline-block;
+    background-color: #b91c1c;
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+    margin: 10px 0;
+    text-align: center;
+    transition: background-color 0.2s;
+}
+
+.payment .btnPrimaryLink:hover {
+    background-color: #991b1b;
+}
+
+.payment .summaryDetail {
+    padding: 10px 0;
+}
+
+.payment .summaryDetail .detail {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.payment .errorAlert {
+    background-color: #fee2e2;
+    border: 1px solid #ef4444;
+    color: #b91c1c;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.payment .qrCaption {
+    display: block;
+    margin-top: 8px;
+}
+
+.payment .qrError {
+    padding: 20px;
+    text-align: center;
+}
+
+.payment .vaGroup {
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+.payment .vaBankName {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #111;
+}
+
+.payment .vaCode {
+    font-family: monospace;
+    font-size: 18px;
+    font-weight: bold;
+    color: #b91c1c;
+    letter-spacing: 1px;
+}
+
+.payment .ewalletInfo {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.payment .ewalletType {
+    text-transform: capitalize;
+}
+
+.payment .ewalletError {
+    padding: 10px;
+}
+
+.payment .orderIdContainer {
+    margin-top: 15px;
+}
+
+.payment .popoverTitle {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.payment .guideTitle {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.payment .guideList {
+    padding-left: 20px;
+    line-height: 1.6;
 }
 
 @media (max-width: 640px) {
