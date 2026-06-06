@@ -140,9 +140,9 @@
                 <div class="formGroup">
                     <label for="mapLink">Link Map *</label>
                     <div class="linkContainer">
-                        <input type="text" name="mapLink" id="mapLink" placeholder="Masukkan link map">
+                        <input type="text" name="mapLink" id="mapLink" placeholder="Masukkan link map Google Maps">
                     </div>
-                    <span class="errorMessage" id="addressError"></span>
+                    <span class="errorMessage" id="mapLinkError"></span>
                 </div>
 
                 <div class="formRow">
@@ -188,66 +188,44 @@
                         <option value="1">Aktif</option>
                         <option value="0">Draft</option>
                     </select>
+                    <span class="errorMessage" id="statusError"></span>
                 </div>
 
                 <div class="formActions">
                     <button type="button" class="btnCancel" onclick="closeLocationModal()">Batal</button>
-                    <button type="submit" class="btnSubmit" onclick="closeLocationModal()">Simpan Lokasi</button>
+                    <button type="submit" class="btnSubmit">Simpan Lokasi</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Map Modal untuk Google Maps -->
-    <div id="mapModal" class="modal">
-        <div class="mapModalContent">
-            <div class="modalHeader">
-                <h3>Pilih Lokasi di Peta</h3>
-                <button class="closeModal" onclick="closeMapModal()">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
-            </div>
-            <div class="mapSearch">
-                <input type="text" id="mapSearchInput" placeholder="Cari alamat...">
-                <button type="button" id="mapSearchBtn">
-                    <span class="material-symbols-outlined">search</span>
-                </button>
-            </div>
-            <div id="googleMap" style="width: 100%; height: 400px; border-radius: 8px;"></div>
-            <div class="mapActions">
-                <button type="button" class="btnCancel" onclick="closeMapModal()">Batal</button>
-                <button type="button" class="btnSubmit" onclick="confirmMapLocation()">Gunakan Lokasi Ini</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Modal Confirmation -->
-    <x-modal-confirmation 
-        id="confirmSaveModal" 
-        type="save" 
-        title="Simpan Lokasi?" 
-        message="Apakah Anda yakin ingin menyimpan lokasi baru ini?" 
-        confirmAction="confirmSaveLocation()" 
-        btnText="Simpan" 
+    <x-modal-confirmation
+        id="confirmSaveModal"
+        type="save"
+        title="Simpan Lokasi?"
+        message="Apakah Anda yakin ingin menyimpan lokasi baru ini?"
+        confirmAction="confirmSaveLocation()"
+        btnText="Simpan"
     />
 
-    <x-modal-confirmation 
-        id="confirmUpdateModal" 
-        type="update" 
-        title="Perbarui Lokasi?" 
-        message="Apakah Anda yakin ingin memperbarui data lokasi ini?" 
-        confirmAction="confirmUpdateLocation()" 
-        btnText="Perbarui" 
+    <x-modal-confirmation
+        id="confirmUpdateModal"
+        type="update"
+        title="Perbarui Lokasi?"
+        message="Apakah Anda yakin ingin memperbarui data lokasi ini?"
+        confirmAction="confirmUpdateLocation()"
+        btnText="Perbarui"
     />
 
-    <x-modal-confirmation 
-        id="confirmDeleteModal" 
-        type="delete" 
-        title="Hapus Lokasi?" 
-        message="Tindakan ini tidak bisa dibatalkan. Yakin ingin menghapus lokasi?" 
-        confirmAction="confirmDeleteLocation()" 
-        btnColor="btnDanger" 
-        btnText="Hapus" 
+    <x-modal-confirmation
+        id="confirmDeleteModal"
+        type="delete"
+        title="Hapus Lokasi?"
+        message="Tindakan ini tidak bisa dibatalkan. Yakin ingin menghapus lokasi?"
+        confirmAction="confirmDeleteLocation()"
+        btnColor="btnDanger"
+        btnText="Hapus"
     />
 
     <!-- Modal Success -->
@@ -292,10 +270,6 @@
         </div>
     </div>
 
-    <!-- Leaflet Map Library (Free & Open Source) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-    
     <script src="{{ asset('js/admin/lokasi.js') }}"></script>
 
 @endsection

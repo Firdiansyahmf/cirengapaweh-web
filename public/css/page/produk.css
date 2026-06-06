@@ -104,11 +104,39 @@
 
 .detail .quantityInput input:focus { border-bottom: 2px solid var(--primary-brand-red); }
 
-.detail .subtotal { justify-content: space-between; }
+.detail .subtotal {
+    justify-content: space-between;
+    align-items: center;
+}
 
 .detail .productBuy form .flexCol { gap: var(--gap-small); }
 
 .detail .btnOutline.kembali { align-self: baseline; }
+
+.detail .promoWrapper {
+    display: flex;
+    gap: var(--gap-small);
+    align-items: center;
+}
+
+.detail .discountBadge {
+    background-color: var(--fdn-yellow-normal);
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: var(--fs-body-main);
+}
+
+.detail .originalPrice {
+    text-decoration: line-through;
+    color: #888;
+    font-size: var(--fs-h4);
+}
+
+.detail .descriptionText {
+    text-align: justify;
+    font-weight: normal;
+}
 
 @media (max-width: 1126px) {
 

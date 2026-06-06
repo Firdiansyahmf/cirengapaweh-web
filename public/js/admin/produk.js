@@ -103,6 +103,23 @@ function closeErrorModal() {
     document.getElementById("errorModal").classList.remove("active");
 }
 
+function showError(fieldId, message) {
+    const errorElement = document.getElementById(fieldId + "Error");
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.style.display = "block";
+    } else {
+        showErrorModal(message);
+    }
+}
+
+function clearErrors() {
+    document.querySelectorAll(".errorMessage").forEach((el) => {
+        el.textContent = "";
+        el.style.display = "none";
+    });
+}
+
 
 //  FILE INPUT PREVIEW 
 productImage.addEventListener("change", function (e) {
@@ -122,12 +139,52 @@ productImage.addEventListener("change", function (e) {
 productForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
+    console.log("form submitted triggered!");
+    clearErrors(); // Clear previous errors before submission
+
+        // Get all required fields
+    const name = document.getElementById("productName").value;
+    const description = document.getElementById("productDescription").value;
+    const category = document.getElementById("productCategory").value;
+    const price = document.getElementById("productPrice").value;
+    const status = document.getElementById("productStatus").value;
+
+        // Client-side validation
+    let hasError = false;
+    if (!name) {
+        showError("productName", "Nama produk wajib diisi");
+        hasError = true;
+    }
+    if (!description) {
+        showError("productDescription", "Deskripsi produk wajib diisi");
+        hasError = true;
+    }
+    if (!category) {
+        showError("productCategory", "Kategori produk wajib dipilih");
+        hasError = true;
+    }
+    if (!price || isNaN(price) || price <= 0) {
+        showError("productPrice", "Harga produk harus berupa angka positif");
+        hasError = true;
+    }
+    if (status === "2") {
+        showError("productStatus", "Status produk wajib dipilih");
+        hasError = true;
+    }
+
+    if (hasError) {
+        return; // Stop submission if there are validation errors
+    }
+
+    console.log("Client-side validation passed, preparing form data...");
     pendingFormData = new FormData(this);
     pendingIsEdit = productId.value;
 
     // Get status dropdown value and ensure it's sent as 0 or 1
     const statusValue = document.getElementById("productStatus").value;
     pendingFormData.set("is_active", statusValue);
+
+        closeProductModal();
 
     if (pendingIsEdit) {
         openConfirmModal('update');

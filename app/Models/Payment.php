@@ -11,6 +11,11 @@ class Payment extends Model
         'order_id',
         'transaction_id',
         'payment_type',
+        'bank',
+        'va_number',
+        'biller_code',
+        'qr_code_url',
+        'expiry_time',
         'amount',
         'snap_token',
         'payment_url',
@@ -19,6 +24,7 @@ class Payment extends Model
 
     protected $casts = [
         'amount' => 'integer',
+        'expiry_time' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
