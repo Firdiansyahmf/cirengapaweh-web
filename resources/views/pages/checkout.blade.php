@@ -21,7 +21,7 @@
                     </div>
                 @endif
 
-                <form class="box2 flexRow" method="POST" action="{{ url('/payment/process') }}" id="checkoutForm">
+                <form class="box2 flexRow" method="POST" action="{{ route('checkout.process') }}" id="checkoutForm">
                     @csrf
                     <div class="leftCol flexCol">
                         <div class="card addressCard"> {{-- start addressCard --}}
@@ -36,9 +36,13 @@
                                 <input type="email" name="customer_email" placeholder="contoh@email.com" class="bodyMain"/>
                             </div>
                             <div class="inputGroup">
-                                <label class="bodyMain charcoalGrey">Alamat Lengkap <span class="primaryBrandRed">*</span></label>
+                                <label class="bodyMain charcoalGrey">Alamat Lengkap<span class="primaryBrandRed">*</span></label>
                                 <input type="text" id="inputAddress" name="shipping_address" placeholder="Isian Alamat" required maxlength="200" class="bodyMain"/>
                                 <span class="caption textRight" id="addressCount">0/200</span>
+                            </div>
+                            <div class="inputGroup">
+                                <label class="bodyMain charcoalGrey">Kode Pos<span class="primaryBrandRed">*</span></label>
+                                <input type="text" id="inputAddress" name="postal_code" placeholder="Kode Pos" required class="bodyMain"/>
                             </div>
                             <div class="inputGroup">
                                 <label class="bodyMain charcoalGrey">Nama Penerima <span class="primaryBrandRed">*</span></label>
@@ -66,7 +70,7 @@
                         <div class="card"> {{-- start couponCard --}}
                             <span class="subH4 charcoalGrey">Kode Promo</span>
                             <div class="inputGroup inputPromo">
-                                <input type="text" name="promo" placeholder="Kode" class="bodyMain"/>
+                                <input type="text" name="promo" placeholder="Kode Promo" class="bodyMain"/>
                                 <button type="button" class="btnOutline">Gunakan</button>
                             </div>
                         </div> {{-- end couponCard --}}
