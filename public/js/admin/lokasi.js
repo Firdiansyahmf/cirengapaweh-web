@@ -38,6 +38,7 @@ function openLocationModal(id = null) {
 }
 
 function closeLocationModal() {
+    console.log("closeLocationModal called");
     locationModal.classList.remove("show");
     // Reset form after animation
     setTimeout(() => {
@@ -153,19 +154,63 @@ image.addEventListener("change", function (e) {
 // ========== FORM SUBMISSION FUNCTIONS ==========
 locationForm.addEventListener("submit", async function (e) {
     e.preventDefault();
+    console.log("Form submit triggered!");
     clearErrors();
 
+    // Get all required fields
+    const name = document.getElementById("name").value;
+    const address = document.getElementById("address").value;
+    const mapLink = document.getElementById("mapLink").value;
     const openTime = document.getElementById("open_time").value;
     const closeTime = document.getElementById("close_time").value;
+    const status = document.getElementById("locationStatus").value;
 
-    // Client-side validation for time
+    console.log("Input values:", { name, address, mapLink, openTime, closeTime, status });
+
+    let hasError = false;
+
+    // Validate name
+    if (!name || name.trim() === "") {
+        console.log("Name is empty");
+        setError("nameError", "Nama cabang harus diisi");
+        hasError = true;
+    }
+
+    // Validate address
+    if (!address || address.trim() === "") {
+        console.log("Address is empty");
+        setError("addressError", "Alamat harus diisi");
+        hasError = true;
+    }
+
+    // Validate map link
+    if (!validateGoogleMapsLink(mapLink)) {
+        hasError = true;
+    }
+
+    // Validate times
     if (!validateTime(openTime, closeTime)) {
+        hasError = true;
+    }
+
+    // Validate status
+    if (status === "2") {
+        console.log("Status not selected");
+        setError("statusError", "Status harus dipilih");
+        hasError = true;
+    }
+
+    if (hasError) {
+        console.log("Form has validation errors, not submitting");
         return;
     }
 
+    console.log("All validations passed, proceeding with form submission");
     pendingFormData = new FormData(this);
     pendingIsEdit = locationId.value;
-    console.log(Object.fromEntries(pendingFormData));
+
+    // Close the form modal before showing the confirmation popup
+    closeLocationModal();
 
     if (pendingIsEdit) {
         openConfirmModal('update');
@@ -245,31 +290,85 @@ async function submitDeleteLocation(id) {
 }
 
 function validateTime(openTime, closeTime) {
-    // Check format HH:MM
+    console.log("Validating times:", { openTime, closeTime });
     const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
 
+    if (!openTime) {
+        console.log("Open time is empty");
+        setError("open_timeError", "Jam buka harus diisi");
+        return false;
+    }
+
     if (!timeRegex.test(openTime)) {
+        console.log("Invalid open time format");
         setError("open_timeError", "Format jam buka tidak valid (HH:MM)");
         return false;
     }
 
+    if (!closeTime) {
+        console.log("Close time is empty");
+        setError("close_timeError", "Jam tutup harus diisi");
+        return false;
+    }
+
     if (!timeRegex.test(closeTime)) {
+        console.log("Invalid close time format");
         setError("close_timeError", "Format jam tutup tidak valid (HH:MM)");
         return false;
     }
 
-    // Compare times
-    const [openHour, openMin] = openTime.split(":").map(Number);
-    const [closeHour, closeMin] = closeTime.split(":").map(Number);
+    console.log("Time validation passed!");
+    return true;
+}
 
-    const openTotalMin = openHour * 60 + openMin;
-    const closeTotalMin = closeHour * 60 + closeMin;
+function validateGoogleMapsLink(link) {
+    console.log("Validating maps link:", link);
 
-    if (openTotalMin >= closeTotalMin) {
-        setError("close_timeError", "Jam tutup harus lebih besar dari jam buka");
+    if (!link || link.trim() === "") {
+        console.log("Link is empty");
+        setError("mapLinkError", "Link map harus diisi");
+        document.getElementById("mapLink").style.borderColor = "var(--fdn-red-normal)";
         return false;
     }
 
+    link = link.trim();
+    console.log("Trimmed link:", link);
+
+    if (!link.startsWith("https://")) {
+        console.log("Link does not start with https://");
+        setError("mapLinkError", "Link harus dimulai dengan https://");
+        document.getElementById("mapLink").style.borderColor = "var(--fdn-red-normal)";
+        return false;
+    }
+
+    if (link.length < 20) {
+        console.log("Link is too short:", link.length);
+        setError("mapLinkError", "Link Google Maps tidak valid (terlalu pendek)");
+        document.getElementById("mapLink").style.borderColor = "var(--fdn-red-normal)";
+        return false;
+    }
+
+    const googleMapsPatterns = [
+        /^https:\/\/maps\.google\.com\//,
+        /^https:\/\/www\.google\.com\/maps\//,
+        /^https:\/\/maps\.google\.co\./,
+        /^https:\/\/www\.google\.co\./,
+        /^https:\/\/goo\.gl\/maps\//,
+        /^https:\/\/maps\.app\.goo\.gl\//,
+    ];
+
+    const isValidGoogleMapsUrl = googleMapsPatterns.some(pattern => pattern.test(link));
+    console.log("Is valid Google Maps URL:", isValidGoogleMapsUrl);
+
+    if (!isValidGoogleMapsUrl) {
+        console.log("Link does not match any Google Maps patterns");
+        setError("mapLinkError", "Link harus berupa URL Google Maps yang valid");
+        document.getElementById("mapLink").style.borderColor = "var(--fdn-red-normal)";
+        return false;
+    }
+
+    console.log("Maps link validation passed!");
+    document.getElementById("mapLink").style.borderColor = "";
     return true;
 }
 
@@ -283,15 +382,22 @@ function displayErrors(errors) {
 }
 
 function setError(fieldId, message) {
+    console.log(`Setting error for ${fieldId}: ${message}`);
     const errorElement = document.getElementById(fieldId);
     if (errorElement) {
         errorElement.textContent = message;
+        errorElement.style.display = 'block';
+        console.log(`Error set successfully for ${fieldId}`);
+    } else {
+        console.error(`Error element not found: ${fieldId}`);
     }
 }
 
 function clearErrors() {
+    console.log("Clearing all errors");
     document.querySelectorAll(".errorMessage").forEach((el) => {
         el.textContent = "";
+        el.style.display = 'none';
     });
 }
 

@@ -17,6 +17,8 @@ class Payment extends Model
         'qr_code_url',
         'expiry_time',
         'amount',
+        'snap_token',
+        'payment_url',
         'status',
     ];
 

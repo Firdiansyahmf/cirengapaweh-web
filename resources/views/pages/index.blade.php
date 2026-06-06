@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/components/mitra.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/lokasi.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/ctaWA.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/chatbot.css') }}">
 @endpush
 
 @section("content")
@@ -22,5 +23,6 @@
     @include("components.mitra")
     @include("components.lokasi")
     @include("components.ctaWA")
+    @include("components.chatbot")
 
 @endsection

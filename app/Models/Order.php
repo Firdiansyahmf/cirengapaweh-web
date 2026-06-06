@@ -9,29 +9,26 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Order extends Model
 {
     protected $fillable = [
-        'user_id',
         'invoice_number',
         'customer_name',
         'customer_email',
         'customer_phone',
         'shipping_address',
+        'subtotal_amount',
+        'shipping_cost',
+        'postal_code',
         'total_amount',
         'status',
     ];
 
     protected $casts = [
+        'subtotal_amount' => 'integer',
+        'shipping_cost' => 'integer',
         'total_amount' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
 
-    /**
-     * Get the user that owns the order
-     */
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 
     /**
      * Get order items

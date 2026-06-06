@@ -9,7 +9,6 @@ class ChatSession extends Model
 {
     protected $fillable = [
         'customer_name',
-        'customer_phone',
         'status',
     ];
 

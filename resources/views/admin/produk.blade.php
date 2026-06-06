@@ -193,7 +193,7 @@
 
                 <div class="formActions">
                     <button type="button" class="btnCancel" onclick="closeProductModal()">Batal</button>
-                    <button type="submit" class="btnSubmit"  onclick="closeProductModal()">Simpan Produk</button>
+                    <button type="submit" class="btnSubmit">Simpan Produk</button>
                 </div>
             </form>
         </div>

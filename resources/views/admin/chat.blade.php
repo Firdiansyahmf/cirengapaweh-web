@@ -1,134 +1,64 @@
 @extends('layouts.admin')
 
-@section('title', 'Manajemen Chat - Cireng A\'paweh')
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/admin/chat.css') }}">
+@endpush
 
 @section('content')
-    <link rel="stylesheet" href="{{ asset('css/global.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/admin/chat.css') }}" />
-
-    <div class="chatContainer">
-        <!-- Chat Sessions List -->
-        <aside class="sessionList">
-            <div class="sessionHeader">
-                <h2>Session Chat</h2>
-                <div class="sessionSearch">
-                    <span class="material-symbols-outlined">search</span>
-                    <input type="text" id="searchSession" placeholder="Cari session...">
-                </div>
-            </div>
-
-            <div class="sessionTabs">
-                <button class="tabBtn active" data-status="all">
-                    Semua
-                </button>
-                <button class="tabBtn" data-status="open">
-                    Dibuka
-                </button>
-                <button class="tabBtn" data-status="closed">
-                    Ditutup
-                </button>
-            </div>
-
-            <div class="sessionItems" id="sessionList">
-                @forelse($sessions as $session)
-                    <div class="sessionItem" data-session-id="{{ $session->id }}" data-status="{{ $session->status }}" onclick="selectSession({{ $session->id }})">
-                        <div class="sessionInfo">
-                            <div class="sessionTitle">
-                                <span class="userName">User #{{ $session->id }}</span>
-                                <span class="sessionTime">{{ $session->updated_at->format('H:i') }}</span>
-                            </div>
-                            <div class="sessionDetails">
-                                <span class="sessionPhone">{{ $session->customer_phone ?? '-' }}</span>
-                                <span class="sessionStatus">
-                                    @if($session->status === 'open')
-                                        <span class="statusBadge statusOpen">Dibuka</span>
-                                    @else
-                                        <span class="statusBadge statusClosed">Ditutup</span>
-                                    @endif
-                                </span>
-                            </div>
-                        </div>
-                        <div class="sessionPreview">
-                            {{ $session->messages->last()?->message ?? 'Tidak ada pesan' }}
-                        </div>
-                        <span class="unreadBadge">{{ $session->messages_count }}</span>
-                    </div>
-                @empty
-                    <div class="emptyState">
-                        <span class="material-symbols-outlined">mail</span>
-                        <p>Tidak ada session chat</p>
-                    </div>
-                @endforelse
-            </div>
-
-            <!-- Pagination -->
-            @if($sessions->hasPages())
-                <div class="sessionPagination">
-                    @if (!$sessions->onFirstPage())
-                        <a href="{{ $sessions->previousPageUrl() }}" class="paginationArrow">←</a>
-                    @endif
-                    <span class="paginationInfo">{{ $sessions->currentPage() }} / {{ $sessions->lastPage() }}</span>
-                    @if ($sessions->hasMorePages())
-                        <a href="{{ $sessions->nextPageUrl() }}" class="paginationArrow">→</a>
-                    @endif
-                </div>
-            @endif
-        </aside>
-
-        <!-- Chat Detail Area -->
-        <main class="chatArea">
-            <div class="chatEmpty" id="chatEmpty">
-                <div class="emptyContent">
-                    <span class="material-symbols-outlined">chat_bubble_outline</span>
-                    <h3>Pilih Session Chat</h3>
-                    <p>Pilih session dari daftar di sebelah kiri untuk memulai chat</p>
-                </div>
-            </div>
-
-            <div class="chatContent" id="chatContent" style="display: none;">
-                <!-- Chat Header -->
-                <div class="chatHeader">
-                    <div class="chatHeaderInfo">
-                        <div>
-                            <h3 id="chatSessionName">Session #</h3>
-                            <p id="chatSessionPhone">-</p>
-                        </div>
-                    </div>
-                    <div class="chatHeaderActions">
-                        <span id="sessionStatusBadge" class="statusBadge statusOpen">Dibuka</span>
-                        <button class="btnIcon" id="btnToggleSession" onclick="toggleSessionStatus()">
-                            <span class="material-symbols-outlined">more_vert</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Messages Area -->
-                <div class="messagesArea" id="messagesArea">
-                    <!-- Messages will be loaded here -->
-                </div>
-
-                <!-- Input Area -->
-                <div class="inputArea">
-                    <form id="messageForm" onsubmit="sendMessage(event)">
-                        @csrf
-                        <div class="inputGroup">
-                            <textarea id="messageInput" placeholder="Ketik pesan..." rows="1"></textarea>
-                            <button type="submit" class="btnSend" id="btnSend">
-                                <span class="material-symbols-outlined">send</span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </main>
+    <div class="content-header" style="margin-bottom: 20px;">
+        <h2 class="displayH2 charcoalGrey">Manajemen Chat</h2>
     </div>
 
-    <!-- Session Actions Menu -->
-    <div class="actionMenu" id="actionMenu" style="display: none;">
-        <button class="actionItem" onclick="toggleSessionStatus()">
-            <span class="material-symbols-outlined" id="toggleIcon">lock_open</span>
-            <span id="toggleText">Tutup Session</span>
-        </button>
+    <div class="chatContainer">
+        <div class="chatSidebar">
+            <div class="chatSidebarHeader">
+                <h3 class="subH3">Session Chat</h3>
+                <div class="chatTabs">
+                    <button class="chatTab active" onclick="filterSessions('all', this)">Semua</button>
+                    <button class="chatTab" onclick="filterSessions('open', this)">Dibuka</button>
+                    <button class="chatTab" onclick="filterSessions('closed', this)">Ditutup</button>
+                </div>
+            </div>
+            <div class="sessionList" id="sessionListAdmin">
+                <p>Memuat data chat...</p>
+            </div>
+        </div>
+
+        <div class="chatRoom" id="chatRoomArea">
+            <div class="roomHeader">
+                <div>
+                    <div class="roomTitle" id="activeRoomTitle">Session #...</div>
+                </div>
+                <button id="btnCloseSession" class="btnSoft" onclick="forceCloseSession()">
+                    Tutup Sesi Ini
+                </button>
+            </div>
+
+            <div class="roomMessages" id="roomMessagesAdmin">
+            </div>
+
+            <div class="roomFooter" id="roomFooterAdmin">
+
+                <input type="text" id="adminChatInput" placeholder="Ketik pesan balasan..."
+                    onkeypress="handleAdminEnter(event)">
+
+                <button class="btnSendAdmin" onclick="sendAdminMessage()">
+                    <img id="btnBot" src="{{ asset('assets/icon/btnBot.svg') }}" alt="Send">
+                </button>
+
+            </div>
+            <div class="closedNotice" id="closedNoticeAdmin" style="display: none;">
+                Sesi obrolan ini sudah ditutup. Tidak dapat membalas pesan.
+            </div>
+        </div>
+
+        <div class="chatRoom" id="chatEmptyState" style="justify-content: center; align-items: center;">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"
+                style="margin-bottom: 16px;">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <p class="bodyLg charcoalGrey" style="opacity: 0.5;">Pilih obrolan di samping untuk mulai membalas.</p>
+        </div>
     </div>
 
     <script src="{{ asset('js/admin/chat.js') }}"></script>
