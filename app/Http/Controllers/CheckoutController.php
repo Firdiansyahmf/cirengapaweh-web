@@ -50,6 +50,76 @@ class CheckoutController extends Controller
         );
     }
 
+    public function validatePromo(Request $request)
+    {
+        $request->validate([
+            'promo_code' => 'required|string',
+        ]);
+
+        $productId = session('checkout_product_id');
+        if (!$productId) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sesi produk tidak ditemukan. Silakan pilih produk kembali.'
+            ], 400);
+        }
+
+        $promo = \App\Models\Promo::where('promo_code', $request->promo_code)
+            ->where('is_active', true)
+            ->first();
+
+        if (!$promo) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Promo tidak ditemukan atau tidak aktif.'
+            ], 400);
+        }
+
+        if (!$promo->isStarted()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Periode promo belum dimulai.'
+            ], 400);
+        }
+
+        if ($promo->isExpired()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Promo sudah kadaluarsa.'
+            ], 400);
+        }
+
+        if ($promo->used_count >= $promo->max_usage) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Kuota promo sudah habis.'
+            ], 400);
+        }
+
+        $hasProduct = $promo->products()->where('products.id', $productId)->exists();
+        if (!$hasProduct) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Promo ini tidak berlaku untuk produk ini.'
+            ], 400);
+        }
+
+        session(['checkout_promo_id' => $promo->id]);
+
+        $price = session('checkout_price', 0);
+        $quantity = session('checkout_quantity', 1);
+        $subtotal = $price * $quantity;
+        $discount = ($subtotal * $promo->discount_percentage) / 100;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Promo berhasil dipakai',
+            'promo_code' => $promo->promo_code,
+            'discount_percentage' => $promo->discount_percentage,
+            'discount_amount' => $discount,
+        ]);
+    }
+
     public function store(Request $request)
     {
         return app(PaymentController::class)->processPayment($request);

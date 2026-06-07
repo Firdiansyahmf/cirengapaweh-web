@@ -119,8 +119,19 @@ class PaymentController extends Controller
             $ongkir = 12000;
         }
 
+        $discount = 0;
+        $promo = null;
+        if ($promoId) {
+            $promo = \App\Models\Promo::find($promoId);
+            if ($promo && $promo->isActive() && $promo->products()->where('products.id', $productId)->exists()) {
+                $discount = ($subtotal * $promo->discount_percentage) / 100;
+            } else {
+                $promoId = null; // invalid/inactive promo
+            }
+        }
+
         $admin = 1000;
-        $totalAmount = $subtotal + $ongkir + $admin;
+        $totalAmount = $subtotal - $discount + $ongkir + $admin;
 
         $invoiceNumber = "CA-" . strtoupper(Str::random(5)) . "-" . time();
 
@@ -174,7 +185,7 @@ class PaymentController extends Controller
                         $validated["customer_email"] ?? "customer@example.com",
                     "phone" => $validated["whatsapp"],
                 ],
-                "item_details" => [
+                "item_details" => array_merge([
                     [
                         "id" => "prod_" . $productId,
                         "price" => (int) $price,
@@ -183,17 +194,22 @@ class PaymentController extends Controller
                     ],
                     [
                         "id" => "shipping_fee",
-                        "price" => $ongkir,
+                        "price" => (int) $ongkir,
                         "quantity" => 1,
                         "name" => "Ongkos Kirim",
                     ],
                     [
                         "id" => "admin",
-                        "price" => $admin,
+                        "price" => (int) $admin,
                         "quantity" => 1,
                         "name" => "Biaya Admin",
                     ],
-                ],
+                ], ($discount > 0 && $promo) ? [[
+                    "id" => "promo_" . $promo->promo_code,
+                    "price" => -(int) $discount,
+                    "quantity" => 1,
+                    "name" => "Potongan Harga (" . $promo->promo_code . ")",
+                ]] : []),
             ];
 
             $paymentMethod = $validated["payment_method"];
@@ -260,6 +276,7 @@ class PaymentController extends Controller
                 "checkout_product",
                 "checkout_price",
                 "checkout_quantity",
+                "checkout_promo_id",
             ]);
 
             session([

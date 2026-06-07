@@ -51,3 +51,241 @@
 .checkOrder .btnPrimary {
     margin-top: var(--gap-micro);
 }
+
+/* Modal Overlay */
+.modalOverlay {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modalOverlay.active {
+    display: flex;
+    animation: fadeInModal 0.3s ease-in-out;
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Modal Dialog */
+.modalDialog {
+    background: var(--clean-white);
+    border-radius: 12px;
+    box-shadow: var(--shadow-main);
+    max-width: 480px;
+    width: 90%;
+    animation: slideInModal 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+@keyframes slideInModal {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Modal Header */
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    border-bottom: 1px solid var(--fdn-grey-light);
+}
+
+.modalHeader h3 {
+    margin: 0;
+    font-size: var(--fs-h4);
+    font-weight: var(--fw-semibold);
+    color: var(--fdn-grey-darker);
+}
+
+.modalClose {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    color: var(--charcoal-grey);
+}
+
+.modalClose:hover {
+    background-color: var(--fdn-grey-light);
+    color: var(--fdn-red-normal);
+}
+
+/* Modal Body */
+.modalBody {
+    padding: 24px;
+    color: var(--charcoal-grey);
+    font-size: var(--fs-body-main);
+    line-height: 1.6;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.modalBody p {
+    margin: 0;
+}
+
+/* Modal Footer */
+.modalFooter {
+    display: flex;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid var(--fdn-grey-light);
+    justify-content: flex-end;
+}
+
+.modalFooter button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: var(--fs-body-main);
+    font-weight: var(--fw-semibold);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+}
+
+.modalFooter .btnPrimary {
+    background-color: var(--fdn-red-normal);
+    color: var(--clean-white);
+}
+
+.modalFooter .btnPrimary:hover {
+    background-color: var(--fdn-red-normal-hover);
+}
+
+.modalFooter .btnCancel {
+    background-color: var(--fdn-grey-light);
+    color: var(--charcoal-grey);
+}
+
+.modalFooter .btnCancel:hover {
+    background-color: var(--fdn-grey-light-hover);
+}
+
+/* ====== PAYMENT STATUS BADGES ====== */
+.badgePaymentStatus {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: var(--fw-semibold);
+    white-space: nowrap;
+    text-align: center;
+}
+
+.badgePaymentCompleted {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.badgePaymentPending {
+    background-color: #fff3e0;
+    color: #e65100;
+}
+
+/* ====== SHIPPING STATUS BADGES ====== */
+.badgeShippingStatus {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: var(--fw-semibold);
+    white-space: nowrap;
+    text-align: center;
+}
+
+.badgeShippingDalam {
+    background-color: #e3f2fd;
+    color: #1565c0;
+}
+
+.badgeShippingSampai {
+    background-color: #fff3e0;
+    color: #e65100;
+}
+
+.badgeShippingSelesai {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+/* Print Invoice styles */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #invoiceDetailModal, #invoiceDetailModal * {
+        visibility: visible;
+    }
+    #invoiceDetailModal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background-color: white !important;
+        display: block !important;
+    }
+    .modalHeader, .modalFooter {
+        display: none !important;
+    }
+    .modalDialog {
+        box-shadow: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    .modalBody {
+        max-height: none !important;
+        overflow-y: visible !important;
+        padding: 0 !important;
+    }
+}
+
+/* ====== INVOICE MODAL STYLING ====== */
+.invoiceBody {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.invoiceContainer {
+    font-family: var(--font-body);
+}
+
+/* Invoice Table Styling */
+.invoiceContainer table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.invoiceContainer th {
+    text-align: left;
+    padding: 8px 0;
+    font-size: 12px;
+    font-weight: var(--fw-semibold);
+    color: var(--fdn-grey-dark);
+    border-bottom: 2px solid var(--fdn-grey-light);
+}
+
+.invoiceContainer td {
+    padding: 12px 0;
+    font-size: var(--fs-caption);
+    color: var(--charcoal-grey);
+    border-bottom: 1px solid var(--fdn-grey-light-hover);
+}

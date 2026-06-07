@@ -211,16 +211,6 @@
     cursor: pointer;
 }
 
-.checkout .paymentOpt input[type="radio"] {
-    accent-color: var(--fdn-red-normal);
-}
-
-.checkout .paymentOpt input[type="radio"]:focus,
-.checkout .paymentOpt input[type="radio"]:focus-visible {
-    outline: none;
-    box-shadow: none;
-}
-
 .checkout .paymentLeft {
     display: inline-flex;
     align-items: center;
