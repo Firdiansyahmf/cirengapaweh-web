@@ -67,11 +67,9 @@ Route::get('/api/search-products', function (Request $request) {
 Route::get('/produk', function (Request $request) {
     $id = $request->query('id');
     $promoId = $request->query('promo_id');
-    
     if (!$id) {
         return redirect('/');
     }
-
     $product = Product::findOrFail($id);
     $activePromo = null;
     if ($promoId) {
@@ -82,7 +80,6 @@ Route::get('/produk', function (Request $request) {
             ->whereRaw('used_count < max_usage')
             ->first();
     }
-
     if (!$activePromo) {
         $activePromo = Promo::whereHas('products', function ($query) use ($id) {
             $query->where('products.id', $id);
@@ -94,7 +91,6 @@ Route::get('/produk', function (Request $request) {
             ->orderBy('created_at', 'desc')
             ->first();
     }
-    
     $finalPrice = $product->price;
     if ($activePromo) {
         $discountAmount = ($product->price * $activePromo->discount_percentage) / 100;
@@ -112,23 +108,18 @@ Route::post('/payment', [CheckoutController::class, 'store'])->name('checkout.pr
 Route::get('/payment', function () {
     $midtransResponse = session('midtrans_response');
     $invoiceNumber = session('active_invoice');
-
     // mengeluarkan user jika tidak punya memiliki session checkout
     if (!$midtransResponse || !$invoiceNumber) {
         return redirect('/');
     }
-
     return view('pages.payment', compact('invoiceNumber', 'midtransResponse'));
 })->name('payment.show');
 
 // midtrans webhook
 Route::post('/payment/webhook', [PaymentController::class, 'handleWebhook']);
-
-/* temp route buat preview halaman pembayaran berhasil */
 Route::get('/preview-paymentsuccess', function () {
     return view('pages.paymentSuccess');
 });
-
 Route::post('/payment/success', function (Request $request) {
     $invoiceNumber = $request->input('invoice_number');
     $order = Order::where('invoice_number', $invoiceNumber)->firstOrFail();
@@ -143,14 +134,14 @@ Route::get('/cek-order', function () {
     return view("pages.checkOrder");
 });
 
-// Order routes
+// order routes
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 
-// Tracking API
+// tracking api
 Route::get('/api/tracking/{delivery}', [PengirimanController::class, 'showTracking'])->name('api.tracking.show');
 
-// Shipment webhook
+// shipment webhook
 Route::post('/webhooks/biteship', [PengirimanController::class, 'handleWebhook'])->name('biteship.webhook');
 
 // END : RUTE UTAMA
@@ -163,14 +154,17 @@ Route::prefix('admin')->group(function () {
         Route::get('/login', [LoginController::class, 'showLogin'])->name('admin.login.form');
         Route::post('/login', [LoginController::class, 'authenticate'])->name('admin.login');
         Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout');
+
         // dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
         // produk
         Route::get('/produk', [ProductController::class, 'index'])->name('produk.index');
         Route::post('/produk', [ProductController::class, 'store'])->name('produk.store');
         Route::put('/produk/{product}', [ProductController::class, 'update'])->name('produk.update');
         Route::patch('/produk/{product}', [ProductController::class, 'updateStatus'])->name('produk.updateStatus');
         Route::delete('/produk/{product}', [ProductController::class, 'destroy'])->name('produk.destroy');
+
         // promo
         Route::get('/promo', [PromoController::class, 'index'])->name('promo.index');
         Route::get('/promo/get-products', [PromoController::class, 'getProducts'])->name('promo.getProducts');
@@ -196,13 +190,13 @@ Route::prefix('admin')->group(function () {
         Route::put('/pemesanan/{order}/status', [OrderController::class, 'updateStatus'])->name('pemesanan.updateStatus');
 
         // User Management Routes
-
         Route::get('/pengguna', [UserController::class, 'index'])->name('pengguna.index');
         Route::post('/pengguna', [UserController::class, 'store'])->name('pengguna.store');
         Route::put('/pengguna/{user}', [UserController::class, 'update'])->name('pengguna.update');
         Route::post('/pengguna/{user}/verify-password', [UserController::class, 'verifyPassword'])->name('pengguna.verifyPassword');
         Route::delete('/pengguna/{user}', [UserController::class, 'destroy'])->name('pengguna.destroy');
         Route::post('/pengguna/verify-password/{userId}', [UserController::class, 'verifyPassword']);
+
         // chat admin
         Route::get('/chat', function () {
             return view('admin.chat');
@@ -231,6 +225,7 @@ Route::prefix('admin')->group(function () {
         });
     });
 });
+
 // route api kustomer (diluar middleware)
 // api new session
 Route::post('/chat-api/create', function () {
@@ -240,6 +235,7 @@ Route::post('/chat-api/create', function () {
     ]);
     return response()->json(['success' => true, 'session_id' => $session->id]);
 });
+
 // api send messages
 Route::post('/chat-api/{sessionId}/send', function (Request $request, $sessionId) {
     ChatMessage::query()->create([
@@ -251,6 +247,7 @@ Route::post('/chat-api/{sessionId}/send', function (Request $request, $sessionId
     ChatSession::query()->where('id', $sessionId)->update(['updated_at' => now()]);
     return response()->json(['success' => true]);
 });
+
 // api check reply from admin
 Route::get('/chat-api/{sessionId}/messages', function (Request $request, $sessionId) {
     $session = ChatSession::query()->find($sessionId);
@@ -266,17 +263,13 @@ Route::get('/chat-api/{sessionId}/messages', function (Request $request, $sessio
         'new_messages' => $newMessages
     ]);
 });
-/**
- * Catch-all 404 handler (override Laravel default)
- * Render page custom: resources/views/pages/page404.blade.php
- */
+
+// page404.blade.php
 Route::any('/{any}', function () {
     return response()->view('pages.page404', [], 404);
 })->where('any', '.*');
 
-/**
- * api close session
- */
+// api close session
 Route::post('/chat-api/{sessionId}/close', function ($sessionId) {
     ChatSession::query()->where('id', $sessionId)->update(['status' => 'closed']);
     return response()->json(['success' => true]);
