@@ -267,6 +267,7 @@ input:focus { outline: 2px solid var(--charcoal-grey); }
 
 /* start: visibility */
 .forMobile { display: none; }
+.disabled { pointer-events: none; cursor: not-allowed; color: var(--fdn-white-dark-hover); border-color: transparent; background-color: var(--fdn-grey-light); }
 /* end: visibility */
 
 /* start: responsive tablet */

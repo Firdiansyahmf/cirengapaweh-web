@@ -141,7 +141,7 @@ class PengirimanController extends Controller
         try {
             $couriers = $this->shippingService->getAvailableCouriers(
                 $order->postal_code,
-                1000 // Default weight
+                1000
             );
 
             if (!$couriers) {
@@ -494,6 +494,111 @@ class PengirimanController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to update delivery status',
+            ], 500);
+        }
+    }
+
+    /**
+     * cari area postal kode
+     */
+    public function searchArea(Request $request): JsonResponse
+    {
+        $query = $request->query('query');
+        if (strlen($query) < 3) {
+            return response()->json(['areas' => []]);
+        }
+        $result = $this->shippingService->searchArea($query);
+        return response()->json($result ?? ['areas' => []]);
+    }
+
+    /**
+     * estimasi ongkos kirim berdasarkan kode pos
+     */
+    public function estimateShipping(Request $request): JsonResponse
+    {
+        try {
+            $validated = $request->validate([
+                'postal_code' => 'required|string|regex:/^[0-9]{5}$/',
+            ]);
+
+            $postalCode = $validated['postal_code'];
+            $productName = session('checkout_product');
+            $price = session('checkout_price');
+            $quantity = session('checkout_quantity');
+
+            if (!$productName || is_null($price) || !$quantity) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Sesi checkout tidak ditemukan. Silakan pilih produk kembali.'
+                ], 400);
+            }
+
+            $areaResult = $this->shippingService->searchArea($postalCode);
+            $isValidPostalCode = false;
+
+            if (isset($areaResult['areas']) && is_array($areaResult['areas'])) {
+                foreach ($areaResult['areas'] as $area) {
+                    if (isset($area['postal_code']) && (int)$area['postal_code'] === (int)$postalCode) {
+                        $isValidPostalCode = true;
+                        break;
+                    }
+                }
+                if (!$isValidPostalCode && count($areaResult['areas']) > 0) {
+                    $isValidPostalCode = true;
+                }
+            }
+
+            if (!$isValidPostalCode) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kode pos tidak ditemukan di sistem Biteship.'
+                ], 422);
+            }
+
+            $rates = $this->shippingService->calculateRates(
+                $postalCode,
+                $productName,
+                $price,
+                $quantity
+            );
+
+            $shippingCost = null;
+            if ($rates && isset($rates['pricing']) && is_array($rates['pricing'])) {
+                foreach ($rates['pricing'] as $pricing) {
+                    $courierCode = strtolower($pricing['courier_code'] ?? '');
+                    $serviceCode = strtolower($pricing['courier_service_code'] ?? $pricing['service_code'] ?? $pricing['service'] ?? '');
+                    
+                    if ($courierCode === 'jnt' && $serviceCode === 'ez') {
+                        $shippingCost = $pricing['price'];
+                        break;
+                    }
+                }
+
+                if (is_null($shippingCost)) {
+                    foreach ($rates['pricing'] as $pricing) {
+                        $courierCode = strtolower($pricing['courier_code'] ?? '');
+                        if ($courierCode === 'jnt') {
+                            $shippingCost = $pricing['price'];
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (is_null($shippingCost)) {
+                \Log::warning("Biteship rates calculation failed for postal code {$postalCode} (e.g., insufficient balance). Using fallback flat rate.");
+                $shippingCost = 12000;
+            }
+
+            return response()->json([
+                'success' => true,
+                'shipping_cost' => $shippingCost
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Shipping estimation error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat menghitung ongkos kirim: ' . $e->getMessage()
             ], 500);
         }
     }

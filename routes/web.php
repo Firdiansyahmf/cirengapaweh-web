@@ -104,6 +104,7 @@ Route::get('/produk', function (Request $request) {
         $discountAmount = ($product->price * $activePromo->discount_percentage) / 100;
         $finalPrice = $product->price - $discountAmount;
     }
+
     return view('pages.produk', compact('product', 'activePromo', 'finalPrice'));
 });
 
@@ -150,6 +151,10 @@ Route::get('/cek-order', function () {
 // Order routes
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+
+/* API cari kode pos */
+Route::get('/v1/maps/areas', [PengirimanController::class, 'searchArea']);
+Route::post('/v1/rates/couriers', [PengirimanController::class, 'estimateShipping']);
 
 // Tracking API
 Route::get('/api/tracking/{delivery}', [PengirimanController::class, 'showTracking'])->name('api.tracking.show');
