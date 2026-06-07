@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ asset('css/components/lokasi.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/ctaWA.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/rollback.css') }}">
+
 @endpush
 
 @section('content')
@@ -19,11 +20,13 @@
     @include('components.ctaMedsos')
     @include('components.lokasi')
     @include('components.ctaWA')
+    @include('components.rollback')
 
     <button class="rollbackToggle" id="rollbackToggle" type="button" aria-label="Kembali ke atas"
         onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">
         <img src="{{ asset('assets/icon/Rollback.svg') }}" alt="Scroll to top">
     </button>
 
-    <script src="{{ asset('js/components/rollback.js') }}"></script>
+    <script src="{{ asset('js/components/chatbot.js') }}"></script>
+
 @endsection
