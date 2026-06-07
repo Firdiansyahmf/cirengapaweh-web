@@ -1,0 +1,66 @@
+.notFound {
+    width: 100%;
+    background: var(--clean-white);
+}
+
+.notFoundInner { width: 100%; 
+    justify-content: center; }
+
+.notFound .breakpoint {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding-top: 0%;
+    padding-bottom: 0%;
+    justify-content: center;
+    align-items: center;
+    gap: var(--gap-large);
+}
+
+.notFoundText {
+    width: 50%;
+    align-items: center;
+    text-align: center;
+    gap: var(--gap-small);
+}
+
+.text-grey {
+    color: var(--charcoal-grey);
+}
+
+.text-huge {
+    font-size: 120px;
+    line-height: 1; 
+}
+
+.notFoundText p { max-width: 520px; }
+
+.notFoundBtn { margin-top: var(--gap-small); }
+
+.notFoundText .displayH1 { line-height: 1; }
+.notFoundText .displayH2 { margin-top: var(--gap-micro); }
+
+@media (max-width: 1024px) {
+    .notFound { padding-top: 200px; }
+    .notFound .breakpoint {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;}
+    .notFoundText { 
+        flex-direction: column;
+        align-items: center; 
+        text-align: center; }
+}
+
+@media (max-width: 768px) {
+    .notFound { padding-top: 88px; padding-bottom: 60px; }
+    .notFound .breakpoint {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+    .notFoundArt { width: 100%; }
+    .notFoundText { width: 100%; align-items: center; }
+}
+

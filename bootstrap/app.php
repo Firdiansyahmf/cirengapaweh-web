@@ -14,7 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: ['/payment/webhook']);
         $middleware->validateCsrfTokens(except: ['webhooks/biteship']);
         // $middleware->append(\App\Http\Middleware\BlockNonStandardChars::class);
-    })
+     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();
