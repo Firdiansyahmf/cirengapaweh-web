@@ -419,18 +419,6 @@
     flex-wrap: wrap;
 }
 
-.headerContent h2 {
-    font-size: var(--fs-h2);
-    color: var(--charcoal-grey);
-    margin-bottom: 5px;
-}
-
-.headerContent p {
-    color: var(--fdn-grey-normal);
-    font-size: 13px;
-}
-
-
 /* Tooltip in Form */
 .tooltipContainer {
     position:relative;
