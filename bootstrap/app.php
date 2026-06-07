@@ -15,7 +15,6 @@ return Application::configure(basePath: dirname(__DIR__))
             '/payment/webhook',
             'webhooks/biteship'
             ]);
-        // $middleware->append(\App\Http\Middleware\BlockNonStandardChars::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
