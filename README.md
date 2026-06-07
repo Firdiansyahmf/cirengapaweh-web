@@ -76,7 +76,7 @@ Jalankan perintah ini SEBELUM kamu mulai ngoding agar kodemu tidak tertinggal:
 Ikuti langkah-langkah berikut secara berurutan untuk menjalankan proyek ini di laptop masing-masing:
 
 ### 1. Persiapan Awal
-Pastikan di komputer Anda sudah terinstal:
+Pastikan di komputer sudah terinstal:
 * PHP (Wajib Minimal versi 8.4+) - Cek dengan perintah `php -v` di terminal.
 * Composer (Versi terbaru)
 * MySQL / MariaDB
@@ -101,7 +101,7 @@ cp .env.example .env
 php artisan key:generate
 
 ### 4. Setup Database (MySQL)
-1. Buka MySQL Anda (via terminal atau phpMyAdmin).
+1. Buka MySQL (via terminal atau phpMyAdmin).
 2. Buat database baru kosong dengan nama: db_cirengapaweh
 3. Buka file .env di VS Code, cari bagian DB_CONNECTION, lalu ubah dengan menghubungi pemilik terlebih dahulu.
 4. Jalankan perintah migrasi untuk membuat tabel-tabel bawaan:
@@ -147,7 +147,7 @@ Menggunakan arsitektur MVC (Model - View - Controller) dengan Routes sebagai pin
 
 **3. Aturan Emas Tanda Kutip (Quotes) di Laravel Blade:**
 * Untuk mencegah error layar putih (ParseError), **JANGAN** mencampuradukkan tanda kutip ganda (`"`) secara sembarangan.
-* **ATURAN:** Jika Anda sedang berada di dalam atribut HTML yang menggunakan kutip ganda (contoh: `class="..."`), maka semua logika PHP di dalam `{{ }}` **WAJIB 100%** menggunakan kutip tunggal (`'`).
+* **ATURAN:** Jika sedang berada di dalam atribut HTML yang menggunakan kutip ganda (contoh: `class="..."`), maka semua logika PHP di dalam `{{ }}` **WAJIB 100%** menggunakan kutip tunggal (`'`).
 * Contoh Salah: `<a class="navItem {{ request()->is("admin/dashboard") ? "active" : "" }}">`
 * Contoh Benar: `<a class="navItem {{ request()->is('admin/dashboard') ? 'active' : '' }}">`
 
@@ -155,11 +155,11 @@ Menggunakan arsitektur MVC (Model - View - Controller) dengan Routes sebagai pin
 
 ## 🛠️ Troubleshooting (Solusi Error Umum)
 
-Jika Anda menemui error saat pertama kali menjalankan proyek, periksa daftar solusi berikut:
+Jika menemui error saat pertama kali menjalankan proyek, periksa daftar solusi berikut:
 
 * **Error: your php version (8.x.x) does not satisfy that requirement**
-  * Penyebab: Versi PHP di komputer Anda terlalu lama. Proyek ini membutuhkan PHP 8.4.
-  * Solusi: Silakan upgrade PHP Anda, install ulang XAMPP terbaru, atau gunakan Laravel Herd.
+  * Penyebab: Versi PHP di komputer terlalu lama. Proyek ini membutuhkan PHP 8.4.
+  * Solusi: Silakan upgrade PHP, install ulang XAMPP terbaru, atau gunakan Laravel Herd.
 
 * **Error: ext-fileinfo, ext-openssl, atau pdo_mysql is missing (Khusus Pengguna Windows/XAMPP)**
   * Penyebab: Ekstensi bawaan PHP Windows masih dinonaktifkan.
