@@ -273,9 +273,18 @@ Route::get('/chat-api/{sessionId}/messages', function (Request $request, $sessio
         'new_messages' => $newMessages
     ]);
 });
-// api close session
+/**
+ * Catch-all 404 handler (override Laravel default)
+ * Render page custom: resources/views/pages/page404.blade.php
+ */
+Route::any('/{any}', function () {
+    return response()->view('pages.page404', [], 404);
+})->where('any', '.*');
+
+/**
+ * api close session
+ */
 Route::post('/chat-api/{sessionId}/close', function ($sessionId) {
     ChatSession::query()->where('id', $sessionId)->update(['status' => 'closed']);
     return response()->json(['success' => true]);
 });
-// END RUTE ADMIN DASHBOARD (CMS)____________<
