@@ -59,15 +59,43 @@
                                 </article>
                             </div> <!-- end card contain -->
                         @endif
-                     @endforeach
+                    @endforeach
                 @empty
                     <div class="kosong">
                         <p class="bodyLg cleanWhite empty">Wah, belum ada promo spesial hari ini dari A'paweh</p>
                     </div>
-                 @endforelse
-                </div> <!-- end flexRow -->
+                @endforelse
+            </div> <!-- end flexRow -->
 
-            </div> <!-- end breakpoint -->
+        </div> <!-- end breakpoint -->
 
-        </div> <!-- end promo -->
-    </div> <!-- end promoContain -->
+    </div> <!-- end promo -->
+</div> <!-- end promoContain -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const slider = document.querySelector(".promo .flexRow");
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        slider.addEventListener("mousedown", (e) => {
+            isDown = true;
+            slider.classList.add("active");
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+        slider.addEventListener("mouseleave", () => {
+            isDown = false;
+        });
+        slider.addEventListener("mouseup", () => {
+            isDown = false;
+        });
+        slider.addEventListener("mousemove", (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    });
+</script>

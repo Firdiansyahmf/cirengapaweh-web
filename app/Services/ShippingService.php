@@ -183,7 +183,7 @@ class ShippingService
             'origin_contact_name' => 'Cireng A\'Paweh',
             'origin_contact_phone' => '08123456789',
             'origin_address' => 'Tel U Cabang',
-            'origin_postal_code' => 44162,
+            'origin_postal_code' => 40257,
             'destination_contact_name' => $order->customer_name,
             'destination_contact_phone' => $order->customer_phone,
             'destination_address' => $order->shipping_address,
@@ -279,6 +279,11 @@ class ShippingService
                 'Content-Type' => 'application/json',
             ])->timeout(30);
 
+            /* skip verifikasi SSL buat localhost */
+            if (app()->environment('local')) {
+                $response = $response->withoutVerifying();
+            }
+
             if ($method === 'GET') {
                 $response = $response->get($url, $data ?? []);
             } elseif ($method === 'PATCH') {
@@ -291,11 +296,44 @@ class ShippingService
                 return $response->json();
             }
 
-            \Log::error('Biteship API error: ' . $response->status() . ' - ' . $response->body());
+            Log::error('Biteship API error: ' . $response->status() . ' - ' . $response->body());
             return null;
         } catch (Exception $e) {
-            \Log::error('Biteship request error: ' . $e->getMessage());
+            Log::error('Biteship request error: ' . $e->getMessage());
             return null;
         }
+    }
+
+    /**
+     * cari area postal kode
+     */
+    public function searchArea(string $query): ?array
+    {
+        return $this->makeRequest('/v1/maps/areas', [
+            'countries' => 'ID',
+            'input' => $query
+        ], 'GET');
+    }
+
+    /**
+     * hitung ongkir
+     */
+    public function calculateRates(string $destinationPostalCode, string $productName, float $price, int $quantity): ? array
+    {
+        $payload = [
+            'origin_postal_code' => 40257,
+            'destination_postal_code' => (int) $destinationPostalCode,
+            'couriers' => 'jnt',
+            'items' => [
+                [
+                    'name' => $productName,
+                    'value' => (int) $price,
+                    'weight' => 200,
+                    'quantity' => $quantity,
+                ]
+            ]
+        ];
+
+        return $this->makeRequest('/v1/rates/couriers', $payload, 'POST');
     }
 }

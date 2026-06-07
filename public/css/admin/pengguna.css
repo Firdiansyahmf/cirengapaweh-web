@@ -50,10 +50,6 @@
     text-transform: uppercase;
 }
 
-th.centerAlign {
-    text-align: center;
-}
-
 .userTable tbody tr {
     border-bottom: 1px solid var(--fdn-grey-light);
     transition: background-color 0.2s ease;
@@ -120,7 +116,7 @@ td.badge {
 .aksiCell {
     display: flex;
     gap: 8px;
-    align-items: center;
+    justify-content: center;
 }
 
 .btnIcon {
@@ -675,6 +671,15 @@ td.badge {
 
 .userTable tbody tr:hover {
     background-color: #fafafa;
+}
+
+.centerAlign, th.centerAlign {
+    text-align: center;
+} 
+
+th.info {
+    table-layout: fixed;
+    width: 145px;
 }
 
 .namaPengguna {

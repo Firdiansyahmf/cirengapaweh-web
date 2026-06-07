@@ -11,10 +11,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->validateCsrfTokens(except: ['/payment/webhook']);
-        $middleware->validateCsrfTokens(except: ['webhooks/biteship']);
-        // $middleware->append(\App\Http\Middleware\BlockNonStandardChars::class);
-     })
+        $middleware->validateCsrfTokens(except: [
+            '/payment/webhook',
+            'webhooks/biteship'
+            ]);
+    })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();

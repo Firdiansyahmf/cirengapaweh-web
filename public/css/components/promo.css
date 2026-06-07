@@ -10,6 +10,8 @@
 
 /* start: carousel */
 .promo .flexRow { flex-wrap: nowrap; max-width: 100%; justify-content: center; gap: var(--gap-medium); overflow-x: auto; scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none; }
+.promo .flexRow:has(> .cardContain:nth-child(4)) { cursor: grab; user-select: none; scroll-behavior: smooth;-webkit-overflow-scrolling: touch; }
+.promo .flexRow:has(> .cardContain:nth-child(4)):active { cursor: grabbing; }
 .promo .flexRow:has(> .cardContain:nth-child(3):last-child) { padding-bottom: var(--gap-large); }
 .promo .flexRow::-webkit-scrollbar { display: none; }
 /* end: carousel */

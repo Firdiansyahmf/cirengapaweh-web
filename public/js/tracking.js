@@ -52,13 +52,6 @@ function populateTrackingModal(delivery) {
             <span class="material-symbols-outlined">content_copy</span>
         </button>
     ` : '';
-    
-    const estimatedHtml = delivery.estimated_delivery ? `
-        <div class="trackingEstimated">
-            <label>Estimasi Tiba</label>
-            <p>${delivery.estimated_delivery}</p>
-        </div>
-    ` : '';
 
     const html = `
         <div class="trackingInfoCard">
@@ -88,7 +81,7 @@ function populateTrackingModal(delivery) {
                 </div>
             </div>
         </div>
-        ${estimatedHtml}
+
         <div class="trackingTimelineSection">
             <h4>
                 <span class="material-symbols-outlined trackingTimelineIcon">local_shipping</span>
