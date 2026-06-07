@@ -63,7 +63,8 @@
 
                 </div> <!-- end flexCol -->
 
-                <button class="btnPrimary">
+                <button class="btnPrimary"
+                    onclick="window.open('https://wa.me/6281944327907?text={{ urlencode('Halo Admin Cireng A\'paweh, saya tertarik untuk mendaftar sebagai Mitra Standar (Hanya Jualan). Mohon informasinya lebih lanjut ya, terima kasih!') }}', '_blank')">
                     <img class="btnIcon" src="{{ asset('assets/icon/whatsApp.svg') }}" alt="WhatsApp">
                     Daftar Mitra
                 </button>
@@ -119,7 +120,8 @@
 
                 </div> <!-- end flexCol -->
 
-                <button class="btnPrimary">
+                 <button class="btnPrimary"
+                    onclick="window.open('https://wa.me/6281944327907?text={{ urlencode('Halo Admin Cireng A\'paweh, saya tertarik untuk mendaftar sebagai Mitra Penuh (Jual & Antar Jemput). Mohon informasinya lebih lanjut ya, terima kasih!') }}', '_blank')">
                     <img class="btnIcon" src="{{ asset('assets/icon/whatsApp.svg') }}" alt="WhatsApp">
                     Daftar Mitra
                 </button>

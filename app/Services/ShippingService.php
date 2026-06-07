@@ -33,7 +33,7 @@ class ShippingService
                 $delivery = new Delivery([
                     'order_id' => $order->id,
                     'biteship_order_id' => $response['id'],
-                    'tracking_number' => $response['tracking_number'] ?? null,  // <- Add this
+                    'tracking_number' => $response['tracking_number'] ?? null,
                     'courier_name' => $response['courier']['name'] ?? null,
                     'status' => $response['status'] ?? 'preparing',
                 ]);

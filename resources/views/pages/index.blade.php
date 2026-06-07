@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ asset('css/components/lokasi.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/ctaWA.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/chatbot.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/rollback.css') }}">
 @endpush
 
 @section("content")
@@ -24,5 +25,5 @@
     @include("components.lokasi")
     @include("components.ctaWA")
     @include("components.chatbot")
-
+    @include("components.rollback")
 @endsection

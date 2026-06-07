@@ -8,7 +8,6 @@ const imagePreview = document.getElementById("imagePreview");
 const searchInput = document.getElementById("searchInput");
 const locationStatusSelect = document.getElementById("locationStatus");
 
-// Pending variables for confirmation
 let pendingFormData = null;
 let pendingIsEdit = false;
 let pendingDeleteId = null;
@@ -40,19 +39,16 @@ function openLocationModal(id = null) {
 function closeLocationModal() {
     console.log("closeLocationModal called");
     locationModal.classList.remove("show");
-    // Reset form after animation
     setTimeout(() => {
         locationForm.reset();
     }, 300);
 }
 
 
-// Add button to trigger modal
 document.getElementById("btnAddLocationModal").addEventListener("click", function () {
     openLocationModal();
 });
 
-// Load location data untuk edit
 async function loadLocationData(id) {
     try {
         const response = await fetch(`${baseUrl}/${id}`, {
@@ -157,7 +153,6 @@ locationForm.addEventListener("submit", async function (e) {
     console.log("Form submit triggered!");
     clearErrors();
 
-    // Get all required fields
     const name = document.getElementById("name").value;
     const address = document.getElementById("address").value;
     const mapLink = document.getElementById("mapLink").value;
@@ -169,31 +164,26 @@ locationForm.addEventListener("submit", async function (e) {
 
     let hasError = false;
 
-    // Validate name
     if (!name || name.trim() === "") {
         console.log("Name is empty");
         setError("nameError", "Nama cabang harus diisi");
         hasError = true;
     }
 
-    // Validate address
     if (!address || address.trim() === "") {
         console.log("Address is empty");
         setError("addressError", "Alamat harus diisi");
         hasError = true;
     }
 
-    // Validate map link
     if (!validateGoogleMapsLink(mapLink)) {
         hasError = true;
     }
 
-    // Validate times
     if (!validateTime(openTime, closeTime)) {
         hasError = true;
     }
 
-    // Validate status
     if (status === "2") {
         console.log("Status not selected");
         setError("statusError", "Status harus dipilih");
@@ -209,7 +199,6 @@ locationForm.addEventListener("submit", async function (e) {
     pendingFormData = new FormData(this);
     pendingIsEdit = locationId.value;
 
-    // Close the form modal before showing the confirmation popup
     closeLocationModal();
 
     if (pendingIsEdit) {
@@ -401,12 +390,10 @@ function clearErrors() {
     });
 }
 
-// Edit Location
 function editLocation(id) {
     openLocationModal(id);
 }
 
-// Delete Location
 function deleteLocation(id) {
     pendingDeleteId = id;
     openConfirmModal('delete');
@@ -461,7 +448,6 @@ async function submitStatusChange(data) {
     }
 }
 
-// Search functionality
 searchInput.addEventListener("keyup", function () {
     const searchValue = this.value.toLowerCase();
     const rows = document.querySelectorAll("#locationTableBody tr");

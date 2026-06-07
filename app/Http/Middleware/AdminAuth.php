@@ -14,6 +14,16 @@ class AdminAuth
         $isAuthenticated = auth()->check();
 
         if ($isAuthenticated) {
+            $user = auth()->user();
+            if (!$user || !$user->is_active) {
+                auth()->logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                return redirect()->route('admin.login.form')->withErrors([
+                    'email' => 'Akun Anda nonaktif.',
+                ]);
+            }
+
             if ($isLoginPage) {
                 return redirect()->route('admin.dashboard');
             }
@@ -23,6 +33,6 @@ class AdminAuth
             return $next($request);
         }
 
-        return redirect('/')->with('error', 'Unauthorized access. Please login first.');
+        return redirect()->route('admin.login.form')->with('error', 'Sesi Anda telah berakhir atau Anda belum login.');
     }
 }

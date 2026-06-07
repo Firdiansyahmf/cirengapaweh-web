@@ -141,7 +141,7 @@
         <!-- Tab Content: Perlu Dikirim (Packing) -->
         <div id="tab-perlu-dikirim" class="tabContent">
             <div class="tableWrapper">
-                <table class="orderTable" border="1">
+                <table class="orderTable">
                     <thead>
                         <tr>
                             <th>Tanggal</th>
@@ -226,7 +226,7 @@
         <!-- Tab Content: Sedang Dikirim -->
         <div id="tab-sedang-dikirim" class="tabContent">
             <div class="tableWrapper">
-                <table class="orderTable" border="1">
+                <table class="orderTable">
                     <thead>
                         <tr>
                             <th>Tanggal</th>
@@ -333,7 +333,7 @@
         <!-- Tab Content: Selesai -->
         <div id="tab-selesai" class="tabContent">
             <div class="tableWrapper">
-                <table class="orderTable" border="1">
+                <table class="orderTable">
                     <thead>
                         <tr>
                             <th>Tanggal</th>
@@ -488,27 +488,27 @@
                     <!-- Header -->
                     <div style="text-align: center; margin-bottom: 24px; border-bottom: 2px solid var(--fdn-grey-light); padding-bottom: 16px;">
                         <h2 style="font-size: var(--fs-h3); color: var(--fdn-grey-darker); margin-bottom: 4px;">CIRENG A'PAWEH</h2>
-                        <p style="font-size: var(--fs-caption); color: var(--charcoal-grey); margin: 0;">Jln. Merdeka No. 123, Bandung | 08123456789</p>
+                        <p style="font-size: var(--fs-caption); color: var(--charcoal-grey); margin: 0;">Telkom University, Sukapura, Kec. Bojongsoang, Bandung | 081944327907</p>
                     </div>
 
                     <!-- Order Info -->
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
                         <div>
                             <p style="font-size: 12px; color: var(--fdn-white-dark-hover); margin-bottom: 4px;">NO. PESANAN</p>
-                            <p id="invoiceOrderId" style="font-size: var(--fs-body-main); font-weight: var(--fw-semibold); color: var(--fdn-grey-darker); margin: 0;">ORD-20230501-001</p>
+                            <p id="invoiceOrderId" style="font-size: var(--fs-body-main); font-weight: var(--fw-semibold); color: var(--fdn-grey-darker); margin: 0;">-</p>
                         </div>
                         <div>
                             <p style="font-size: 12px; color: var(--fdn-white-dark-hover); margin-bottom: 4px;">TANGGAL PESANAN</p>
-                            <p id="invoiceOrderDate" style="font-size: var(--fs-body-main); font-weight: var(--fw-semibold); color: var(--fdn-grey-darker); margin: 0;">12 Okt 2023, 10:30</p>
+                            <p id="invoiceOrderDate" style="font-size: var(--fs-body-main); font-weight: var(--fw-semibold); color: var(--fdn-grey-darker); margin: 0;">-</p>
                         </div>
                     </div>
 
                     <!-- Customer Info -->
                     <div style="background-color: var(--fdn-grey-light); padding: 16px; border-radius: 8px; margin-bottom: 24px;">
                         <p style="font-size: 12px; color: var(--fdn-white-dark-hover); margin-bottom: 8px;">INFORMASI PELANGGAN</p>
-                        <p id="invoiceCustomerName" style="font-size: var(--fs-body-main); font-weight: var(--fw-semibold); color: var(--fdn-grey-darker); margin: 0 0 8px 0;">Andi Wijaya</p>
-                        <p id="invoiceCustomerPhone" style="font-size: var(--fs-caption); color: var(--charcoal-grey); margin: 0;">+62 8123456789</p>
-                        <p id="invoiceCustomerAddress" style="font-size: var(--fs-caption); color: var(--charcoal-grey); margin: 0;">Jln. Sudirman No. 45, Bandung, Jawa Barat</p>
+                        <p id="invoiceCustomerName" style="font-size: var(--fs-body-main); font-weight: var(--fw-semibold); color: var(--fdn-grey-darker); margin: 0 0 8px 0;">-</p>
+                        <p id="invoiceCustomerPhone" style="font-size: var(--fs-caption); color: var(--charcoal-grey); margin: 0;">-</p>
+                        <p id="invoiceCustomerAddress" style="font-size: var(--fs-caption); color: var(--charcoal-grey); margin: 0;">-</p>
                     </div>
 
                     <!-- Items -->
@@ -525,13 +525,13 @@
                             <tbody id="invoiceItems">
                                 <tr style="border-bottom: 1px solid var(--fdn-grey-light-hover);">
                                     <td style="padding: 12px 0; font-size: var(--fs-caption); color: var(--charcoal-grey);">Cireng Rujak</td>
-                                    <td style="text-align: center; padding: 12px 0; font-size: var(--fs-caption); color: var(--charcoal-grey);">3</td>
-                                    <td style="text-align: right; padding: 12px 0; font-size: var(--fs-caption); color: var(--charcoal-grey);">Rp 30.000</td>
+                                    <td style="text-align: center; padding: 12px 0; font-size: var(--fs-caption); color: var(--charcoal-grey);">-</td>
+                                    <td style="text-align: right; padding: 12px 0; font-size: var(--fs-caption); color: var(--charcoal-grey);">Rp -</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid var(--fdn-grey-light-hover);">
                                     <td style="padding: 12px 0; font-size: var(--fs-caption); color: var(--charcoal-grey);">Es Teh</td>
-                                    <td style="text-align: center; padding: 12px 0; font-size: var(--fs-caption); color: var(--charcoal-grey);">1</td>
-                                    <td style="text-align: right; padding: 12px 0; font-size: var(--fs-caption); color: var(--charcoal-grey);">Rp 5.000</td>
+                                    <td style="text-align: center; padding: 12px 0; font-size: var(--fs-caption); color: var(--charcoal-grey);">-</td>
+                                    <td style="text-align: right; padding: 12px 0; font-size: var(--fs-caption); color: var(--charcoal-grey);">Rp -</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -541,15 +541,15 @@
                     <div style="background-color: var(--fdn-yellow-light); padding: 16px; border-radius: 8px; margin-bottom: 24px;">
                         <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                             <span style="font-size: var(--fs-caption); color: var(--charcoal-grey);">Subtotal</span>
-                            <span id="invoiceSubtotal" style="font-size: var(--fs-caption); font-weight: var(--fw-semibold); color: var(--fdn-grey-darker);">Rp 35.000</span>
+                            <span id="invoiceSubtotal" style="font-size: var(--fs-caption); font-weight: var(--fw-semibold); color: var(--fdn-grey-darker);">-</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                             <span style="font-size: var(--fs-caption); color: var(--charcoal-grey);">Ongkir</span>
-                            <span id="invoiceShipping" style="font-size: var(--fs-caption); font-weight: var(--fw-semibold); color: var(--fdn-grey-darker);">Rp 10.000</span>
+                            <span id="invoiceShipping" style="font-size: var(--fs-caption); font-weight: var(--fw-semibold); color: var(--fdn-grey-darker);">-</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; border-top: 2px solid var(--fdn-yellow-normal); padding-top: 8px;">
                             <span style="font-size: var(--fs-body-main); font-weight: var(--fw-semibold); color: var(--fdn-grey-darker);">Total</span>
-                            <span id="invoiceTotal" style="font-size: var(--fs-body-main); font-weight: var(--fw-semibold); color: var(--fdn-red-normal);">Rp 45.000</span>
+                            <span id="invoiceTotal" style="font-size: var(--fs-body-main); font-weight: var(--fw-semibold); color: var(--fdn-red-normal);">-</span>
                         </div>
                     </div>
 
@@ -557,11 +557,11 @@
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;">
                         <div>
                             <p style="font-size: 12px; color: var(--fdn-white-dark-hover); margin-bottom: 4px;">STATUS PEMBAYARAN</p>
-                            <span id="invoicePaymentStatus" class="badge badgePaymentStatus badgePaymentCompleted">Lunas</span>
+                            <span id="invoicePaymentStatus" class="badge badgePaymentStatus badgePaymentCompleted">-</span>
                         </div>
                         <div>
                             <p style="font-size: 12px; color: var(--fdn-white-dark-hover); margin-bottom: 4px;">STATUS PENGIRIMAN</p>
-                            <span id="invoiceShippingStatus" class="badge badgeShippingStatus badgeShippingDalam">Dalam Perjalanan</span>
+                            <span id="invoiceShippingStatus" class="badge badgeShippingStatus badgeShippingDalam">-</span>
                         </div>
                     </div>
 
@@ -574,7 +574,6 @@
             </div>
             <div class="modalFooter">
                 <button class="btnCancel" onclick="closeInvoiceModal()" style="flex: 1;">Tutup</button>
-                <button class="btnPrimary" style="flex: 1;">Cetak Invoice</button>
             </div>
         </div>
     </div>

@@ -32,6 +32,7 @@
                     <a class="caption" href="{{ Request::is('/') ? '#reels' : '/#reels' }}">Video</a>
                     <a class="caption" href="{{ Request::is('/') ? '#mitra' : '/#mitra' }}">Kemitraan</a>
                     <a class="caption" href="/tentang-kami">Tentang Kami</a>
+                    <a class="caption" href="/cek-order">Cek Order</a>
                 </div>
 
                 <div class="flexCol aMenu">

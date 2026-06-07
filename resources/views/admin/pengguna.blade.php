@@ -132,7 +132,7 @@
 
             <form id="passwordVerifyForm">
                 <div class="formGroup">
-                    <label for="verifyPassword">Masukkan password untuk <b>{{ auth()->user()->name }}</b>*</label>
+                    <label for="verifyPassword">Masukkan password untuk user ini*</label>
                     <div class="passwordInputWrapper">
                         <input 
                             type="password" 

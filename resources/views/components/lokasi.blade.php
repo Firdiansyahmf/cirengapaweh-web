@@ -13,11 +13,17 @@
             <!-- Konten -->
             <div class="flexRow">
                 @forelse ($locations as $location)
-                    @if ($location->is_active && (stripos($location->name, 'Pusat') !== false))
+                    @if ($location->is_active && stripos($location->name, 'Pusat') !== false)
                         <div class="cardM shadow main">
-                            <img class="locationIcon" src="{{ asset('assets/icon/lokasiCMain.svg') }}" alt="Lokasi">
-                            <div class="flexCol">
-                                <h4 class="subH4">{{ $location->name }}</h4>
+                            <img class="locationImg"
+                                src="{{ $location->image ? asset('storage/' . $location->image) : 'https://placehold.co/400x600.png' }}"
+                                alt="{{ $location->name }}">
+
+                            <div class="wrapLocation">
+                                <div class="flexCol wrapTextL">
+                                    <img class="locationIcon" src="{{ asset('assets/icon/lokasiCMain.svg') }}" alt="Lokasi">
+                                    <h4 class="subH4">{{ $location->name }}</h4>
+                                </div>
                                 <p class="bodyMain charcoalGrey">{{ $location->address }}</p>
                             </div>
                             <a class="btnCardM" href={{ $location->link }} target="_blank" rel="noopener">
@@ -31,14 +37,21 @@
                 @empty
                 @endforelse
                 @forelse ($locations as $location)
-                    @if ($location->is_active && (stripos($location->name, 'Pusat') === false))
+                    @if ($location->is_active && stripos($location->name, 'Pusat') === false)
                         <div class="cardM shadow primaryBrandRed">
-                            <img class="locationIcon" src="{{ asset('assets/icon/lokasiC.svg') }}" alt="Lokasi">
-                            <div class="flexCol">
-                                <h4 class="subH4">{{ $location->name }}</h4>
+                            <img class="locationImg"
+                                src="{{ $location->image ? asset('storage/' . $location->image) : 'https://placehold.co/400x600.png' }}"
+                                alt="{{ $location->name }}">
+
+                            <div class="wrapLocation">
+                                <div class="flexCol wrapTextL">
+                                    <img class="locationIcon" src="{{ asset('assets/icon/lokasiC.svg') }}" alt="Lokasi">
+                                    <h4 class="subH4">{{ $location->name }}</h4>
+                                </div>
                                 <p class="bodyMain charcoalGrey">{{ $location->address }}</p>
                             </div>
-                            <a class="btnCardM primaryBrandRed" href={{ $location->link }} target="_blank" rel="noopener">
+                            <a class="btnCardM primaryBrandRed" href={{ $location->link }} target="_blank"
+                                rel="noopener">
                                 <img class="btnIcon" src="{{ asset('assets/icon/tautanRed.svg') }}" alt="Maps">
                                 <div class="bodyMain">
                                     Lihat di Maps

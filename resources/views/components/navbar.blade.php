@@ -26,6 +26,9 @@
                 <li class="nav-item">
                     <a class="nav-link {{ Request::is('tentang-kami') ? 'active' : '' }}" href="/tentang-kami">Tentang Kami</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('cek-order') ? 'active' : '' }}" href="/cek-order">Cek Order</a>
+                </li>
             </ul>
         </div>
     </div>

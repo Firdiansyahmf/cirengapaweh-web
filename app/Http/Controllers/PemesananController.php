@@ -22,10 +22,9 @@ class PemesananController extends Controller
     public function index(Request $request)
     {
         try {
-            $perPage = 4; // Display 4 items per page per tab as in original design
+            $perPage = 4; 
             $search = $request->get('search', null);
 
-            // Base query
             $baseQuery = function($status) use ($search) {
                 $query = Order::query()
                     ->with('items.product', 'payment', 'delivery')
@@ -47,7 +46,6 @@ class PemesananController extends Controller
                 return $query;
             };
 
-            // Get paginated orders by status
             $pesananBaru = $baseQuery(['unpaid', 'paid'])->paginate($perPage, ['*'], 'page_baru');
             $perluDikirim = $baseQuery('packing')->paginate($perPage, ['*'], 'page_dikirim');
             $sedangDikirim = $baseQuery('shipping')->paginate($perPage, ['*'], 'page_sedang');
@@ -72,7 +70,6 @@ class PemesananController extends Controller
     public function acceptOrder(Request $request, Order $order): JsonResponse
     {
         try {
-            // Check payment status
             $payment = $order->payment;
             
             if (!$payment || $payment->status !== 'settlement') {
@@ -89,7 +86,6 @@ class PemesananController extends Controller
                 ], 400);
             }
 
-            // Update order status to packing
             $order->status = 'packing';
             $order->save();
 
@@ -112,7 +108,6 @@ class PemesananController extends Controller
     public function processShipment(Request $request, Order $order): JsonResponse
     {
         try {
-            // Check order status is packing
             if ($order->status !== 'packing') {
                 return response()->json([
                     'success' => false,
@@ -120,7 +115,6 @@ class PemesananController extends Controller
                 ], 400);
             }
 
-            // Create shipment in Biteship
             $delivery = $this->shippingService->createShipment($order);
 
             if (!$delivery) {
@@ -130,7 +124,6 @@ class PemesananController extends Controller
                 ], 500);
             }
 
-            // Update order status to shipping (after Biteship shipment created)
             $order->status = 'shipping';
             $order->save();
 
@@ -154,7 +147,6 @@ class PemesananController extends Controller
     public function cancelOrder(Request $request, Order $order): JsonResponse
     {
         try {
-            // Update order status to cancelled
             $order->status = 'cancelled';
             $order->save();
 

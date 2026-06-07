@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use App\Models\User;
 
@@ -32,12 +35,23 @@ class LoginController extends Controller
 
         if ($user && !$user->is_active) {
             return back()->withErrors([
-                'email' => 'Akun anda nonaktif',
+                'email' => 'Akun Anda nonaktif',
             ])->onlyInput('email');
         }
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+        if ($user && Hash::check($credentials['password'], $user->password)) {
+            $user->remember_token = Str::random(60);
+            $user->save();
+
+            Auth::login($user, $request->has('remember'));
+
             $request->session()->regenerate();
+
+            $currentSessionId = $request->session()->getId();
+            DB::table('sessions')
+                ->where('user_id', $user->id)
+                ->where('id', '!=', $currentSessionId)
+                ->delete();
 
             return redirect()->intended('/admin/dashboard');
         }

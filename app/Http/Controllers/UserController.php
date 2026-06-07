@@ -13,7 +13,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        // Check if user is superadmin
         if (!auth()->user()->isSuperAdmin()) {
             return redirect('/admin/dashboard')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
         }
@@ -84,10 +83,8 @@ class UserController extends Controller
         }
 
         try {
-            // Check if editing another superadmin
             $isEditingSuperAdmin = $user->isSuperAdmin() && auth()->id() !== $user->id;
 
-            // Validate password if needed
             if ($isEditingSuperAdmin && $request->has('password_verified')) {
                 $passwordInput = $request->input('current_password', '');
                 if (!Hash::check($passwordInput, auth()->user()->password)) {
@@ -101,7 +98,6 @@ class UserController extends Controller
 
             $isEditingSelf = auth()->id() === $user->id;
 
-            // Build validation rules
             $rules = [
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email,' . $user->id,
@@ -120,18 +116,28 @@ class UserController extends Controller
                 'email' => $validated['email'],
             ];
 
-            // Only update password if provided
             if ($validated['password'] ?? null) {
                 $updateData['password'] = Hash::make($validated['password']);
             }
 
-            // Only update role/is_active if not editing self
             if (!$isEditingSelf) {
                 $updateData['role'] = $validated['role'];
                 $updateData['is_active'] = isset($validated['is_active']) ? (bool)$validated['is_active'] : false;
             }
 
             $user->update($updateData);
+
+            if (isset($updateData['password']) || (isset($updateData['is_active']) && !$updateData['is_active'])) {
+                $user->remember_token = \Illuminate\Support\Str::random(60);
+                $user->save();
+
+                $query = \Illuminate\Support\Facades\DB::table('sessions')->where('user_id', $user->id);
+                if (auth()->id() === $user->id) {
+                    $currentSessionId = $request->session()->getId();
+                    $query->where('id', '!=', $currentSessionId);
+                }
+                $query->delete();
+            }
 
             return response()->json([
                 'success' => true,
@@ -159,7 +165,6 @@ class UserController extends Controller
     {
         $targetUser = User::findOrFail($userId);
 
-        // Only superadmins can be verified this way
         if ($targetUser->role !== 'superadmin') {
             return response()->json([
                 'success' => false,
@@ -167,7 +172,6 @@ class UserController extends Controller
             ], 403);
         }
 
-        // Validate password
         if (!Hash::check($request->password, $targetUser->password)) {
             return response()->json([
                 'success' => false,
@@ -194,7 +198,6 @@ class UserController extends Controller
         }
 
         try {
-            // Prevent deleting yourself
             if ($user->id === auth()->id()) {
                 return response()->json([
                     'success' => false,
@@ -202,7 +205,10 @@ class UserController extends Controller
                 ], 403);
             }
 
+            $userId = $user->id;
             $user->delete();
+
+            \Illuminate\Support\Facades\DB::table('sessions')->where('user_id', $userId)->delete();
 
             return response()->json([
                 'success' => true,
