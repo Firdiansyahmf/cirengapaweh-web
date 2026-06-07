@@ -1,0 +1,24 @@
+.rollbackToggle {
+    position: fixed;
+    bottom: calc(var(--gap-medium));
+    left: var(--gap-medium);
+    width: 100px;
+    aspect-ratio: 1/1;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.rollbackToggle img { width: 100%; }
+
+@media (max-width: 768px) {
+        .rollbackToggle {
+        bottom: calc(var(--gap-small) + 72px);
+        left: var(--gap-micro);
+        width: 72px;
+    }
+}
