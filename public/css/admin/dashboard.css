@@ -1,0 +1,246 @@
+/* ====== BERANDA/DASHBOARD PAGE ====== */
+.berandaHeader {
+    margin-bottom: 40px;
+}
+
+.berandaTitle h2 {
+    font-size: var(--fs-h1);
+    color: var(--fdn-grey-darker);
+    margin-bottom: 8px;
+}
+
+/* Stats Cards Grid */
+.statsCardsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap-medium);
+    margin-bottom: 30px;
+}
+
+.statCard {
+    background: var(--clean-white);
+    border: 1px solid var(--fdn-grey-light-hover);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--shadow-lighter);
+    transition: all 0.3s ease;
+}
+
+.statCard:hover {
+    box-shadow: var(--shadow-main);
+    transform: translateY(-2px);
+}
+
+.statCardContent {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.statIcon {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.statIcon .material-symbols-outlined {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--clean-white);
+}
+
+.statInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.statLabel {
+    font-family: var(--font-body);
+    font-size: var(--fs-caption);
+    color: var(--charcoal-grey);
+    font-weight: var(--fw-medium);
+    margin: 0;
+}
+
+.statNumber {
+    font-family: var(--font-display);
+    font-size: 36px;
+    color: var(--fdn-grey-darker);
+    margin: 0;
+    line-height: 1;
+}
+
+/* Dashboard Content Grid */
+.dashboardContentGrid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--gap-medium);
+    margin-bottom: 40px;
+}
+
+/* Chart Section */
+.chartSection, .activitySection {
+    background: var(--clean-white);
+    border: 1px solid var(--fdn-grey-light-hover);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--shadow-lighter);
+}
+
+.chartTitle, .activityTitle {
+    font-family: var(--font-body);
+    font-size: var(--fs-body-main);
+    font-weight: var(--fw-semibold);
+    color: var(--fdn-grey-darker);
+    margin: 0 0 20px 0;
+}
+
+.chartContainer {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.barChart {
+    width: 100%;
+    height: 100%;
+}
+
+/* Activity Section */
+.activitySubtitle {
+    font-size: 13px;
+    color: var(--fdn-white-dark-hover);
+    margin: -16px 0 16px 0;
+}
+
+.activityList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.activityItem {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--fdn-grey-light);
+}
+
+.activityItem:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.activityDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--fdn-red-normal);
+    flex-shrink: 0;
+    margin-top: 6px;
+}
+
+.activityText {
+    font-size: var(--fs-caption);
+    color: var(--fdn-grey-darker);
+    margin: 0 0 4px 0;
+}
+
+.activityTime {
+    font-size: 12px;
+    color: var(--fdn-white-dark-hover);
+    margin: 0;
+    font-weight: var(--fw-medium);
+}
+
+/* Promo Aktif Section */
+.promoAktifSection {
+    margin-top: 40px;
+}
+
+.promoSectionTitle {
+    font-family: var(--font-body);
+    font-size: var(--fs-body-lg);
+    font-weight: var(--fw-semibold);
+    color: var(--fdn-grey-darker);
+    margin: 0 0 20px 0;
+}
+
+.promoCardsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap-medium);
+}
+
+.promoCard {
+    background: var(--clean-white);
+    border: 1px solid var(--fdn-grey-light-hover);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lighter);
+    transition: all 0.3s ease;
+}
+
+.promoCard:hover {
+    box-shadow: var(--shadow-main);
+    transform: translateY(-2px);
+}
+
+.promoCardHeader {
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.promoBadge {
+    display: inline-block;
+    background-color: var(--clean-white);
+    color: var(--fdn-red-normal);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: var(--fw-semibold);
+}
+
+.promoCardBody {
+    padding: 20px;
+}
+
+.promoCardTitle {
+    font-family: var(--font-body);
+    font-size: var(--fs-body-main);
+    font-weight: var(--fw-semibold);
+    color: var(--fdn-grey-darker);
+    margin: 0 0 12px 0;
+}
+
+.promoCardDate {
+    font-size: 13px;
+    color: var(--charcoal-grey);
+    margin: 0 0 16px 0;
+}
+
+.promoDetailLink {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--fdn-red-normal);
+    text-decoration: none;
+    border: 1px solid var(--fdn-red-normal);
+    border-radius: 20px;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+    font-weight: var(--fw-medium);
+}
+
+.promoDetailLink:hover {
+    background-color: var(--fdn-red-light);
+    color: var(--fdn-red-dark);
+}

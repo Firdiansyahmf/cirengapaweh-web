@@ -25,9 +25,6 @@
             <h1 class="headerTitle">Cireng A'paweh Admin Dashboard</h1>
         </div>
         <div class="headerRight">
-            <button class="notificationBtn">
-                <span class="material-symbols-outlined">notifications</span>
-            </button>
             <div class="profileSection">
                 <div class="profileInfo">
                     <span class="profileName">{{ auth()->user()->name }}</span>

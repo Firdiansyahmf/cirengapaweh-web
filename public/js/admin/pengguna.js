@@ -214,29 +214,44 @@ userForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const isEditMode = document.getElementById("isEditMode").value === "true";
+    const isEditingSelf = document.getElementById("isEditingSelf").value === "true";
 
-    // Validate input
+    const name = document.getElementById("userName").value.trim();
+    const email = document.getElementById("userEmail").value.trim();
+
+    if (!name) {
+        showErrorModal("Nama harus diisi");
+        return;
+    }
+
+    if (!email) {
+        showErrorModal("Alamat email harus diisi");
+        return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showErrorModal("Format email tidak valid");
+        return;
+    }
+
     if (!isEditMode) {
-        const name = document.getElementById("userName").value;
-        const email = document.getElementById("userEmail").value;
         const role = document.getElementById("userRole").value;
-        const active = document.getElementById("userIsActive").checked;
-
         const password = document.getElementById("userPassword").value;
         const passwordConfirm = document.getElementById("userPasswordConfirm").value;
-        
-        if (!name) {
-            showErrorModal("Nama harus diisi");
-            return;
-        }
-
-        if (!email) {
-            showErrorModal("Alamat email harus diisi");
-            return;
-        }
 
         if (!role) {
             showErrorModal("Atur role terlebih dahulu");
+            return;
+        }
+
+        if (!password) {
+            showErrorModal("Password harus diisi");
+            return;
+        }
+
+        if (password.length < 6) {
+            showErrorModal("Password minimal harus 6 karakter");
             return;
         }
 
@@ -244,24 +259,42 @@ userForm.addEventListener("submit", async function (e) {
             showErrorModal("Password tidak cocok");
             return;
         }
-
-        if (!password || !passwordConfirm) {
-            showErrorModal("Password harus diisi");
-            return;
+    } else {
+        // Edit mode
+        if (!isEditingSelf) {
+            const role = document.getElementById("userRole").value;
+            if (!role) {
+                showErrorModal("Atur role terlebih dahulu");
+                return;
+            }
         }
 
-    } else {
-        // Edit mode - password optional but must match if provided
         const password = document.getElementById("userPasswordEdit").value;
         const passwordConfirm = document.getElementById("userPasswordEditConfirm").value;
-        
-        if (password && password !== passwordConfirm) {
-            showErrorModal("Password tidak cocok");
-            return;
+
+        if (password) {
+            if (password.length < 6) {
+                showErrorModal("Password minimal harus 6 karakter");
+                return;
+            }
+
+            if (password !== passwordConfirm) {
+                showErrorModal("Password tidak cocok");
+                return;
+            }
         }
     }
 
     pendingFormData = new FormData(this);
+    
+    // Ensure we handle password fields correctly in FormData
+    if (isEditMode) {
+        const password = document.getElementById("userPasswordEdit").value;
+        if (!password) {
+            pendingFormData.delete('password');
+        }
+    }
+
     pendingFormData.set('is_active', document.getElementById("userIsActive").checked ? 1 : 0);
     console.log(Object.fromEntries(pendingFormData));
 

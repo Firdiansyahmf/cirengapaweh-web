@@ -163,32 +163,6 @@ Route::prefix('admin')->group(function () {
         Route::get('/pengiriman/{delivery}/status', [PengirimanController::class, 'getStatus'])->name('pengiriman.status');
         Route::post('/pengiriman/{order}/process', [PengirimanController::class, 'processShipment'])->name('pengiriman.process');
 
-        // Dashboard dan CRUD
-        Route::get('/dashboard', [DashboardController::class, 'index']);
-
-        // Produk Routes
-        Route::get('/produk', [ProductController::class, 'index'])->name('produk.index');
-        Route::post('/produk', [ProductController::class, 'store'])->name('produk.store');
-        Route::put('/produk/{product}', [ProductController::class, 'update'])->name('produk.update');
-        Route::patch('/produk/{product}', [ProductController::class, 'updateStatus'])->name('produk.updateStatus');
-        Route::delete('/produk/{product}', [ProductController::class, 'destroy'])->name('produk.destroy');
-
-        // Promo Routes
-        Route::get('/promo', [PromoController::class, 'index'])->name('promo.index');
-        Route::get('/promo/get-products', [PromoController::class, 'getProducts'])->name('promo.getProducts');
-        Route::get('/promo/{promo}', [PromoController::class, 'show'])->name('promo.show');
-        Route::post('/promo', [PromoController::class, 'store'])->name('promo.store');
-        Route::get('/promo/{promo}/edit', [PromoController::class, 'edit'])->name('promo.edit');
-        Route::put('/promo/{promo}', [PromoController::class, 'update'])->name('promo.update');
-        Route::patch('/promo/{promo}', [PromoController::class, 'updateStatus'])->name('promo.updateStatus');
-        Route::delete('/promo/{promo}', [PromoController::class, 'destroy'])->name('promo.destroy');
-
-        // Lokasi Routes
-        Route::get('/lokasi', [LocationController::class, 'index'])->name('lokasi.index');
-        Route::get('/lokasi/{location}', [LocationController::class, 'show'])->name('lokasi.show');
-        Route::post('/lokasi', [LocationController::class, 'store'])->name('lokasi.store');
-        Route::put('/lokasi/{location}', [LocationController::class, 'update'])->name('lokasi.update');
-        Route::delete('/lokasi/{location}', [LocationController::class, 'destroy'])->name('lokasi.destroy');
 
         // User Management Routes
 

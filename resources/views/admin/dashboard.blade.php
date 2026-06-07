@@ -3,6 +3,7 @@
 @section('title', 'Dashboard Utama - Cireng A\'paweh')
 
 @section('content')
+    <link rel="stylesheet" href="{{ asset('css/admin/dashboard.css') }}" />
     <div id="beranda" class="pageActive">
         <div class="berandaHeader">
             <div class="berandaTitle">

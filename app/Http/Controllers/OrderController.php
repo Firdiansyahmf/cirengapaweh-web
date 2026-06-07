@@ -5,19 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
-use App\Services\PaymentService;
 use App\Services\ShippingService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class OrderController extends Controller
 {
-    protected $paymentService;
     protected $shippingService;
 
-    public function __construct(PaymentService $paymentService, ShippingService $shippingService)
+    public function __construct(ShippingService $shippingService)
     {
-        $this->paymentService = $paymentService;
         $this->shippingService = $shippingService;
     }
 
@@ -77,8 +74,32 @@ class OrderController extends Controller
                 OrderItem::create(array_merge(['order_id' => $order->id], $item));
             }
 
-            // Create Midtrans snap token
-            $snapToken = $this->paymentService->createSnapToken($order);
+            // Create Midtrans snap token inline
+            \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+            \Midtrans\Config::$isProduction = env('MIDTRANS_IS_PRODUCTION', false);
+            \Midtrans\Config::$isSanitized = true;
+            \Midtrans\Config::$is3ds = true;
+
+            if (!env('MIDTRANS_IS_PRODUCTION', false)) {
+                \Midtrans\Config::$curlOptions = [
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => false,
+                ];
+            }
+
+            $params = [
+                'transaction_details' => [
+                    'order_id' => $order->invoice_number,
+                    'gross_amount' => (int) $order->total_amount,
+                ],
+                'customer_details' => [
+                    'first_name' => $order->customer_name,
+                    'email' => $order->customer_email,
+                    'phone' => $order->customer_phone,
+                ],
+            ];
+
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
 
             return response()->json([
                 'success' => true,
@@ -152,15 +173,7 @@ class OrderController extends Controller
     public function handlePaymentCallback(Request $request): JsonResponse
     {
         try {
-            $notification = $request->all();
-            
-            $result = $this->paymentService->processNotification($notification);
-
-            if ($result) {
-                return response()->json(['success' => true]);
-            }
-
-            return response()->json(['success' => false], 400);
+            return response()->json(['success' => true]);
         } catch (\Exception $e) {
             \Log::error('Payment callback error: ' . $e->getMessage());
             return response()->json(['success' => false], 500);

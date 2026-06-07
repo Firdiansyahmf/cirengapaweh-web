@@ -194,3 +194,311 @@
     color: var(--charcoal-grey);
     border-bottom: 1px solid var(--fdn-grey-light-hover);
 }
+
+/* ====== COMMON CRUD STYLES ====== */
+.pageHeader {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 30px;
+    padding: 20px 30px;
+    background-color: var(--clean-white);
+    border: 1px solid var(--fdn-grey-light-hover);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lighter);
+}
+
+.headerContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    min-width: 220px;
+}
+
+.headerContent h2 {
+    margin-bottom: 2px;
+    font-size: var(--fs-body-main);
+    font-weight: var(--fw-semibold);
+    font-family: var(--font-body);
+}
+
+.headerContent p {
+    margin-bottom: 0;
+    font-size: 12px;
+    color: var(--fdn-white-dark-hover);
+}
+
+.headerSearchBox {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background-color: var(--fdn-grey-light);
+    border-radius: 50px;
+    border: 1px solid var(--fdn-grey-light);
+    transition: all 0.3s ease;
+    min-width: 250px;
+}
+
+.headerSearchBox:focus-within {
+    border-color: var(--fdn-red-normal);
+    background-color: var(--clean-white);
+    box-shadow: 0 0 0 3px rgba(242, 61, 61, 0.1);
+}
+
+.headerSearchBox .material-symbols-outlined {
+    font-size: 20px;
+    color: var(--charcoal-grey);
+}
+
+.headerSearchBox .searchBox {
+    flex: 1;
+    padding: 0;
+    border: none;
+    background: none;
+    font-family: var(--font-body);
+    font-size: var(--fs-caption);
+    color: var(--charcoal-grey);
+    width: 100%;
+    height: auto;
+}
+
+.headerSearchBox .searchBox:focus {
+    outline: none;
+}
+
+.tableWrapper {
+    background-color: var(--clean-white);
+    border: 1px solid var(--fdn-grey-light-hover);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    box-shadow: var(--shadow-lighter);
+}
+
+/* Pagination */
+.paginationWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.paginationBtn {
+    background-color: var(--clean-white);
+    border: 1px solid var(--fdn-grey-light-hover);
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--charcoal-grey);
+}
+
+.paginationBtn:hover {
+    border-color: var(--fdn-red-normal);
+    color: var(--fdn-red-normal);
+}
+
+.paginationNumbers {
+    display: flex;
+    gap: 8px;
+}
+
+.paginationNumber {
+    background-color: var(--clean-white);
+    border: 2px solid var(--fdn-grey-light);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: var(--fw-semibold);
+    color: var(--charcoal-grey);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paginationNumber:hover {
+    border-color: var(--fdn-red-normal);
+    color: var(--fdn-red-normal);
+}
+
+.paginationNumber.active {
+    background-color: var(--fdn-red-normal);
+    color: var(--clean-white);
+    border-color: var(--fdn-red-normal);
+}
+
+/* ====== TABS SECTION ====== */
+.tabsContainer {
+    background-color: var(--clean-white);
+    border: 1px solid var(--fdn-grey-light-hover);
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow-lighter);
+    overflow: hidden;
+}
+
+.tabsList {
+    display: flex;
+    border-bottom: 2px solid var(--fdn-grey-light-hover);
+    gap: 0;
+}
+
+.tabButton {
+    flex: 1;
+    padding: 16px 12px;
+    border: none;
+    background-color: transparent;
+    color: var(--charcoal-grey);
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: var(--fw-medium);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.tabButton .material-symbols-outlined {
+    font-size: 20px;
+}
+
+.tabButton:hover {
+    background-color: var(--fdn-grey-light);
+    color: var(--fdn-grey-dark);
+}
+
+.tabButton-active {
+    color: var(--fdn-red-normal);
+    border-bottom-color: var(--fdn-red-normal);
+    font-weight: var(--fw-semibold);
+}
+
+.tabButton-active .material-symbols-outlined {
+    font-weight: 700;
+}
+
+/* Tab Content */
+.tabContent {
+    display: none;
+}
+
+.tabContent-active {
+    display: block;
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ====== ORDER TABLE SPECIFIC STYLES ====== */
+.orderTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.orderTable thead {
+    background-color: var(--fdn-grey-light);
+    border-bottom: 2px solid var(--fdn-grey-light-hover);
+}
+
+.orderTable th {
+    padding: 16px 12px;
+    text-align: left;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: var(--fw-semibold);
+    color: var(--fdn-grey-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.orderTable td {
+    padding: 16px 12px;
+    border-bottom: 1px solid var(--fdn-grey-light-hover);
+    font-family: var(--font-body);
+    font-size: var(--fs-caption);
+    color: var(--charcoal-grey);
+}
+
+.orderTable tbody tr:hover {
+    background-color: #fafafa;
+}
+
+.aksiWrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-micro);
+    flex-wrap: wrap;
+}
+
+.action {
+    table-layout: fixed;
+    width: 360px;
+}
+
+.idPesanan {
+    font-weight: var(--fw-semibold);
+    color: var(--fdn-red-normal);
+}
+
+.namaPelanggan {
+    font-weight: var(--fw-semibold);
+    color: var(--fdn-grey-darker);
+}
+
+.pesanan {
+    max-width: 350px;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+.totalHarga {
+    color: var(--fdn-red-normal);
+    font-weight: var(--fw-semibold);
+}
+
+/* Kurir Badge Styling */
+.badgeKurir {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: var(--fw-semibold);
+    white-space: nowrap;
+    background-color: var(--fdn-yellow-normal);
+    color: var(--fdn-grey-darker);
+}
+
+.badgeKurirGosend {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.badgeKurirLamove {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.badgeKurirPickup {
+    background-color: #e8f5e9;
+    color: #388e3c;
+}

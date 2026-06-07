@@ -260,8 +260,82 @@ document.querySelectorAll('.tabButton').forEach(button => {
         
         // Add active class to clicked button and corresponding content
         this.classList.add('tabButton-active');
-        document.getElementById(tabId).classList.add('tabContent-active');
+        const contentEl = document.getElementById(tabId);
+        if (contentEl) {
+            contentEl.classList.add('tabContent-active');
+        }
+
+        // Save active tab to localStorage
+        localStorage.setItem('activePemesananTab', tabId);
     });
+});
+
+// Restore tab state and run auto-polling on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Restore active tab from localStorage
+    const savedTabId = localStorage.getItem('activePemesananTab');
+    if (savedTabId) {
+        const tabButton = document.querySelector(`.tabButton[data-tab="${savedTabId}"]`);
+        const tabContent = document.getElementById(savedTabId);
+        if (tabButton && tabContent) {
+            // Remove initial active classes
+            document.querySelectorAll('.tabButton').forEach(btn => btn.classList.remove('tabButton-active'));
+            document.querySelectorAll('.tabContent').forEach(content => content.classList.remove('tabContent-active'));
+            
+            // Set saved active classes
+            tabButton.classList.add('tabButton-active');
+            tabContent.classList.add('tabContent-active');
+        }
+    }
+
+    // 2. Setup Auto-polling for active deliveries
+    const activeDeliveries = [];
+    document.querySelectorAll('#tab-sedang-dikirim tbody tr[data-delivery-id]').forEach(tr => {
+        const deliveryId = tr.getAttribute('data-delivery-id');
+        const currentStatus = tr.getAttribute('data-delivery-status');
+        if (deliveryId && currentStatus && currentStatus !== 'delivered') {
+            activeDeliveries.push({
+                deliveryId: deliveryId,
+                currentStatus: currentStatus
+            });
+        }
+    });
+
+    if (activeDeliveries.length > 0) {
+        console.log(`[AutoPoll] Starting auto-polling for ${activeDeliveries.length} active deliveries.`);
+        const autoPollInterval = setInterval(() => {
+            let statusChanged = false;
+            const pollPromises = activeDeliveries.map(item => {
+                return fetch(`/api/tracking/${item.deliveryId}`)
+                    .then(response => {
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success && data.data) {
+                            const newStatus = data.data.status;
+                            if (newStatus !== item.currentStatus) {
+                                console.log(`[AutoPoll] Delivery ${item.deliveryId} status changed from ${item.currentStatus} to ${newStatus}`);
+                                statusChanged = true;
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error(`[AutoPoll] Failed to poll status for delivery ${item.deliveryId}:`, error);
+                    });
+            });
+
+            Promise.all(pollPromises).then(() => {
+                if (statusChanged) {
+                    showNotification('Status paket/pengiriman telah diperbarui. Memuat ulang...', 'success');
+                    clearInterval(autoPollInterval);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+                }
+            });
+        }, 30000); // Poll every 30 seconds
+    }
 });
 
 // Close modals on overlay click

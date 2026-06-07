@@ -1,11 +1,3 @@
-/**
- * Tracking Modal Management
- * Pattern: Similar to modal-confirmation
- * - openTrackingModal(deliveryId): Fetch and show modal
- * - closeTrackingModal(): Hide modal
- * - Overlay click to close functionality
- */
-
 function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
     notification.textContent = message;
@@ -185,54 +177,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-
-// ====== TEST HELPER (Development Only) ======
-// Use in browser console to manually advance delivery status for testing
-// Example: testAdvanceDeliveryStatus('requesting_pickup')
-function testAdvanceDeliveryStatus(newStatus) {
-    const modal = document.getElementById('trackingModal');
-    const deliveryId = modal?.getAttribute('data-delivery-id');
-    
-    if (!deliveryId) {
-        console.error('No delivery ID found. Open tracking modal first.');
-        return;
-    }
-
-    const validStatuses = [
-        'requesting_pickup',    // Step 1
-        'on_pickup',           // Step 2
-        'picked_up',           // Step 2
-        'on_delivery',         // Step 3
-        'delivered',           // Step 4
-    ];
-
-    if (!validStatuses.includes(newStatus)) {
-        console.error(`Invalid status. Use one of: ${validStatuses.join(', ')}`);
-        return;
-    }
-
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-    if (!csrfToken) {
-        console.error('CSRF token not found');
-        return;
-    }
-
-    fetch(`/admin/delivery/${deliveryId}/status`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfToken,
-        },
-        body: JSON.stringify({ status: newStatus }),
-    })
-    .then(r => r.json())
-    .then(data => {
-        if (data.success) {
-            console.log(`✓ Delivery status updated to: ${newStatus}`);
-            refreshTrackingStatus(); // Refresh modal
-        } else {
-            console.error('Failed:', data.message);
-        }
-    })
-    .catch(e => console.error('Error:', e.message));
-}

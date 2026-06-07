@@ -99,6 +99,8 @@ class UserController extends Controller
                 }
             }
 
+            $isEditingSelf = auth()->id() === $user->id;
+
             // Build validation rules
             $rules = [
                 'name' => 'required|string|max:255',
@@ -106,8 +108,10 @@ class UserController extends Controller
                 'password' => 'nullable|string|min:6',
             ];
 
-            $rules['role'] = 'required|in:superadmin,staff';
-            $rules['is_active'] = 'nullable|boolean';
+            if (!$isEditingSelf) {
+                $rules['role'] = 'required|in:superadmin,staff';
+                $rules['is_active'] = 'nullable|boolean';
+            }
 
             $validated = $request->validate($rules);
 
@@ -122,8 +126,10 @@ class UserController extends Controller
             }
 
             // Only update role/is_active if not editing self
-            $updateData['role'] = $validated['role'];
-            $updateData['is_active'] = $validated['is_active'] ?? true;
+            if (!$isEditingSelf) {
+                $updateData['role'] = $validated['role'];
+                $updateData['is_active'] = isset($validated['is_active']) ? (bool)$validated['is_active'] : false;
+            }
 
             $user->update($updateData);
 

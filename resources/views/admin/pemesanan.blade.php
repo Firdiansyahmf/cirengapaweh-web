@@ -44,7 +44,7 @@
         <!-- Tab Content: Pesanan Baru -->
         <div id="tab-pesanan-baru" class="tabContent tabContent-active">
             <div class="tableWrapper">
-                <table class="orderTable">
+                <table class="orderTable" border="1">
                     <thead>
                         <tr>
                             <th>Tanggal</th>
@@ -75,7 +75,7 @@
                                         <span class="badge badgePaymentStatus badgePaymentPending">Menunggu Pembayaran</span>
                                     @endif
                                 </td>
-                                <td class="aksiCell">
+                                <td>
                                     @if($order->payment && $order->payment->status === 'settlement')
                                         <button class="btnAction btnProsesPesanan" onclick="openConfirmModal('proses', '{{ $order->id }}', '{{ $order->invoice_number }}')">Proses Pesanan</button>
                                     @else
@@ -139,7 +139,7 @@
         <!-- Tab Content: Perlu Dikirim (Packing) -->
         <div id="tab-perlu-dikirim" class="tabContent">
             <div class="tableWrapper">
-                <table class="orderTable">
+                <table class="orderTable" border="1">
                     <thead>
                         <tr>
                             <th>Tanggal</th>
@@ -147,7 +147,7 @@
                             <th>Pelanggan</th>
                             <th>Pesanan</th>
                             <th>Harga</th>
-                            <th>Aksi</th>
+                            <th class="action">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -162,12 +162,14 @@
                                     @endforeach
                                 </td>
                                 <td class="totalHarga"><strong>Rp {{ number_format($order->total_amount, 0, ',', '.') }}</strong></td>
-                                <td class="aksiCell">
-                                    <button class="btnAction btnKirimPesanan" onclick="openConfirmModal('kirim', '{{ $order->id }}', '{{ $order->invoice_number }}')">Kirim Pesanan</button>
-                                    <button class="btnAction btnBatalkanPesanan" onclick="openConfirmModal('batalkan', '{{ $order->id }}', '{{ $order->invoice_number }}')">Batalkan Pesanan</button>
-                                    <button class="btnIcon btnViewInvoice" title="Lihat Invoice" onclick="openInvoiceModal('{{ $order->id }}', '{{ $order->invoice_number }}')">
-                                        <span class="material-symbols-outlined">visibility</span>
-                                    </button>
+                                <td>
+                                    <div class="aksiWrapper">
+                                        <button class="btnAction btnKirimPesanan" onclick="openConfirmModal('kirim', '{{ $order->id }}', '{{ $order->invoice_number }}')">Kirim Pesanan</button>
+                                        <button class="btnAction btnBatalkanPesanan" onclick="openConfirmModal('batalkan', '{{ $order->id }}', '{{ $order->invoice_number }}')">Batalkan Pesanan</button>
+                                        <button class="btnIcon btnViewInvoice" title="Lihat Invoice" onclick="openInvoiceModal('{{ $order->id }}', '{{ $order->invoice_number }}')">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
@@ -222,7 +224,7 @@
         <!-- Tab Content: Sedang Dikirim -->
         <div id="tab-sedang-dikirim" class="tabContent">
             <div class="tableWrapper">
-                <table class="orderTable">
+                <table class="orderTable" border="1">
                     <thead>
                         <tr>
                             <th>Tanggal</th>
@@ -236,7 +238,7 @@
                     </thead>
                     <tbody>
                         @forelse($sedangDikirim as $order)
-                            <tr>
+                            <tr data-delivery-id="{{ $order->delivery ? $order->delivery->id : '' }}" data-delivery-status="{{ $order->delivery ? $order->delivery->status : '' }}">
                                 <td>{{ $order->created_at->format('d M Y, H:i') }}</td>
                                 <td class="idPesanan">{{ $order->invoice_number }}</td>
                                 <td class="namaPelanggan">{{ $order->customer_name }}</td>
@@ -262,17 +264,19 @@
                                     @endif
                                 </td>
                                 <td class="aksiCell">
-                                    <button class="btnAction btnLacakPaket" 
-                                        @if($order->delivery && $order->delivery->tracking_number)
-                                            onclick="openTrackingModal({{ $order->delivery->id }}, '{{ $order->invoice_number }}')"
-                                        @else
-                                            disabled
-                                        @endif>
-                                        Lacak Paket
-                                    </button>
-                                    <button class="btnIcon btnViewInvoice" title="Lihat Detail" onclick="openInvoiceModal('{{ $order->id }}', '{{ $order->invoice_number }}')">
-                                        <span class="material-symbols-outlined">visibility</span>
-                                    </button>
+                                    <div class="aksiWrapper">
+                                        <button class="btnAction btnLacakPaket" 
+                                            @if($order->delivery && $order->delivery->tracking_number)
+                                                onclick="openTrackingModal({{ $order->delivery->id }}, '{{ $order->invoice_number }}')"
+                                            @else
+                                                disabled
+                                            @endif>
+                                            Lacak Paket
+                                        </button>
+                                        <button class="btnIcon btnViewInvoice" title="Lihat Detail" onclick="openInvoiceModal('{{ $order->id }}', '{{ $order->invoice_number }}')">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
@@ -327,7 +331,7 @@
         <!-- Tab Content: Selesai -->
         <div id="tab-selesai" class="tabContent">
             <div class="tableWrapper">
-                <table class="orderTable">
+                <table class="orderTable" border="1">
                     <thead>
                         <tr>
                             <th>Tanggal</th>
