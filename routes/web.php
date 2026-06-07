@@ -79,21 +79,13 @@ Route::get('/produk', function (Request $request) {
     $activePromo = null;
     if ($promoId) {
         $activePromo = Promo::where('id', $promoId)
+            ->whereHas('products', function ($query) use ($id) {
+                $query->where('products.id', $id);
+            })
             ->where('is_active', true)
             ->whereDate('start_date', '<=', now()->toDateString())
             ->whereDate('end_date', '>=', now()->toDateString())
             ->whereRaw('used_count < max_usage')
-            ->first();
-    }
-    if (!$activePromo) {
-        $activePromo = Promo::whereHas('products', function ($query) use ($id) {
-            $query->where('products.id', $id);
-        })
-            ->where('is_active', true)
-            ->whereDate('start_date', '<=', now()->toDateString())
-            ->whereDate('end_date', '>=', now()->toDateString())
-            ->whereRaw('used_count < max_usage')
-            ->orderBy('created_at', 'desc')
             ->first();
     }
     $finalPrice = $product->price;
@@ -108,6 +100,7 @@ Route::get('/produk', function (Request $request) {
 //checkout
 Route::get('/checkout', [CheckoutController::class, 'show']);
 Route::post('/checkout', [CheckoutController::class, 'prepare']);
+Route::post('/checkout/promo/validate', [CheckoutController::class, 'validatePromo'])->name('checkout.promo.validate');
 
 // payment
 Route::post('/payment', [CheckoutController::class, 'store'])->name('checkout.process');

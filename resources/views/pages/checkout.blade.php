@@ -79,10 +79,10 @@
                             <div class="inputGroup inputPromo">
                                 @if ($promo) 
                                     <input type="text" name="promo" id="inputPromo" placeholder="Kode Promo" readonly value="{{ $promo->promo_code }}" class="bodyMain disabled"/>
-                                    <a type="button" class="btnOutline disabled">Terpakai</a>
+                                    <button type="button" id="btnPromo" class="btnOutline disabled" disabled>Terpakai</button>
                                 @else
-                                    <input type="text" name="promo" placeholder="Kode Promo" class="bodyMain"/>
-                                    <button type="button" class="btnOutline">Gunakan</button>
+                                    <input type="text" name="promo" id="inputPromo" placeholder="Kode Promo" class="bodyMain"/>
+                                    <button type="button" id="btnPromo" class="btnOutline">Gunakan</button>
                                 @endif
                             </div>
                         </div> {{-- end couponCard --}}
@@ -106,6 +106,15 @@
                                                 <span class="caption">Total Harga ({{ $quantity }} Barang)</span>
                                                 <span class="bodyMain">Rp{{ number_format($price * $quantity, 0, ',', '.') }}</span>
                                             </div>
+                                            @if ($promo)
+                                                @php
+                                                    $discount = ($price * $quantity * $promo->discount_percentage) / 100;
+                                                @endphp
+                                                <div class="flexRow" id="promoDiscountRow">
+                                                    <span class="caption">Potongan Harga ({{ $promo->promo_code }})</span>
+                                                    <span class="bodyMain primaryBrandRed" id="promoDiscountValue">-Rp{{ number_format($discount, 0, ',', '.') }}</span>
+                                                </div>
+                                            @endif
                                             <div class="flexRow">
                                                 <span class="caption">Total Ongkos Kirim</span>
                                                 <span class="bodyMain" id="shippingCost">Rp-</span>
@@ -122,8 +131,12 @@
                                 <div class="flexRow">
                                     <span class="bodyMain charcoalGrey"><b>Total Tagihan</b></span>
                                     <strong class="bodyMain charcoalGrey">
-                                        <b id="totalBill" data-subtotal="{{ $price * $quantity }}" data-admin="1000">
-                                            Rp-
+                                        @php
+                                            $discount = $promo ? ($price * $quantity * $promo->discount_percentage) / 100 : 0;
+                                            $initialBill = ($price * $quantity) - $discount + 1000;
+                                        @endphp
+                                        <b id="totalBill" data-subtotal="{{ $price * $quantity }}" data-admin="1000" data-discount="{{ $discount }}">
+                                            Rp{{ number_format($initialBill, 0, ',', '.') }}
                                         </b>
                                     </strong>
                                 </div>

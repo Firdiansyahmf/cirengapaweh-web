@@ -145,7 +145,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (totalBillEl) {
                     const subtotal = parseInt(totalBillEl.getAttribute("data-subtotal") || "0");
                     const admin = parseInt(totalBillEl.getAttribute("data-admin") || "0");
-                    const total = subtotal + admin + cost;
+                    const discount = parseInt(totalBillEl.getAttribute("data-discount") || "0");
+                    const total = subtotal + admin + cost - discount;
                     totalBillEl.innerText = formatRupiah(total);
                 }
                 if (payBtn) {
@@ -176,7 +177,10 @@ document.addEventListener("DOMContentLoaded", function () {
             shippingCostEl.innerText = "Rp-";
         }
         if (totalBillEl) {
-            totalBillEl.innerText = "Rp-";
+            const subtotal = parseInt(totalBillEl.getAttribute("data-subtotal") || "0");
+            const admin = parseInt(totalBillEl.getAttribute("data-admin") || "0");
+            const discount = parseInt(totalBillEl.getAttribute("data-discount") || "0");
+            totalBillEl.innerText = formatRupiah(subtotal + admin - discount);
         }
         if (payBtn) {
             payBtn.disabled = true;
@@ -234,6 +238,105 @@ document.addEventListener("DOMContentLoaded", function () {
     if (nameInput && nameCounter) {
         nameInput.addEventListener("input", function () {
             nameCounter.innerText = this.value.length + "/50";
+        });
+    }
+
+    // Promo Code Handler
+    const inputPromo = document.getElementById("inputPromo");
+    const btnPromo = document.getElementById("btnPromo");
+    
+    if (btnPromo && inputPromo) {
+        btnPromo.addEventListener("click", function () {
+            const promoCode = inputPromo.value.trim();
+            if (!promoCode) {
+                alert("Silakan masukkan kode promo terlebih dahulu.");
+                return;
+            }
+            
+            // disable temporarily to prevent double click
+            btnPromo.disabled = true;
+            btnPromo.innerText = "Memproses...";
+            
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') 
+                || document.querySelector('input[name="_token"]')?.value;
+                
+            fetch("/checkout/promo/validate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "X-CSRF-TOKEN": csrfToken
+                },
+                body: JSON.stringify({ promo_code: promoCode })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => { throw err; });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert("promo berhasil dipakai");
+                    
+                    // add disabled classes and attributes
+                    inputPromo.classList.add("disabled");
+                    inputPromo.readOnly = true;
+                    btnPromo.classList.add("disabled");
+                    btnPromo.disabled = true;
+                    btnPromo.innerText = "Terpakai";
+                    
+                    // add new html in ringkasan
+                    const summaryDetail = document.querySelector(".summaryDetail");
+                    if (summaryDetail) {
+                        let promoRow = document.getElementById("promoDiscountRow");
+                        if (!promoRow) {
+                            promoRow = document.createElement("div");
+                            promoRow.className = "flexRow";
+                            promoRow.id = "promoDiscountRow";
+                            if (summaryDetail.children.length > 0) {
+                                if (summaryDetail.children.length > 1) {
+                                    summaryDetail.insertBefore(promoRow, summaryDetail.children[1]);
+                                } else {
+                                    summaryDetail.appendChild(promoRow);
+                                }
+                            } else {
+                                summaryDetail.appendChild(promoRow);
+                            }
+                        }
+                        promoRow.innerHTML = `
+                            <span class="caption">Potongan Harga (${data.promo_code})</span>
+                            <span class="bodyMain primaryBrandRed" id="promoDiscountValue">-${formatRupiah(data.discount_amount)}</span>
+                        `;
+                    }
+                    
+                    // update total tagihan
+                    const totalBillEl = document.getElementById("totalBill");
+                    if (totalBillEl) {
+                        totalBillEl.setAttribute("data-discount", data.discount_amount);
+                        const subtotal = parseInt(totalBillEl.getAttribute("data-subtotal") || "0");
+                        const admin = parseInt(totalBillEl.getAttribute("data-admin") || "0");
+                        const shippingCostEl = document.getElementById("shippingCost");
+                        let shippingCost = 0;
+                        if (shippingCostEl) {
+                            const text = shippingCostEl.innerText.replace(/[^0-9]/g, "");
+                            if (text) {
+                                shippingCost = parseInt(text) || 0;
+                            }
+                        }
+                        const total = subtotal + admin + shippingCost - data.discount_amount;
+                        totalBillEl.innerText = formatRupiah(total);
+                    }
+                } else {
+                    throw new Error(data.message || "Promo tidak ada atau kadaluarsa");
+                }
+            })
+            .catch(err => {
+                console.error("Promo validation error:", err);
+                alert(err.message || "promo tidak ada atau kadaluarsa");
+                btnPromo.disabled = false;
+                btnPromo.innerText = "Gunakan";
+            });
         });
     }
 });
