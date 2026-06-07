@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             item.innerText = product.name;
                             item.addEventListener("click", () => {
                                 searchBar.value = product.name;
-                                selectedProductUrl = `/produk?id=${product.id}`;
+                                selectedProductUrl = `/produk?id= .${product.id}`;
                                 searchDropdown.style.display = "none";
                             });
                             searchDropdown.appendChild(item);
