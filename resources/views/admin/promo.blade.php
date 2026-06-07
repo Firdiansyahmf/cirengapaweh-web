@@ -238,7 +238,7 @@
                     </div>
                     <div class="formGroup">
                         <label for="promoMaxUsage">Kuota Promo *</label>
-                        <input type="number" id="promoMaxUsage" name="max_usage" min="1" value="100" required>
+                        <input type="number" id="promoMaxUsage" name="max_usage" min="1" value="100" placeholder="0" required>
                     </div>
                 </div>
 
