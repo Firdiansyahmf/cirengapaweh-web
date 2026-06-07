@@ -30,9 +30,9 @@
                         <th>Nama Produk</th>
                         <th>Harga</th>
                         <th>Deskripsi</th>
-                        <th>Kategori</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
+                        <th class="centerAlign info">Kategori</th>
+                        <th class="centerAlign info">Status</th>
+                        <th class="centerAlign info">Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="productTableBody">
@@ -48,7 +48,7 @@
                             <td class="namaProduk">{{ $product->name }}</td>
                             <td class="hargaProduk"><strong>Rp {{ number_format($product->price, 0, ',', '.') }}</strong></td>
                             <td class="deskripsi">{{ Str::limit($product->description, 50) }}</td>
-                            <td>
+                            <td class="centerAlign">
                                 @if($product->category === 'fast_food')
                                     <span class="badge badgeCategory">Fast Food</span>
                                 @else
@@ -62,7 +62,7 @@
                                     <span class="badge badgeNonaktif">Draft</span>
                                 @endif
                             </td>
-                            <td>
+                            <td class="centerAlign">
                                 <div class="aksiCell">
                                     <button class="btnIcon btnEdit" title="Edit" onclick="editProduct({{ $product->id }})">
                                         <span class="material-symbols-outlined">edit</span>

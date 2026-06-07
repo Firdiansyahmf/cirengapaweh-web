@@ -1,4 +1,3 @@
-<!-- Tracking Modal - Pattern matches modal-confirmation -->
 <div id="trackingModal" class="trackingModalOverlay">
     <div class="trackingModalDialog">
         <div class="trackingModalHeader">
@@ -8,7 +7,7 @@
             </button>
         </div>
         <div id="trackingContent" class="trackingModalContent">
-            <!-- Tracking info populated by JS -->
+            
         </div>
         <div class="trackingModalFooter">
             <button class="btnRefresh" onclick="refreshTrackingStatus(); return false;" title="Perbarui status pengiriman">

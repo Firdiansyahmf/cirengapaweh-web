@@ -63,12 +63,12 @@
                         <th>Nama Promo</th>
                         <th>Produk Terkait</th>
                         <th>Kode Promo</th>
-                        <th>Tipe</th>
+                        <th class="centerAlign info">Tipe</th>
                         <th>Diskon (%)</th>
                         <th>Kuota</th>
                         <th>Periode</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
+                        <th class="centerAlign info">Status</th>
+                        <th class="centerAlign info">Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="promoTableBody">

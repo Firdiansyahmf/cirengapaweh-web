@@ -23,15 +23,15 @@
         </div>
 
         <div class="tableWrapper">
-            <table class="locationTable">
+            <table class="locationTable" border="1">
                 <thead>
                     <tr>
                         <th>Foto</th>
                         <th>Nama Cabang</th>
                         <th>Alamat</th>
                         <th>Jam Operasional</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
+                        <th class="centerAlign info">Status</th>
+                        <th class="centerAlign info">Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="locationTableBody">
@@ -57,13 +57,15 @@
                                     <span class="badge badgeNonaktif">Nonaktif</span>
                                 @endif
                             </td>
-                            <td class="aksiCell">
-                                <button class="btnIcon btnEdit" title="Edit" onclick="editLocation({{ $location->id }})">
-                                    <span class="material-symbols-outlined">edit</span>
-                                </button>
-                                <button class="btnIcon btnDelete" title="Hapus" onclick="deleteLocation({{ $location->id }})">
-                                    <span class="material-symbols-outlined">delete</span>
-                                </button>
+                            <td class="centerAlign">
+                                <div class="aksiCell">
+                                    <button class="btnIcon btnEdit" title="Edit" onclick="editLocation({{ $location->id }})">
+                                        <span class="material-symbols-outlined">edit</span>
+                                    </button>
+                                    <button class="btnIcon btnDelete" title="Hapus" onclick="deleteLocation({{ $location->id }})">
+                                        <span class="material-symbols-outlined">delete</span>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     @empty

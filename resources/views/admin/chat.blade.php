@@ -5,14 +5,10 @@
 @endpush
 
 @section('content')
-    <div class="content-header" style="margin-bottom: 20px;">
-        <h2 class="displayH2 charcoalGrey">Manajemen Chat</h2>
-    </div>
-
     <div class="chatContainer">
         <div class="chatSidebar">
             <div class="chatSidebarHeader">
-                <h3 class="subH3">Session Chat</h3>
+                <h3 class="subH3 charcoalGrey">Session Chat</h3>
                 <div class="chatTabs">
                     <button class="chatTab active" onclick="filterSessions('all', this)">Semua</button>
                     <button class="chatTab" onclick="filterSessions('open', this)">Dibuka</button>

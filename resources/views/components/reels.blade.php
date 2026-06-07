@@ -22,7 +22,7 @@
                         <img class="phoneFrameImg" src="{{ asset('assets/img/dekorasi/phoneFrame.svg') }}"
                             alt="Frame HP">
                         <div class="phone">
-                            <video loop playsinline muted src="{{ asset('assets/video/cireng/Iklan.mp4') }}"></video>
+                            <video loop playsinline playsinline muted src="{{ asset('assets/video/cireng/Iklan.mp4') }}"></video>
                         </div>
                     </div>
 
@@ -32,7 +32,7 @@
                         <img class="phoneFrameImg" src="{{ asset('assets/img/dekorasi/phoneFrame.svg') }}"
                             alt="Frame HP">
                         <div class="phone">
-                            <video loop playsinline muted src="{{ asset('assets/video/cireng/Cireng Kuah Keju.mp4') }}"></video>
+                            <video loop playsinline playsinline muted src="{{ asset('assets/video/cireng/Cireng Kuah Keju.mp4') }}"></video>
                         </div>
                     </div>
 
@@ -42,7 +42,7 @@
                         <img class="phoneFrameImg" src="{{ asset('assets/img/dekorasi/phoneFrame.svg') }}"
                             alt="Frame HP">
                         <div class="phone">
-                            <video loop playsinline muted src="{{ asset('assets/video/cireng/Best Seller.mp4') }}"></video>
+                            <video loop playsinline playsinline muted src="{{ asset('assets/video/cireng/Best Seller.mp4') }}"></video>
                         </div>
                     </div>
 
@@ -52,7 +52,7 @@
                         <img class="phoneFrameImg" src="{{ asset('assets/img/dekorasi/phoneFrame.svg') }}"
                             alt="Frame HP">
                         <div class="phone">
-                            <video loop playsinline muted src="{{ asset('assets/video/cireng/Kebonaki.mp4') }}"></video>
+                            <video loop playsinline playsinline muted src="{{ asset('assets/video/cireng/Kebonaki.mp4') }}"></video>
                         </div>
                     </div>
 
@@ -62,7 +62,7 @@
                         <img class="phoneFrameImg" src="{{ asset('assets/img/dekorasi/phoneFrame.svg') }}"
                             alt="Frame HP">
                         <div class="phone">
-                            <video loop playsinline muted src="{{ asset('assets/video/cireng/Review.mp4') }}"></video>
+                            <video loop playsinline playsinline muted src="{{ asset('assets/video/cireng/Review.mp4') }}"></video>
                         </div>
                     </div>
                 </div> <!-- end flexRow -->

@@ -3,10 +3,11 @@
 @section('title', 'Dashboard Utama - Cireng A\'paweh')
 
 @section('content')
+    <link rel="stylesheet" href="{{ asset('css/admin/dashboard.css') }}" />
     <div id="beranda" class="pageActive">
         <div class="berandaHeader">
             <div class="berandaTitle">
-                <h2>Halo, {{ auth()->user()->name }}!</h2>
+                <h2 class="charcoalGrey">Halo, {{ auth()->user()->name }}!</h2>
                 <p>Berikut adalah ringkasan website Cireng A'paweh</p>
             </div>
         </div>
