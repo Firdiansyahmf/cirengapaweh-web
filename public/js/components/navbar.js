@@ -1,3 +1,4 @@
+// NAVBAR JS -> KONEK FOOTER JUGA
 window.addEventListener("DOMContentLoaded", () => {
     const navbar = document.querySelector(".navbar");
     const navbarCollapse = document.getElementById("navbarNav");
@@ -6,7 +7,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // logic scroll background
     const checkScroll = () => {
-        navbar.classList.toggle("scrolled", window.scrollY > 20 || isMobileMenuOpen);
+        navbar.classList.toggle("scrolled", window.scrollY > 1 || isMobileMenuOpen);
         scrollTicking = false;
     };
     checkScroll();
@@ -24,7 +25,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     // logic scroll offset
-    document.querySelectorAll(".hero .btnPlayWrap, .hero .btnOutline, .nav-link").forEach(trigger => {
+    document.querySelectorAll(".hero .btnPlayWrap, .hero .btnOutline, .nav-link, .footer .aMenu a").forEach(trigger => {
         trigger.addEventListener("click", function (e) {
             let targetId = this.getAttribute("href") || (this.classList.contains("btnPlayWrap") ? "#reels" : this.classList.contains("btnOutline") ? "#menu" : null);
 

@@ -26,11 +26,11 @@
                 <div class="flexCol aMenu">
                     <h2 class="displayH2 accentCheeseYellow">Jelajahi</h2>
 
-                    <a class="caption" href="/">Beranda</a>
+                    <a class="caption" href="{{ Request::is('/') ? '#hero' : '/#hero' }}">Beranda</a>
+                    <a class="caption" href="{{ Request::is('/') ? '#menu' : '/#menu' }}">Daftar Menu</a>
+                    <a class="caption" href="{{ Request::is('/') ? '#reels' : '/#reels' }}">Video</a>
+                    <a class="caption" href="{{ Request::is('/') ? '#mitra' : '/#mitra' }}">Kemitraan</a>
                     <a class="caption" href="/tentang-kami">Tentang Kami</a>
-                    <a class="caption" href="">Daftar Menu</a>
-                    <a class="caption" href="">Lokasi Cabang</a>
-                    <a class="caption" href="">Kemitraan</a>
                 </div>
 
                 <div class="flexCol aMenu">
