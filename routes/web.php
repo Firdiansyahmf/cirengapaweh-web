@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Middleware\AdminAuth;
 use App\Models\PartnerLocation;
 use Illuminate\Support\Facades\Route;
@@ -13,11 +14,15 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PengirimanController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\PaymentController;
-
+// produk
 use App\Models\Product;
+// promo
 use App\Models\Promo;
+// order
 use App\Models\Order;
+// detail produk
 use Illuminate\Http\Request;
+// chatbot
 use App\Models\ChatSession;
 use App\Models\ChatMessage;
 
@@ -125,7 +130,6 @@ Route::post('/payment/success', function (Request $request) {
     $order = Order::where('invoice_number', $invoiceNumber)->firstOrFail();
     $payment = $order->payment;
     $orderItem = $order->items()->first();
-
     return view('pages.paymentSuccess', compact('order', 'payment', 'orderItem'));
 });
 
@@ -144,7 +148,8 @@ Route::get('/api/tracking/{delivery}', [PengirimanController::class, 'showTracki
 // shipment webhook
 Route::post('/webhooks/biteship', [PengirimanController::class, 'handleWebhook'])->name('biteship.webhook');
 
-// END : RUTE UTAMA
+// END RUTE CUSTOMER (WEB UTAMA)____________<
+
 
 // >____________RUTE ADMIN DASHBOARD (CMS)
 Route::prefix('admin')->group(function () {
@@ -174,6 +179,7 @@ Route::prefix('admin')->group(function () {
         Route::put('/promo/{promo}', [PromoController::class, 'update'])->name('promo.update');
         Route::patch('/promo/{promo}', [PromoController::class, 'updateStatus'])->name('promo.updateStatus');
         Route::delete('/promo/{promo}', [PromoController::class, 'destroy'])->name('promo.destroy');
+
         // lokasi
         Route::get('/lokasi', [LocationController::class, 'index'])->name('lokasi.index');
         Route::get('/lokasi/{location}', [LocationController::class, 'show'])->name('lokasi.show');
@@ -181,7 +187,7 @@ Route::prefix('admin')->group(function () {
         Route::put('/lokasi/{location}', [LocationController::class, 'update'])->name('lokasi.update');
         Route::delete('/lokasi/{location}', [LocationController::class, 'destroy'])->name('lokasi.destroy');
 
-        // Pemesanan Routes
+        // pemesanan routes
         Route::get('/pemesanan', [PemesananController::class, 'index'])->name('pemesanan.index');
         Route::post('/pemesanan/{order}/process', [PemesananController::class, 'processShipment'])->name('pemesanan.processShipment');
         Route::post('/pemesanan/{order}/accept', [PemesananController::class, 'acceptOrder'])->name('pemesanan.accept');
@@ -189,7 +195,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/pemesanan/status/{status}', [OrderController::class, 'getByStatus'])->name('pemesanan.status');
         Route::put('/pemesanan/{order}/status', [OrderController::class, 'updateStatus'])->name('pemesanan.updateStatus');
 
-        // User Management Routes
+        // user management
         Route::get('/pengguna', [UserController::class, 'index'])->name('pengguna.index');
         Route::post('/pengguna', [UserController::class, 'store'])->name('pengguna.store');
         Route::put('/pengguna/{user}', [UserController::class, 'update'])->name('pengguna.update');
@@ -235,7 +241,6 @@ Route::post('/chat-api/create', function () {
     ]);
     return response()->json(['success' => true, 'session_id' => $session->id]);
 });
-
 // api send messages
 Route::post('/chat-api/{sessionId}/send', function (Request $request, $sessionId) {
     ChatMessage::query()->create([
@@ -247,7 +252,6 @@ Route::post('/chat-api/{sessionId}/send', function (Request $request, $sessionId
     ChatSession::query()->where('id', $sessionId)->update(['updated_at' => now()]);
     return response()->json(['success' => true]);
 });
-
 // api check reply from admin
 Route::get('/chat-api/{sessionId}/messages', function (Request $request, $sessionId) {
     $session = ChatSession::query()->find($sessionId);
@@ -263,14 +267,14 @@ Route::get('/chat-api/{sessionId}/messages', function (Request $request, $sessio
         'new_messages' => $newMessages
     ]);
 });
-
-// page404.blade.php
-Route::any('/{any}', function () {
-    return response()->view('pages.page404', [], 404);
-})->where('any', '.*');
-
 // api close session
 Route::post('/chat-api/{sessionId}/close', function ($sessionId) {
     ChatSession::query()->where('id', $sessionId)->update(['status' => 'closed']);
     return response()->json(['success' => true]);
 });
+
+// page404.blade.php (harus plg bawah)
+Route::any('/{any}', function () {
+    return response()->view('pages.page404', [], 404);
+})->where('any', '.*');
+
