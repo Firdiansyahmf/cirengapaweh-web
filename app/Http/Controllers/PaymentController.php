@@ -40,6 +40,7 @@ class PaymentController extends Controller
         $productName = session("checkout_product");
         $price = session("checkout_price");
         $quantity = session("checkout_quantity");
+        $promoId = session("checkout_promo_id");
 
         if (!$productId || !$productName || !$price || !$quantity) {
             return redirect("/")->with(
@@ -76,6 +77,7 @@ class PaymentController extends Controller
                 "customer_phone" => $validated["whatsapp"],
                 "shipping_address" => $validated["shipping_address"],
                 "subtotal_amount" => $subtotal,
+                "promo_id" => $promoId,
                 "shipping_cost" => $ongkir,
                 /* "postal_code" => $validated["postal_code"], */
                 "total_amount" => $totalAmount,
@@ -102,6 +104,10 @@ class PaymentController extends Controller
                 "transaction_details" => [
                     "order_id" => $invoiceNumber,
                     "gross_amount" => (int) $totalAmount,
+                ],
+                "custom_expiry" => [
+                    "expiry_duration" => 60,
+                    "unit" => "minute"
                 ],
                 "customer_details" => [
                     "first_name" => $validated["customer_name"],
@@ -181,7 +187,7 @@ class PaymentController extends Controller
             }
 
             if (isset($response->expiry_time)) {
-                $payment->expiry_time = Carbon::parse($response->expiry_time);
+                $payment->expiry_time = Carbon::parse($response->expiry_time, 'Asia/Jakarta')->setTimezone(config('app.timezone')); /* convert jam utc jadi wib */
             } else {
                 $payment->expiry_time = now()->addHour();
             }
@@ -285,6 +291,8 @@ class PaymentController extends Controller
 
                     if ($newPaymentStatus !== $order->payment->status) {
                         DB::transaction(function () use ($order, $newPaymentStatus, $newOrderStatus, $statusResponse) {
+                            $oldStatus = $order->status;
+
                             $order->payment->update([
                                 'status' => $newPaymentStatus,
                                 'transaction_id' => $statusResponse->transaction_id ?? $order->payment->transaction_id
@@ -292,6 +300,12 @@ class PaymentController extends Controller
                             $order->update([
                                 'status' => $newOrderStatus,
                             ]);
+
+                            if ($newOrderStatus === 'paid' && $oldStatus !== 'paid') {
+                                if ($order->promo_id) {
+                                    $order->promo()->increment('used_count');
+                                }
+                            }
                         });
                     }
                 }
@@ -415,7 +429,7 @@ class PaymentController extends Controller
         $orderItem = $order->items()->first();
         $timeRemaining = 0;
         if ($payment && $payment->expiry_time && $payment->status === "pending") {
-            $timeRemaining = max(0, now()->diffInSeconds($payment->expiry_time, false));
+            $timeRemaining = (int) max(0, now()->diffInSeconds($payment->expiry_time, false));
         }
 
         return compact("order", "payment", "orderItem", "timeRemaining");

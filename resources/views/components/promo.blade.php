@@ -52,8 +52,8 @@
 
                                         <form method="GET" action="{{ url('/produk') }}" style="width: 100%;">
                                             <input type="hidden" name="id" value="{{ $product->id }}">
-                                            <button type="submit" class="btnPrimary" style="width: 100%;">Ambil
-                                                Promo</button>
+                                            <input type="hidden" name="promo_id" value="{{ $promo->id }}">
+                                            <button type="submit" class="btnPrimary" style="width: 100%;">Ambil Promo</button>
                                         </form>
                                     </div>
                                 </article>

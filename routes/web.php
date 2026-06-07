@@ -12,10 +12,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PengirimanController;
 use App\Http\Controllers\PemesananController;
+use App\Http\Controllers\PaymentController;
 // produk
 use App\Models\Product;
 // promo
 use App\Models\Promo;
+// order
+use App\Models\Order;
 // detail produk
 use Illuminate\Http\Request;
 // chatbot
@@ -67,21 +70,35 @@ Route::get('/api/search-products', function (Request $request) {
 // detail produk
 Route::get('/produk', function (Request $request) {
     $id = $request->query('id');
+    $promoId = $request->query('promo_id');
+    
     if (!$id) {
         return redirect('/');
     }
 
     $product = Product::findOrFail($id);
-    $activePromo = Promo::whereHas('products', function ($query) use ($id) {
+    $activePromo = null;
+    if ($promoId) {
+        $activePromo = Promo::where('id', $promoId)
+            ->where('is_active', true)
+            ->whereDate('start_date', '<=', now()->toDateString())
+            ->whereDate('end_date', '>=', now()->toDateString())
+            ->whereRaw('used_count < max_usage')
+            ->first();
+    }
 
-        $query->where('products.id', $id);
-    })
-        ->where('is_active', true)
-        ->whereDate('start_date', '<=', now()->toDateString())
-        ->whereDate('end_date', '>=', now()->toDateString())
-        ->whereRaw('used_count < max_usage')
-        ->orderBy('created_at', 'desc')
-        ->first();
+    if (!$activePromo) {
+        $activePromo = Promo::whereHas('products', function ($query) use ($id) {
+            $query->where('products.id', $id);
+        })
+            ->where('is_active', true)
+            ->whereDate('start_date', '<=', now()->toDateString())
+            ->whereDate('end_date', '>=', now()->toDateString())
+            ->whereRaw('used_count < max_usage')
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
+    
     $finalPrice = $product->price;
     if ($activePromo) {
         $discountAmount = ($product->price * $activePromo->discount_percentage) / 100;
@@ -109,10 +126,25 @@ Route::get('/payment', function () {
 })->name('payment.show');
 
 // midtrans webhook
-Route::post('/payment/webhook', [\App\Http\Controllers\PaymentController::class, 'handleWebhook']);
+Route::post('/payment/webhook', [PaymentController::class, 'handleWebhook']);
+
 /* temp route buat preview halaman pembayaran berhasil */
 Route::get('/preview-paymentsuccess', function () {
     return view('pages.paymentSuccess');
+});
+
+Route::post('/payment/success', function (Request $request) {
+    $invoiceNumber = $request->input('invoice_number');
+    $order = Order::where('invoice_number', $invoiceNumber)->firstOrFail();
+    $payment = $order->payment;
+    $orderItem = $order->items()->first();
+
+    return view('pages.paymentSuccess', compact('order', 'payment', 'orderItem'));
+});
+
+// cek order
+Route::get('/cek-order', function () {
+    return view("pages.checkOrder");
 });
 
 // Order routes
@@ -125,7 +157,7 @@ Route::get('/api/tracking/{delivery}', [PengirimanController::class, 'showTracki
 // Shipment webhook from Biteship
 Route::post('/webhooks/biteship', [PengirimanController::class, 'handleWebhook'])->name('biteship.webhook');
 
-// END RUTE CUSTOMER (WEB UTAMA)____________<
+// END : RUTE UTAMA
 
 // >____________RUTE ADMIN DASHBOARD (CMS)
 Route::prefix('admin')->group(function () {

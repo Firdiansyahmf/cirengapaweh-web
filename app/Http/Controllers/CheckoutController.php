@@ -13,6 +13,7 @@ class CheckoutController extends Controller
             'product_name' => 'required|string',
             'price' => 'required|numeric',
             'quantity' => 'required|integer|min:1',
+            'promo_id' => 'nullable|integer|exists:promos,id',
         ]);
 
         session([
@@ -20,6 +21,7 @@ class CheckoutController extends Controller
             'checkout_product' => $request->product_name,
             'checkout_price' => (float) $request->price,
             'checkout_quantity' => (int) $request->quantity,
+            'checkout_promo_id' => $request->promo_id,
         ]);
 
         return redirect('/checkout');
@@ -35,9 +37,12 @@ class CheckoutController extends Controller
         $productId = session('checkout_product_id');
         $productModel = $productId ? \App\Models\Product::find($productId) : null;
 
+        $promoId = session('checkout_promo_id');
+        $promo = $promoId ? \App\Models\Promo::find($promoId) : null;
+
         return view(
             'pages.checkout',
-            compact('product', 'quantity', 'price', 'total', 'productModel'),
+            compact('product', 'quantity', 'price', 'total', 'productModel', 'promo'),
         );
     }
 

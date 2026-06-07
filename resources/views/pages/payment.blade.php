@@ -11,6 +11,7 @@
 
     <div class="payment flexRow">
         <div class="breakpoint">
+
             <div class="paymentCard">
                 @if(session('error'))
                     <div class="errorAlert">
@@ -33,9 +34,9 @@
                     <div class="qrContainer">
                         @if($payment->qr_code_url)
                             <img src="{{ $payment->qr_code_url }}" alt="QRIS Code" class="qrCode">
-                            <span class="caption qrCaption">Pindai QRIS ini dengan aplikasi e-wallet Anda.</span>
+                            <span class="caption qrCaption">Pindai QRIS ini dengan aplikasi e-wallet kamu.</span>
                         @else
-                            <div class="textDanger qrError">Gagal memuat QR Code. Silakan hubungi CS.</div>
+                            <div class="textDanger qrError">Gagal memuat QR Code. Silahkan hubungi CS.</div>
                         @endif
                     </div>
                 @endif
@@ -66,7 +67,7 @@
                 @endif
 
                 <div class="bodyMain charcoalGrey orderIdContainer">
-                    <span><b>Order ID:</b> </span> <span class="orderIdValue">#{{ $order->invoice_number }}</span>
+                    <span><b>Order ID:</b> </span> <span>#{{ $order->invoice_number }}</span>
                 </div>
 
                 <div class="paymentTotal">
@@ -95,7 +96,7 @@
                 </div>
 
                 <div class="paymentGuide charcoalGrey">
-                    <span class="subH4 primaryBrandRed guideTitle">Cara Bayar</span>
+                    <span class="subH4 primaryBrandRed">Cara Bayar</span>
 
                     @if($payment->payment_type === 'qris')
                         <ol class="bodyMain guideList">
@@ -132,7 +133,12 @@
                     @endif
                     <button onclick="checkPaymentStatus()" class="btnPrimary">Cek Status Pembayaran</button>
                 </div>
+                <form id="paymentSuccessForm" action="{{ url('/payment/success') }}" method="POST" style="display: none;">
+                    @csrf
+                    <input type="hidden" name="invoice_number" value="{{ $order->invoice_number }}">
+                </form>
             </div> {{-- end paymentCard --}}
+            
         </div> {{-- end breakpoint --}}
     </div> {{-- end payment --}}
 
@@ -143,7 +149,7 @@
         window.paymentConfig = {
             timeRemaining: {{ $timeRemaining }},
             statusUrl: "{{ url('/payment?check_status=1') }}",
-            successUrl: "{{ url('/preview-paymentsuccess') }}",
+            successUrl: "{{ url('/payment/success') }}",
             isPending: {{ $payment->status === 'pending' ? 'true' : 'false' }}
         };
     </script>

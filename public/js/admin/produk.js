@@ -256,9 +256,9 @@ function loadProductData(id) {
         // Text fields
         document.getElementById("productName").value = cells[1]?.textContent?.trim() || "";
         document.getElementById("productPrice").value =
-            cells[2]?.textContent?.replace(/[^\d]/g, "") || 0;
+        cells[2]?.textContent?.replace(/[^\d]/g, "") || 0;
         document.getElementById("productDescription").value =
-            cells[3]?.textContent?.trim() || "";
+            cells[3]?.dataset?.descriptionFull?.trim() || "";
 
         // Category is rendered as badge text: "Fast Food" / "Frozen Food"
         const categoryText = cells[4]?.querySelector("span")?.textContent?.trim();

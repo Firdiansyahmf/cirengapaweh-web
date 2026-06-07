@@ -1,0 +1,53 @@
+.checkOrder {
+    align-items: center;
+    justify-items: center;
+}
+
+.checkOrder .breakpoint {
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.checkOrder .box1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: var(--gap-medium);
+}
+
+.checkOrder .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.checkOrder .card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: var(--gap-small) 24px;
+    border-radius: var(--gap-small);
+    gap: var(--gap-small);
+}
+
+.checkOrder .inputInvoice {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--fdn-grey-light-hover);
+    border-radius: 6px;
+    color: var(--charcoal-grey);
+    transition: all 0.3s ease;
+}
+
+.checkOrder .inputInvoice:focus {
+    outline: none;
+    border-color: var(--fdn-red-normal);
+    box-shadow: 0 0 0 3px rgba(242, 61, 61, 0.1);
+}
+
+.checkOrder .btnPrimary {
+    margin-top: var(--gap-micro);
+}

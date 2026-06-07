@@ -29,7 +29,7 @@
                             <div class="inputGroup">
                                 <label class="bodyMain charcoalGrey">No. WhatsApp <span class="primaryBrandRed">*</span></label>
                                 <div class="withLabel">
-                                    <input type="tel" name="whatsapp" id="inputWa" placeholder="+62 XXX XXXX XXXX" required pattern="[0-9]{8,15}" class="bodyMain"/>
+                                    <input type="tel" name="whatsapp" id="inputWa" placeholder="08XXXXXXXXXX" required pattern="[0-9]{8,15}" class="bodyMain"/>
                                     <span class="caption"><i>*Nomor ini akan dihubungi jika ada kendala</i></span>
                                 </div>
                             </div>
@@ -78,8 +78,13 @@
                         <div class="card"> {{-- start couponCard --}}
                             <span class="subH4 charcoalGrey">Kode Promo</span>
                             <div class="inputGroup inputPromo">
-                                <input type="text" name="promo" placeholder="Kode Promo" class="bodyMain"/>
-                                <button type="button" class="btnOutline">Gunakan</button>
+                                @if ($promo)
+                                    <input type="text" name="promo" placeholder="Kode Promo" readonly value="{{ $promo->promo_code }}" class="bodyMain"/>
+                                    <button type="button" class="btnOutline">Gunakan</button>
+                                @else
+                                    <input type="text" name="promo" placeholder="Kode Promo" class="bodyMain"/>
+                                    <button type="button" class="btnOutline">Gunakan</button>
+                                @endif
                             </div>
                         </div> {{-- end couponCard --}}
                         <div class="card paymentCard"> {{-- start paymentCard --}}

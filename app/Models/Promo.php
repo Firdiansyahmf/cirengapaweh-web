@@ -38,6 +38,14 @@ class Promo extends Model
         return $this->belongsToMany(Product::class, 'promo_products');
     }
 
+    /** 
+     * mengambil ssemua order yang menggunakan promo
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function isExpired(): bool
     {
         return now()->isAfter($this->end_date);

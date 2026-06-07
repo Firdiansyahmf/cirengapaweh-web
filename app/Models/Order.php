@@ -15,6 +15,7 @@ class Order extends Model
         'customer_phone',
         'shipping_address',
         'subtotal_amount',
+        'promo_id',
         'shipping_cost',
         'postal_code',
         'total_amount',
@@ -44,6 +45,14 @@ class Order extends Model
     public function payment()
     {
         return $this->hasOne(Payment::class);
+    }
+
+    /**
+     * menyambungkan tabel promos dengan tabel orders
+    */
+    public function promo(): BelongsTo
+    {
+        return $this->belongsTo(Promo::class);
     }
 
     /**
