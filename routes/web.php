@@ -137,6 +137,7 @@ Route::get('/cek-order', function () {
 
 // order routes
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+Route::get('/orders/search/{invoice}', [OrderController::class, 'searchByInvoice'])->name('orders.search');
 Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 
 /* API cari kode pos */

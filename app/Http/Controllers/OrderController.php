@@ -130,6 +130,36 @@ class OrderController extends Controller
     }
 
     /**
+     * Search order by invoice number
+     */
+    public function searchByInvoice(string $invoice): JsonResponse
+    {
+        try {
+            $order = Order::where('invoice_number', $invoice)
+                ->with('items.product', 'payment', 'delivery')
+                ->first();
+
+            if (!$order) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Pesanan tidak ditemukan',
+                ], 404);
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $order,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memproses pencarian pesanan',
+            ], 500);
+        }
+    }
+
+
+    /**
      * Get orders by status (for admin dashboard)
      */
     public function getByStatus(string $status): JsonResponse
