@@ -34,9 +34,9 @@
                     <div class="qrContainer">
                         @if($payment->qr_code_url)
                             <img src="{{ $payment->qr_code_url }}" alt="QRIS Code" class="qrCode">
-                            <span class="caption qrCaption">Pindai QRIS ini dengan aplikasi e-wallet Anda.</span>
+                            <span class="caption qrCaption">Pindai QRIS ini dengan aplikasi e-wallet kamu.</span>
                         @else
-                            <div class="textDanger qrError">Gagal memuat QR Code. Silakan hubungi CS.</div>
+                            <div class="textDanger qrError">Gagal memuat QR Code. Silahkan hubungi CS.</div>
                         @endif
                     </div>
                 @endif
@@ -67,7 +67,7 @@
                 @endif
 
                 <div class="bodyMain charcoalGrey orderIdContainer">
-                    <span><b>Order ID:</b> </span> <span class="orderIdValue">#{{ $order->invoice_number }}</span>
+                    <span><b>Order ID:</b> </span> <span>#{{ $order->invoice_number }}</span>
                 </div>
 
                 <div class="paymentTotal">
@@ -96,7 +96,7 @@
                 </div>
 
                 <div class="paymentGuide charcoalGrey">
-                    <span class="subH4 primaryBrandRed guideTitle">Cara Bayar</span>
+                    <span class="subH4 primaryBrandRed">Cara Bayar</span>
 
                     @if($payment->payment_type === 'qris')
                         <ol class="bodyMain guideList">

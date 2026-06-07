@@ -91,8 +91,8 @@
 .payment .qrContainer {
     width: 100%;
     align-items: center;
-    margin: 20px 0;
     text-align: center;
+    gap: var(--gap-micro);
 }
 
 .payment .qrCode {
@@ -107,16 +107,10 @@
     object-fit: contain;
 }
 
-.payment .orderIdValue {
-    font-family: monospace;
-    font-weight: bold;
-}
-
 .payment .paymentTotal {
     position: relative;
     width: 100%;
     gap: var(--gap-micro);
-    margin-top: 15px;
 }
 
 .payment .paymentDetail {
@@ -129,7 +123,6 @@
 .payment .paymentGuide {
     gap: var(--gap-micro);
     text-align: left;
-    margin-top: 20px;
 }
 
 .payment .paymentButtons {
@@ -190,14 +183,9 @@
     background-color: #991b1b;
 }
 
-.payment .summaryDetail {
-    padding: 10px 0;
-}
-
 .payment .summaryDetail .detail {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 8px;
 }
 
 .payment .errorAlert {
@@ -253,23 +241,12 @@
     padding: 10px;
 }
 
-.payment .orderIdContainer {
-    margin-top: 15px;
-}
-
-.payment .popoverTitle {
-    display: block;
-    margin-bottom: 10px;
-}
-
-.payment .guideTitle {
-    display: block;
-    margin-bottom: 10px;
-}
-
 .payment .guideList {
-    padding-left: 20px;
-    line-height: 1.6;
+    padding-left: var(--gap-medium);
+}
+
+.payment .paymentGuide ol {
+    margin-bottom: 0;
 }
 
 @media (max-width: 640px) {
