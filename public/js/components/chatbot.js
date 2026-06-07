@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function toggleChatbot() {
-    document.getElementById("chatbotBox").classList.toggle("show");
+    document.getElementById("chatbotBox").classList.toggle("tampil");
     let botIntroTime = document.getElementById("botIntroTime");
     if (botIntroTime && botIntroTime.innerText === "00:00") {
         let currentTime = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
