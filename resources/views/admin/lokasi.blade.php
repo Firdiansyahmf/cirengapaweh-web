@@ -23,7 +23,7 @@
         </div>
 
         <div class="tableWrapper">
-            <table class="locationTable" border="1">
+            <table class="locationTable">
                 <thead>
                     <tr>
                         <th>Foto</th>

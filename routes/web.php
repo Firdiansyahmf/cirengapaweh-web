@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Middleware\AdminAuth;
 use App\Models\PartnerLocation;
 use Illuminate\Support\Facades\Route;
@@ -71,11 +72,9 @@ Route::get('/api/search-products', function (Request $request) {
 Route::get('/produk', function (Request $request) {
     $id = $request->query('id');
     $promoId = $request->query('promo_id');
-    
     if (!$id) {
         return redirect('/');
     }
-
     $product = Product::findOrFail($id);
     $activePromo = null;
     if ($promoId) {
@@ -86,7 +85,6 @@ Route::get('/produk', function (Request $request) {
             ->whereRaw('used_count < max_usage')
             ->first();
     }
-
     if (!$activePromo) {
         $activePromo = Promo::whereHas('products', function ($query) use ($id) {
             $query->where('products.id', $id);
@@ -98,7 +96,6 @@ Route::get('/produk', function (Request $request) {
             ->orderBy('created_at', 'desc')
             ->first();
     }
-    
     $finalPrice = $product->price;
     if ($activePromo) {
         $discountAmount = ($product->price * $activePromo->discount_percentage) / 100;
@@ -117,29 +114,23 @@ Route::post('/payment', [CheckoutController::class, 'store'])->name('checkout.pr
 Route::get('/payment', function () {
     $midtransResponse = session('midtrans_response');
     $invoiceNumber = session('active_invoice');
-
     // mengeluarkan user jika tidak punya memiliki session checkout
     if (!$midtransResponse || !$invoiceNumber) {
         return redirect('/');
     }
-
     return view('pages.payment', compact('invoiceNumber', 'midtransResponse'));
 })->name('payment.show');
 
 // midtrans webhook
 Route::post('/payment/webhook', [PaymentController::class, 'handleWebhook']);
-
-/* temp route buat preview halaman pembayaran berhasil */
 Route::get('/preview-paymentsuccess', function () {
     return view('pages.paymentSuccess');
 });
-
 Route::post('/payment/success', function (Request $request) {
     $invoiceNumber = $request->input('invoice_number');
     $order = Order::where('invoice_number', $invoiceNumber)->firstOrFail();
     $payment = $order->payment;
     $orderItem = $order->items()->first();
-
     return view('pages.paymentSuccess', compact('order', 'payment', 'orderItem'));
 });
 
@@ -148,7 +139,7 @@ Route::get('/cek-order', function () {
     return view("pages.checkOrder");
 });
 
-// Order routes
+// order routes
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 
@@ -156,13 +147,18 @@ Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.sh
 Route::get('/v1/maps/areas', [PengirimanController::class, 'searchArea']);
 Route::post('/v1/rates/couriers', [PengirimanController::class, 'estimateShipping']);
 
-// Tracking API
+/* API cari kode pos */
+Route::get('/v1/maps/areas', [PengirimanController::class, 'searchArea']);
+Route::post('/v1/rates/couriers', [PengirimanController::class, 'estimateShipping']);
+
+// tracking api
 Route::get('/api/tracking/{delivery}', [PengirimanController::class, 'showTracking'])->name('api.tracking.show');
 
-// Shipment webhook from Biteship
+// shipment webhook
 Route::post('/webhooks/biteship', [PengirimanController::class, 'handleWebhook'])->name('biteship.webhook');
 
-// END : RUTE UTAMA
+// END RUTE CUSTOMER (WEB UTAMA)____________<
+
 
 // >____________RUTE ADMIN DASHBOARD (CMS)
 Route::prefix('admin')->group(function () {
@@ -172,14 +168,17 @@ Route::prefix('admin')->group(function () {
         Route::get('/login', [LoginController::class, 'showLogin'])->name('admin.login.form');
         Route::post('/login', [LoginController::class, 'authenticate'])->name('admin.login');
         Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout');
+
         // dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
         // produk
         Route::get('/produk', [ProductController::class, 'index'])->name('produk.index');
         Route::post('/produk', [ProductController::class, 'store'])->name('produk.store');
         Route::put('/produk/{product}', [ProductController::class, 'update'])->name('produk.update');
         Route::patch('/produk/{product}', [ProductController::class, 'updateStatus'])->name('produk.updateStatus');
         Route::delete('/produk/{product}', [ProductController::class, 'destroy'])->name('produk.destroy');
+
         // promo
         Route::get('/promo', [PromoController::class, 'index'])->name('promo.index');
         Route::get('/promo/get-products', [PromoController::class, 'getProducts'])->name('promo.getProducts');
@@ -189,6 +188,7 @@ Route::prefix('admin')->group(function () {
         Route::put('/promo/{promo}', [PromoController::class, 'update'])->name('promo.update');
         Route::patch('/promo/{promo}', [PromoController::class, 'updateStatus'])->name('promo.updateStatus');
         Route::delete('/promo/{promo}', [PromoController::class, 'destroy'])->name('promo.destroy');
+
         // lokasi
         Route::get('/lokasi', [LocationController::class, 'index'])->name('lokasi.index');
         Route::get('/lokasi/{location}', [LocationController::class, 'show'])->name('lokasi.show');
@@ -196,31 +196,22 @@ Route::prefix('admin')->group(function () {
         Route::put('/lokasi/{location}', [LocationController::class, 'update'])->name('lokasi.update');
         Route::delete('/lokasi/{location}', [LocationController::class, 'destroy'])->name('lokasi.destroy');
 
-        // Pemesanan Routes
+        // pemesanan routes
         Route::get('/pemesanan', [PemesananController::class, 'index'])->name('pemesanan.index');
         Route::post('/pemesanan/{order}/process', [PemesananController::class, 'processShipment'])->name('pemesanan.processShipment');
+        Route::post('/pemesanan/{order}/accept', [PemesananController::class, 'acceptOrder'])->name('pemesanan.accept');
         Route::post('/pemesanan/{order}/cancel', [PemesananController::class, 'cancelOrder'])->name('pemesanan.cancel');
         Route::get('/pemesanan/status/{status}', [OrderController::class, 'getByStatus'])->name('pemesanan.status');
         Route::put('/pemesanan/{order}/status', [OrderController::class, 'updateStatus'])->name('pemesanan.updateStatus');
 
-        // Pengiriman Routes
-        Route::get('/pengiriman', [PengirimanController::class, 'index'])->name('pengiriman.index');
-        Route::get('/pengiriman/menunggu-pembayaran', [PengirimanController::class, 'awaitingPayment'])->name('pengiriman.awaitingPayment');
-        Route::post('/pengiriman/{order}/create-shipment', [PengirimanController::class, 'createShipment'])->name('pengiriman.createShipment');
-        Route::get('/pengiriman/{order}/couriers', [PengirimanController::class, 'getAvailableCouriers'])->name('pengiriman.couriers');
-        Route::post('/pengiriman/{order}/update-courier', [PengirimanController::class, 'updateCourier'])->name('pengiriman.updateCourier');
-        Route::get('/pengiriman/{delivery}/status', [PengirimanController::class, 'getStatus'])->name('pengiriman.status');
-        Route::post('/pengiriman/{order}/process', [PengirimanController::class, 'processShipment'])->name('pengiriman.process');
-
-
-        // User Management Routes
-
+        // user management
         Route::get('/pengguna', [UserController::class, 'index'])->name('pengguna.index');
         Route::post('/pengguna', [UserController::class, 'store'])->name('pengguna.store');
         Route::put('/pengguna/{user}', [UserController::class, 'update'])->name('pengguna.update');
         Route::post('/pengguna/{user}/verify-password', [UserController::class, 'verifyPassword'])->name('pengguna.verifyPassword');
         Route::delete('/pengguna/{user}', [UserController::class, 'destroy'])->name('pengguna.destroy');
         Route::post('/pengguna/verify-password/{userId}', [UserController::class, 'verifyPassword']);
+
         // chat admin
         Route::get('/chat', function () {
             return view('admin.chat');
@@ -249,6 +240,7 @@ Route::prefix('admin')->group(function () {
         });
     });
 });
+
 // route api kustomer (diluar middleware)
 // api new session
 Route::post('/chat-api/create', function () {
@@ -284,18 +276,14 @@ Route::get('/chat-api/{sessionId}/messages', function (Request $request, $sessio
         'new_messages' => $newMessages
     ]);
 });
-/**
- * Catch-all 404 handler (override Laravel default)
- * Render page custom: resources/views/pages/page404.blade.php
- */
-Route::any('/{any}', function () {
-    return response()->view('pages.page404', [], 404);
-})->where('any', '.*');
-
-/**
- * api close session
- */
+// api close session
 Route::post('/chat-api/{sessionId}/close', function ($sessionId) {
     ChatSession::query()->where('id', $sessionId)->update(['status' => 'closed']);
     return response()->json(['success' => true]);
 });
+
+// page404.blade.php (harus plg bawah)
+Route::any('/{any}', function () {
+    return response()->view('pages.page404', [], 404);
+})->where('any', '.*');
+

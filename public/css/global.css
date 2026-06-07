@@ -251,6 +251,7 @@ input:focus { outline: 2px solid var(--charcoal-grey); }
 .cardC img { margin-top: -108px; width: 100%; max-width: 168px; aspect-ratio: 1/1; border-radius: 100%; border: var(--gap-small) solid var(--accent-cheese-yellow); box-sizing: content-box; object-fit: cover; }
 .cardC .btnPrimary { margin-top: auto; }
 .cardM { display: flex; flex-direction: column; gap: var(--gap-small); max-width: 382px; width: 100%; background: var(--clean-white); padding: var(--gap-medium); border-radius: var(--gap-medium); }
+.lokasi .cardM { aspect-ratio: 4/3; max-width: 320px; }
 .cardM.premium { background: var(--charcoal-grey); color: var(--clean-white); }
 .cardM .flexCol { gap: var(--gap-micro); }
 .cardM .subCard { background: var(--accent-cheese-yellow); padding: var(--gap-small); border-radius: var(--gap-small); }
@@ -260,6 +261,7 @@ input:focus { outline: 2px solid var(--charcoal-grey); }
 .cardM .btnPrimary { width: 100%; }
 .cardM .locationIcon { max-width: 56px; }
 .cardM .btnCardM { display: flex; gap: var(--gap-micro); align-items: center; text-decoration: none; }
+.lokasi .cardM .btnCardM { margin-top: auto; }
 .cardM .btnCardM .bodyMain { font-weight: var(--fw-medium); }
 .cardM.main { background: var(--fdn-yellow-light); }
 .cardM.main .btnCardM .bodyMain { color: var(--charcoal-grey); }

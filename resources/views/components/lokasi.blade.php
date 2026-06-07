@@ -49,7 +49,7 @@
                 @empty
                     <div class="menuPage">
                         <p class="bodyLg charcoalGrey empty">Wah, lokasi cireng A'paweh belum tersedia saat ini</p>
-                    </div>  
+                    </div>
                 @endforelse
             </div> <!-- end konten -->
 

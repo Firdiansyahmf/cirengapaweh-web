@@ -23,7 +23,7 @@
         </div>
 
         <div class="tableWrapper">
-            <table class="productTable" border="1">
+            <table class="productTable">
                 <thead>
                     <tr>
                         <th>Foto</th>
@@ -47,7 +47,7 @@
                             </td>
                             <td class="namaProduk">{{ $product->name }}</td>
                             <td class="hargaProduk"><strong>Rp {{ number_format($product->price, 0, ',', '.') }}</strong></td>
-                            <td class="deskripsi">{{ Str::limit($product->description, 50) }}</td>
+                            <td class="deskripsi" data-description-full="{{ e($product->description) }}">{{ Str::limit($product->description, 50) }}</td>
                             <td class="centerAlign">
                                 @if($product->category === 'fast_food')
                                     <span class="badge badgeCategory">Fast Food</span>

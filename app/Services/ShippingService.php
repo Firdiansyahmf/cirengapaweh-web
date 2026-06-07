@@ -296,10 +296,10 @@ class ShippingService
                 return $response->json();
             }
 
-            \Log::error('Biteship API error: ' . $response->status() . ' - ' . $response->body());
+            Log::error('Biteship API error: ' . $response->status() . ' - ' . $response->body());
             return null;
         } catch (Exception $e) {
-            \Log::error('Biteship request error: ' . $e->getMessage());
+            Log::error('Biteship request error: ' . $e->getMessage());
             return null;
         }
     }

@@ -4,7 +4,7 @@
 /* end: lokasi section wrapper */
 
 /* start: base override global */
-.lokasi .breakpoint .flexRow { gap: var(--gap-medium); justify-content: center; align-items: center; padding-top: 0; padding-bottom: 0; }
+.lokasi .breakpoint .flexRow { gap: var(--gap-medium); align-items: center; justify-content: center; padding-top: 0; padding-bottom: 0; flex-wrap: wrap; }
 /* end: base override global */
 
 .empty { opacity: 50%; }
@@ -17,7 +17,6 @@
 
 /* start: responsive tablet */
 @media (max-width: 1024px) {
-    .lokasi .breakpoint .flexRow { flex-wrap: wrap; }
     .lokasi .wrapBreakpoint { padding: var(--gap-medium) 0 0 0; }
     .lokasi .cardM { max-width: 342px; }
 }

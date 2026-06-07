@@ -27,14 +27,14 @@
         </div>
 
         <div class="tableWrapper">
-            <table class="userTable" border="1">
+            <table class="userTable">
                 <thead>
                     <tr>
                         <th>Nama</th>
                         <th>Email</th>
-                        <th class="centerAlign">Role</th>
-                        <th class="centerAlign">Status</th>
-                        <th class="centerAlign">Aksi</th>
+                        <th class="centerAlign info">Role</th>
+                        <th class="centerAlign info">Status</th>
+                        <th class="centerAlign info">Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="userTableBody">
@@ -42,7 +42,7 @@
                         <tr class="userRow" data-id="{{ $user->id }}" data-name="{{ $user->name }}" data-email="{{ $user->email }}" data-role="{{ $user->role }}" data-active="{{ $user->is_active ? '1' : '0' }}">
                             <td class="namaPengguna">{{ $user->name }}</td>
                             <td class="emailPengguna">{{ $user->email }}</td>
-                            <td>
+                            <td class="centerAlign">
                                 @if($user->role === 'superadmin')
                                     <span class="badge badgeRole badgeSuperAdmin">Super Admin</span>
                                 @else
@@ -56,19 +56,21 @@
                                     <span class="badge badgeStatus badgeNonaktif">Nonaktif</span>
                                 @endif
                             </td>
-                            <td class="aksiCell">
-                                <button class="btnIcon btnEdit" title="Edit" onclick="editUser({{ $user->id }})">
-                                    <span class="material-symbols-outlined">edit</span>
-                                </button>
-                                @if($user->id !== auth()->id())
-                                    <button class="btnIcon btnDelete" title="Hapus" onclick="deleteUser({{ $user->id }})">
-                                        <span class="material-symbols-outlined">delete</span>
+                            <td class="centerAlign">
+                                <div class="aksiCell">
+                                    <button class="btnIcon btnEdit" title="Edit" onclick="editUser({{ $user->id }})">
+                                        <span class="material-symbols-outlined">edit</span>
                                     </button>
-                                @else
-                                    <div class="btnIcon btnDeleteDisable" title="Hapus">
-                                        <span class="material-symbols-outlined">delete</span>
-                                    </div>
-                                @endif
+                                    @if($user->id !== auth()->id())
+                                        <button class="btnIcon btnDelete" title="Hapus" onclick="deleteUser({{ $user->id }})">
+                                            <span class="material-symbols-outlined">delete</span>
+                                        </button>
+                                    @else
+                                        <div class="btnIcon btnDeleteDisable" title="Hapus">
+                                            <span class="material-symbols-outlined">delete</span>
+                                        </div>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @empty

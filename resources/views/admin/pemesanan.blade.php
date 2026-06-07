@@ -44,7 +44,7 @@
         <!-- Tab Content: Pesanan Baru -->
         <div id="tab-pesanan-baru" class="tabContent tabContent-active">
             <div class="tableWrapper">
-                <table class="orderTable" border="1">
+                <table class="orderTable">
                     <thead>
                         <tr>
                             <th>Tanggal</th>
@@ -53,7 +53,7 @@
                             <th>Pesanan</th>
                             <th>Harga</th>
                             <th>Status Pembayaran</th>
-                            <th>Aksi</th>
+                            <th class="action">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,15 +76,17 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if($order->payment && $order->payment->status === 'settlement')
-                                        <button class="btnAction btnProsesPesanan" onclick="openConfirmModal('proses', '{{ $order->id }}', '{{ $order->invoice_number }}')">Proses Pesanan</button>
-                                    @else
-                                        <button class="btnAction btnProsesPesanan" disabled>Proses Pesanan</button>
-                                    @endif
-                                    <button class="btnAction btnBatalkanPesanan" onclick="openConfirmModal('batalkan', '{{ $order->id }}', '{{ $order->invoice_number }}')">Batalkan Pesanan</button>
-                                    <button class="btnIcon btnViewInvoice" title="Lihat Invoice" onclick="openInvoiceModal('{{ $order->id }}', '{{ $order->invoice_number }}')">
-                                        <span class="material-symbols-outlined">visibility</span>
-                                    </button>
+                                    <div class="aksiWrapper">
+                                        @if($order->payment && $order->payment->status === 'settlement')
+                                            <button class="btnAction btnProsesPesanan" onclick="openConfirmModal('proses', '{{ $order->id }}', '{{ $order->invoice_number }}')">Proses Pesanan</button>
+                                        @else
+                                            <button class="btnAction btnProsesPesanan" disabled>Proses Pesanan</button>
+                                        @endif
+                                        <button class="btnAction btnBatalkanPesanan" onclick="openConfirmModal('batalkan', '{{ $order->id }}', '{{ $order->invoice_number }}')">Batalkan Pesanan</button>
+                                        <button class="btnIcon btnViewInvoice" title="Lihat Invoice" onclick="openInvoiceModal('{{ $order->id }}', '{{ $order->invoice_number }}')">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         @empty

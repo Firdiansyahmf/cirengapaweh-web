@@ -27,9 +27,15 @@ class PemesananController extends Controller
 
             // Base query
             $baseQuery = function($status) use ($search) {
-                $query = Order::where('status', $status)
+                $query = Order::query()
                     ->with('items.product', 'payment', 'delivery')
                     ->orderBy('created_at', 'desc');
+
+                if (is_array($status)) {
+                    $query->whereIn('status', $status);
+                } else {
+                    $query->where('status', $status);
+                }
 
                 if ($search) {
                     $query->where(function ($q) use ($search) {
@@ -42,8 +48,8 @@ class PemesananController extends Controller
             };
 
             // Get paginated orders by status
-            $pesananBaru = $baseQuery('unpaid')->paginate($perPage, ['*'], 'page_baru');
-            $perluDikirim = $baseQuery('paid')->paginate($perPage, ['*'], 'page_dikirim');
+            $pesananBaru = $baseQuery(['unpaid', 'paid'])->paginate($perPage, ['*'], 'page_baru');
+            $perluDikirim = $baseQuery('packing')->paginate($perPage, ['*'], 'page_dikirim');
             $sedangDikirim = $baseQuery('shipping')->paginate($perPage, ['*'], 'page_sedang');
             $selesai = $baseQuery('completed')->paginate($perPage, ['*'], 'page_selesai');
 
@@ -61,9 +67,9 @@ class PemesananController extends Controller
     }
 
     /**
-     * Handle process shipment for pengiriman section
+     * Accept a paid order (move from paid to packing status)
      */
-    public function processShipment(Request $request, Order $order): JsonResponse
+    public function acceptOrder(Request $request, Order $order): JsonResponse
     {
         try {
             // Check payment status
@@ -72,8 +78,46 @@ class PemesananController extends Controller
             if (!$payment || $payment->status !== 'settlement') {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Payment not confirmed yet',
+                    'message' => 'Pembayaran belum lunas/diterima',
                 ], 422);
+            }
+
+            if ($order->status !== 'paid') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Order status is not paid',
+                ], 400);
+            }
+
+            // Update order status to packing
+            $order->status = 'packing';
+            $order->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Order accepted successfully',
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Accept order error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to accept order',
+            ], 500);
+        }
+    }
+
+    /**
+     * Handle process shipment for pengiriman section
+     */
+    public function processShipment(Request $request, Order $order): JsonResponse
+    {
+        try {
+            // Check order status is packing
+            if ($order->status !== 'packing') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Status pesanan harus packing sebelum bisa dikirim',
+                ], 400);
             }
 
             // Create shipment in Biteship
