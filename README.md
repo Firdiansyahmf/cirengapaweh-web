@@ -4,7 +4,9 @@
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Midtrans](https://img.shields.io/badge/Midtrans-Payment_Gateway-00458B?style=for-the-badge)
 
 Repositori ini berisi source code untuk proyek Ujian Akhir Semester (UAS) mata kuliah Pemrograman Web (Semester 4), Program Studi Software Engineering, Universitas Pendidikan Indonesia (UPI).
 
@@ -14,16 +16,18 @@ Proyek ini adalah platform pemesanan end-to-end untuk Cireng A'paweh, sebuah mer
 
 ## 🚀 Fitur Utama
 Customer Facing Web:
-* Responsive UI/UX: Desain antarmuka Mobile-First menggunakan Native CSS Variables.
+* Responsive UI/UX: Desain antarmuka Responsive menggunakan Native CSS Variables dan Framework Bootstrap untuk Navbar.
 * Sistem Templating Blade: Komponen UI yang modular dan reusable (Hero, Promo, dll).
-* Integrasi Payment Gateway: Pembayaran seamless via Midtrans (Dalam Pengembangan).
-* Live Customer Support: Integrasi chatbot pintar yang otomatis mengarahkan pelanggan ke Live Chat realtime dengan penjual/CS jika dibutuhkan. Dilengkapi fitur untuk mengakhiri sesi obrolan (close session) ketika masalah pelanggan sudah terselesaikan.
+* Integrasi Payment Gateway (Midtrans): Fitur *checkout* untuk pembelian produk secara aman dan *seamless*. Terintegrasi langsung dengan API Midtrans yang mendukung berbagai metode pembayaran instan  QRIS dan E-Wallet.
+* Smart Chatbot & Live Customer Support: Integrasi chatbot pintar (Cipa) yang dilengkapi eskalasi Live Chat realtime dengan admin.
 
 Admin Dashboard (CMS):
 * Secure Authentication: Sistem login admin terproteksi.
 * Manajemen Produk: CRUD menu Fastfood & Frozen Food.
 * Manajemen Lokasi: Pengelolaan data cabang operasional.
 * Manajemen Promo: Kontrol banner promo beserta masa berlakunya.
+* Manajemen Pemensanan: Pengelolaan data pemesanan mencakup pesanan baru, *packing*, sedang dikirim, hingga selesai.
+* Live Chat Dashboard: Sistem pemantauan dan balas pesan kustomer secara realtime dengan indikator status obrolan.
 
 ---
 
@@ -48,7 +52,7 @@ Jalankan perintah ini saat kamu selesai mengerjakan suatu fitur di branch kamu:
    Gunakan awalan (tipe) berikut agar history rapi:
    * `feat:` (feature) - Jika menambah fitur/halaman baru. (Contoh: feat: tambah halaman login)
    * `fix:` (bug fix) - Jika memperbaiki error/bug. (Contoh: fix: perbaiki tabel yang hilang)
-   * `chore:` (chore) - Jika mengurus hal teknis/maintenance seperti install library, update gitignore.
+   * `chore:` (chore) - Jika mengurus hal teknis/maintenance seperti install library, update gitignore atau optimasi/refactor kode.
    * `docs:` (documentation) - Jika mengubah README atau dokumentasi.
    * `style:` (style) - Jika hanya merapikan CSS, spasi, atau format kode tanpa ubah logika.
 3. `git push origin nama-branch-kamu` (Mengunggah branch kamu ke GitHub)
@@ -72,7 +76,7 @@ Jalankan perintah ini SEBELUM kamu mulai ngoding agar kodemu tidak tertinggal:
 Ikuti langkah-langkah berikut secara berurutan untuk menjalankan proyek ini di laptop masing-masing:
 
 ### 1. Persiapan Awal
-Pastikan di komputer Anda sudah terinstal:
+Pastikan di komputer sudah terinstal:
 * PHP (Wajib Minimal versi 8.4+) - Cek dengan perintah `php -v` di terminal.
 * Composer (Versi terbaru)
 * MySQL / MariaDB
@@ -97,7 +101,7 @@ cp .env.example .env
 php artisan key:generate
 
 ### 4. Setup Database (MySQL)
-1. Buka MySQL Anda (via terminal atau phpMyAdmin).
+1. Buka MySQL (via terminal atau phpMyAdmin).
 2. Buat database baru kosong dengan nama: db_cirengapaweh
 3. Buka file .env di VS Code, cari bagian DB_CONNECTION, lalu ubah dengan menghubungi pemilik terlebih dahulu.
 4. Jalankan perintah migrasi untuk membuat tabel-tabel bawaan:
@@ -143,7 +147,7 @@ Menggunakan arsitektur MVC (Model - View - Controller) dengan Routes sebagai pin
 
 **3. Aturan Emas Tanda Kutip (Quotes) di Laravel Blade:**
 * Untuk mencegah error layar putih (ParseError), **JANGAN** mencampuradukkan tanda kutip ganda (`"`) secara sembarangan.
-* **ATURAN:** Jika Anda sedang berada di dalam atribut HTML yang menggunakan kutip ganda (contoh: `class="..."`), maka semua logika PHP di dalam `{{ }}` **WAJIB 100%** menggunakan kutip tunggal (`'`).
+* **ATURAN:** Jika sedang berada di dalam atribut HTML yang menggunakan kutip ganda (contoh: `class="..."`), maka semua logika PHP di dalam `{{ }}` **WAJIB 100%** menggunakan kutip tunggal (`'`).
 * Contoh Salah: `<a class="navItem {{ request()->is("admin/dashboard") ? "active" : "" }}">`
 * Contoh Benar: `<a class="navItem {{ request()->is('admin/dashboard') ? 'active' : '' }}">`
 
@@ -151,11 +155,11 @@ Menggunakan arsitektur MVC (Model - View - Controller) dengan Routes sebagai pin
 
 ## 🛠️ Troubleshooting (Solusi Error Umum)
 
-Jika Anda menemui error saat pertama kali menjalankan proyek, periksa daftar solusi berikut:
+Jika menemui error saat pertama kali menjalankan proyek, periksa daftar solusi berikut:
 
 * **Error: your php version (8.x.x) does not satisfy that requirement**
-  * Penyebab: Versi PHP di komputer Anda terlalu lama. Proyek ini membutuhkan PHP 8.4.
-  * Solusi: Silakan upgrade PHP Anda, install ulang XAMPP terbaru, atau gunakan Laravel Herd.
+  * Penyebab: Versi PHP di komputer terlalu lama. Proyek ini membutuhkan PHP 8.4.
+  * Solusi: Silakan upgrade PHP, install ulang XAMPP terbaru, atau gunakan Laravel Herd.
 
 * **Error: ext-fileinfo, ext-openssl, atau pdo_mysql is missing (Khusus Pengguna Windows/XAMPP)**
   * Penyebab: Ekstensi bawaan PHP Windows masih dinonaktifkan.

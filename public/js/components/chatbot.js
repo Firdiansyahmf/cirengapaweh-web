@@ -1,13 +1,24 @@
-// ... (Baris awal sampai fungsi scrollToBottom tetap sama) ...
 let liveChatSessionId = null;
 let liveChatIntervalCheck = null;
 let countdownTimer = null;
 let timeLeft = 300;
 let lastAdminMessageId = 0;
 
+// opsi jawaban cipa
+const botOptionsHTML = `
+    <button class="caption charcoalGrey" onclick="triggerBotResponse('menu')">Mau liat Menu Cireng yang paling laris!</button>
+    <button class="caption charcoalGrey" onclick="triggerBotResponse('stok')">Cek stok cireng hari ini</button>
+    <button class="caption charcoalGrey" onclick="triggerBotResponse('lokasi')">Lokasi Cabang A'paweh</button>
+    <button class="caption charcoalGrey" onclick="triggerBotResponse('mitra')">Cara jadi Mitra A'paweh</button>
+    <button class="caption highlight" onclick="initiateLiveChat()"><img class="imgCs" src="/assets/icon/cipa/cs.png" alt="CS"> Chat dengan Admin</button>
+`;
+
 function enableChatUI() {
     document.getElementById("chatbotFooter").style.display = "flex";
-    document.getElementById("botDisclaimer").style.display = "none"; // <-- TAMBAHKAN INI (Sembunyikan Disclaimer)
+    document.getElementById("botDisclaimer").style.display = "none";
+    // logic header menu live chat
+    document.getElementById("btnEndLiveChat").style.display = "block";
+    document.getElementById("headerSpacer").style.display = "none";
     document.getElementById("chatInput").focus();
     startCountdown();
     clearInterval(liveChatIntervalCheck);
@@ -15,7 +26,6 @@ function enableChatUI() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const timeNow = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
     const savedSessionId = localStorage.getItem('activeChatSessionId');
     if (savedSessionId) {
         liveChatSessionId = savedSessionId;
@@ -42,14 +52,12 @@ function triggerBotResponse(option) {
     const timeNow = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
     const optionsGroup = document.getElementById("initialOptions");
     if (optionsGroup) optionsGroup.remove();
-
     let userText = "";
     if (option === 'menu') userText = "Mau liat Menu Cireng yang paling laris!";
     if (option === 'stok') userText = "Cek stok cireng hari ini";
     if (option === 'lokasi') userText = "Lokasi Cabang A'paweh";
     if (option === 'mitra') userText = "Cara jadi Mitra A'paweh";
     appendChatBubble(userText, 'user', timeNow);
-
     setTimeout(() => {
         let botResponseHTML = "";
         if (option === 'menu') botResponseHTML = "Berikut adalah menu cireng terlaris kami yang pasti menggugah selera! Silakan cek di halaman beranda.";
@@ -61,12 +69,10 @@ function triggerBotResponse(option) {
     }, 600);
 }
 
-// PERUBAHAN: Tambah .caption & .charcoalGrey ke generated bubble
 function appendChatBubble(text, sender, time) {
     const chatBody = document.getElementById("chatbotBody");
     const row = document.createElement("div");
     row.className = `chatRow ${sender}`;
-
     let html = '';
     if (sender === 'bot') {
         html += `<img src="/assets/icon/cipa/chatbotChat.svg" alt="Cipa" class="botAvatar">`;
@@ -85,53 +91,68 @@ function appendBotResponseAndReset(responseText, timeNow) {
     scrollToBottom();
 }
 
-// PERUBAHAN: Tambah .caption ke generated buttons
 function handleConfirm(choice) {
     document.getElementById("chatConfirmPanel").style.display = "none";
     const timeNow = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    const chatBody = document.getElementById("chatbotBody");
+    const newOptions = document.createElement("div");
+    newOptions.className = "chatbotOptions";
 
     if (choice === 'ya') {
-        const chatBody = document.getElementById("chatbotBody");
-        const newOptions = document.createElement("div");
-        newOptions.className = "chatbotOptions";
         newOptions.id = "initialOptions";
-        newOptions.innerHTML = `
-            <button class="caption charcoalGrey" onclick="triggerBotResponse('menu')">Mau liat Menu Cireng yang paling laris!</button>
-            <button class="caption charcoalGrey" onclick="triggerBotResponse('stok')">Cek stok cireng hari ini</button>
-            <button class="caption charcoalGrey" onclick="triggerBotResponse('lokasi')">Lokasi Cabang A'paweh</button>
-            <button class="caption charcoalGrey" onclick="triggerBotResponse('mitra')">Cara jadi Mitra A'paweh</button>
-            <button class="caption highlight" onclick="initiateLiveChat()"><img class="imgCs" src="/assets/icon/cipa/cs.png" alt="CS"> Chat dengan Admin</button>
-        `;
+        newOptions.innerHTML = botOptionsHTML;
         chatBody.appendChild(newOptions);
         scrollToBottom();
     } else {
         appendChatBubble("Baik, terima kasih. Semoga harimu menyenangkan!", 'bot', timeNow);
+        // logic create new session
+        newOptions.innerHTML = `<button class="caption highlight" onclick="resetChatToHome()">Mulai Percakapan Baru</button>`;
+        chatBody.appendChild(newOptions);
+        scrollToBottom();
     }
+}
+
+// logic reset tampilan awal cipa
+function resetChatToHome() {
+    const timeNow = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    const chatBody = document.getElementById("chatbotBody");
+    document.getElementById("botDisclaimer").style.display = "flex";
+    chatBody.innerHTML = `
+        <div class="chatDate">Hari Ini</div>
+        <div class="chatRow bot">
+            <img src="/assets/icon/cipa/chatbotChat.svg" alt="Cipa" class="botAvatar">
+            <div class="chatBubble bot caption charcoalGrey">
+                Halow balow, selamat datang. Saya Cipa, asisten otomatis Cireng A'paweh yang siap membantu kamu. Apa yang bisa saya bantu?
+                <span class="chatTime" id="botIntroTime">${timeNow}</span>
+            </div>
+        </div>
+        <div class="chatbotOptions" id="initialOptions">
+            ${botOptionsHTML} </div>
+    `;
+    scrollToBottom();
 }
 
 function initiateLiveChat() {
     const chatBody = document.getElementById("chatbotBody");
     chatBody.innerHTML = '';
     document.getElementById("chatConfirmPanel").style.display = "none";
-
     const notice = document.createElement("div");
-    // Gunakan class dari global CSS
+    // konek global.css
     notice.className = "caption primaryBrandRed textCenter fw-semibold my-small";
     notice.innerText = "Anda Terhubung Admin";
     chatBody.appendChild(notice);
-
     fetch('/chat-api/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), 'Accept': 'application/json' }
     })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            liveChatSessionId = data.session_id;
-            localStorage.setItem('activeChatSessionId', liveChatSessionId);
-            enableChatUI();
-        }
-    });
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                liveChatSessionId = data.session_id;
+                localStorage.setItem('activeChatSessionId', liveChatSessionId);
+                enableChatUI();
+            }
+        });
 }
 
 function handleEnterKey(e) { if (e.key === 'Enter') sendUserLiveMessage(); }
@@ -140,13 +161,11 @@ function sendUserLiveMessage() {
     const chatInput = document.getElementById("chatInput");
     const messageText = chatInput.value.trim();
     const timeNow = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-
     if (messageText === "") return;
     appendChatBubble(messageText, 'user', timeNow);
     chatInput.value = "";
     resetCountdown();
     updateTimerUIPosition();
-
     fetch(`/chat-api/${liveChatSessionId}/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), 'Accept': 'application/json' },
@@ -156,7 +175,6 @@ function sendUserLiveMessage() {
 
 function fetchIncomingMessages() {
     if (!liveChatSessionId) return;
-
     fetch(`/chat-api/${liveChatSessionId}/messages?last_id=${lastAdminMessageId}&t=${new Date().getTime()}`)
         .then(res => res.json())
         .then(data => {
@@ -176,6 +194,12 @@ function fetchIncomingMessages() {
                 });
             }
         });
+}
+
+function customerEndChat() {
+    if (confirm("Apakah kamu yakin ingin mengakhiri obrolan dengan admin?")) {
+        endChatSession("Anda telah mengakhiri sesi obrolan.");
+    }
 }
 
 function startCountdown() {
@@ -214,46 +238,23 @@ function endChatSession(reason) {
     clearInterval(countdownTimer);
     clearInterval(liveChatIntervalCheck);
     const chatBody = document.getElementById("chatbotBody");
-
     document.getElementById("chatbotFooter").style.display = "none";
     document.getElementById("chatConfirmPanel").style.display = "none";
-
+    document.getElementById("btnEndLiveChat").style.display = "none";
+    document.getElementById("headerSpacer").style.display = "block";
     const notice = document.createElement("div");
-    // Gunakan class dari global CSS
+    // konek global.css
     notice.className = "caption primaryBrandRed textCenter fw-semibold my-small";
     notice.innerText = reason;
     chatBody.appendChild(notice);
     scrollToBottom();
-
     if (liveChatSessionId) {
         fetch(`/chat-api/${liveChatSessionId}/close`, { method: 'POST', headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') } });
     }
-
     localStorage.removeItem('activeChatSessionId');
     liveChatSessionId = null;
     lastAdminMessageId = 0;
-
-    // Reset view
     setTimeout(() => {
-        const timeNow = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-        document.getElementById("botDisclaimer").style.display = "flex"; // <-- TAMBAHKAN INI (Munculkan Disclaimer lagi)
-        chatBody.innerHTML = `
-            <div class="chatDate">Hari Ini</div>
-            <div class="chatRow bot">
-                <img src="/assets/icon/cipa/chatbotChat.svg" alt="Cipa" class="botAvatar">
-                <div class="chatBubble bot caption charcoalGrey">
-                    Halow balow, selamat datang. Saya Cipa, asisten otomatis Cireng A'paweh yang siap membantu kamu. Apa yang bisa saya bantu?
-                    <span class="chatTime" id="botIntroTime">${timeNow}</span>
-                </div>
-            </div>
-            <div class="chatbotOptions" id="initialOptions">
-                <button class="caption charcoalGrey" onclick="triggerBotResponse('menu')">Mau liat Menu Cireng yang paling laris!</button>
-                <button class="caption charcoalGrey" onclick="triggerBotResponse('stok')">Cek stok cireng hari ini</button>
-                <button class="caption charcoalGrey" onclick="triggerBotResponse('lokasi')">Lokasi Cabang A'paweh</button>
-                <button class="caption charcoalGrey" onclick="triggerBotResponse('mitra')">Cara jadi Mitra A'paweh</button>
-                <button class="caption highlight" onclick="initiateLiveChat()"><img class="imgCs" src="/assets/icon/cipa/cs.png" alt="CS"> Chat dengan Admin</button>
-            </div>
-        `;
-        scrollToBottom();
+        resetChatToHome();
     }, 3500);
 }
