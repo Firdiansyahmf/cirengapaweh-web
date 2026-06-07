@@ -33,6 +33,7 @@ Route::get('/', function () {
     $promos = Promo::query()
         ->with('products')
         ->where('is_active', true)
+        ->where('promo_type', '!=', 'kode')
         ->whereDate('start_date', '<=', now()->toDateString())
         ->whereDate('end_date', '>=', now()->toDateString())
         ->whereRaw('used_count < max_usage')
