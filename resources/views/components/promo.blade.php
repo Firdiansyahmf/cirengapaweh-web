@@ -59,20 +59,20 @@
                                 </article>
                             </div> <!-- end card contain -->
                         @endif
-                     @endforeach
+                    @endforeach
                 @empty
                     <div class="kosong">
                         <p class="bodyLg cleanWhite empty">Wah, belum ada promo spesial hari ini dari A'paweh</p>
                     </div>
-                 @endforelse
-                </div> <!-- end flexRow -->
+                @endforelse
+            </div> <!-- end flexRow -->
 
-            </div> <!-- end breakpoint -->
+        </div> <!-- end breakpoint -->
 
-        </div> <!-- end promo -->
-    </div> <!-- end promoContain -->
+    </div> <!-- end promo -->
+</div> <!-- end promoContain -->
 
-    <script>
+<script>
     document.addEventListener("DOMContentLoaded", () => {
         const slider = document.querySelector(".promo .flexRow");
         let isDown = false;
