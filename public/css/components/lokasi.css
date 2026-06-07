@@ -4,8 +4,45 @@
 /* end: lokasi section wrapper */
 
 /* start: base override global */
-.lokasi .breakpoint .flexRow { gap: var(--gap-medium); justify-content: center; align-items: center; padding-top: 0; padding-bottom: 0; }
+.lokasi .breakpoint .flexRow { gap: var(--gap-medium); justify-content: center; align-items: center; padding-top: 0; padding-bottom: 0; flex-wrap: wrap; display: grid; grid-template-columns: auto auto auto;}
 /* end: base override global */
+
+.locationThumbnailWrapper {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: var(--gap-medium) var(--gap-medium) 0px 0px;
+    overflow: hidden;
+    background-color: var(--fdn-grey-light-hover);
+    margin-bottom: 8px;
+}
+
+.locationThumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.locationHeader {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    text-align: left;
+    padding-left: var(--gap-small);
+    padding-right: var(--gap-small);;
+}
+
+.locationHeader .locationIcon {
+    width: 40px !important;
+    height: 40px !important;
+    flex-shrink: 0;
+}
+
+.locationHeader .flexCol {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
 
 .empty { opacity: 50%; }
 
@@ -19,7 +56,7 @@
 @media (max-width: 1024px) {
     .lokasi .breakpoint .flexRow { flex-wrap: wrap; }
     .lokasi .wrapBreakpoint { padding: var(--gap-medium) 0 0 0; }
-    .lokasi .cardM { max-width: 342px; }
+    .lokasi .cardLokasi { max-width: 342px; }
 }
 /* end: responsive tablet */
 

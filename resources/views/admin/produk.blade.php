@@ -23,7 +23,7 @@
         </div>
 
         <div class="tableWrapper">
-            <table class="productTable" border="1">
+            <table class="productTable">
                 <thead>
                     <tr>
                         <th>Foto</th>

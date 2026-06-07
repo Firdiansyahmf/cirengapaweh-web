@@ -212,10 +212,10 @@ body { font-family: var(--font-body); }
 
 /* start: desktop animations */
 @media(min-width: 1024px) {
-    .hero #maskot, a, a.btnPrimary, .btnSearch, .btnPlay, .btnPlayWrap, .btnText, .btnAudio, .cardContain button, .cardC img, .cardM, .cardM button, .groupIMG { transition: transform 0.2s ease; }
+    .hero #maskot, a, a.btnPrimary, .btnSearch, .btnPlay, .btnPlayWrap, .btnText, .btnAudio, .cardContain button, .cardC img, .cardM, .cardM button, .groupIMG, .cardLokasi { transition: transform 0.2s ease; }
     .btnPlayWrap { cursor: pointer; }
     .btnPlayWrap:hover .btnText { color: var(--primary-brand-red); }
-    button:hover, .btnPlayWrap:hover .btnPlay, .btnPlayWrap:hover .btnText, .btnAudio:hover, .btnPrimary:hover, a.btnPrimary:hover, .btnSearch:hover, .cardContain:hover button, .cardContain:hover img, .cardM:hover, .cardM:hover button, .groupIMG:hover { transform: scale(1.05); }
+    button:hover, .btnPlayWrap:hover .btnPlay, .btnPlayWrap:hover .btnText, .btnAudio:hover, .btnPrimary:hover, a.btnPrimary:hover, .btnSearch:hover, .cardContain:hover button, .cardContain:hover img, .cardM:hover, .cardM:hover button, .groupIMG:hover, .cardLokasi:hover { transform: scale(1.05); }
     #maskot:hover { transform: rotate(-8deg); }
     .phoneContain:hover { filter: brightness(1.05); }
 }
@@ -258,11 +258,19 @@ input:focus { outline: 2px solid var(--charcoal-grey); }
 .cardM .checkItem { display: flex; align-items: baseline; width: 100%; gap: var(--gap-micro); }
 .cardM .checkWrap .btnIcon { max-width: 18px; height: 18px; position: relative; top: 4.2px; }
 .cardM .btnPrimary { width: 100%; }
-.cardM .locationIcon { max-width: 56px; }
+.cardM .locationIcon { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; }
 .cardM .btnCardM { display: flex; gap: var(--gap-micro); align-items: center; text-decoration: none; }
 .cardM .btnCardM .bodyMain { font-weight: var(--fw-medium); }
 .cardM.main { background: var(--fdn-yellow-light); }
 .cardM.main .btnCardM .bodyMain { color: var(--charcoal-grey); }
+
+.cardLokasi { display: flex; flex-direction: column; gap: var(--gap-small); max-width: 250px; width: 100%; height: auto; aspect-ratio: 1/1; background: var(--clean-white); padding-bottom: var(--gap-medium); border-radius: var(--gap-medium); }
+.cardLokasi .btnCardM { display: flex; gap: var(--gap-micro); align-items: center; text-decoration: none; padding-left: var(--gap-small); padding-right: var(--gap-small);}
+.cardLokasi .btnCardM .bodyMain { font-weight: var(--fw-medium); }
+.cardLokasi.main { background: var(--fdn-yellow-light); }
+.cardLokasi.main .btnCardM .bodyMain { color: var(--charcoal-grey); }
+
+
 /* end: card */
 
 /* start: visibility */

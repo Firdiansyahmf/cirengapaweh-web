@@ -40,7 +40,7 @@ function confirmProsesPesanan() {
         return;
     }
 
-    fetch(`/admin/pemesanan/${currentOrderId}/process`, {
+    fetch(`/admin/pemesanan/${currentOrderId}/accept`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ function confirmProsesPesanan() {
     })
     .then(data => {
         if (data.success) {
-            showNotification('Pesanan berhasil diproses dan dikirim ke Biteship', 'success');
+            showNotification('Pesanan berhasil diterima dan diteruskan ke bagian pengiriman', 'success');
             setTimeout(() => {
                 location.reload();
             }, 1500);

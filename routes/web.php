@@ -13,15 +13,11 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PengirimanController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\PaymentController;
-// produk
+
 use App\Models\Product;
-// promo
 use App\Models\Promo;
-// order
 use App\Models\Order;
-// detail produk
 use Illuminate\Http\Request;
-// chatbot
 use App\Models\ChatSession;
 use App\Models\ChatMessage;
 
@@ -154,7 +150,7 @@ Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.sh
 // Tracking API
 Route::get('/api/tracking/{delivery}', [PengirimanController::class, 'showTracking'])->name('api.tracking.show');
 
-// Shipment webhook from Biteship
+// Shipment webhook
 Route::post('/webhooks/biteship', [PengirimanController::class, 'handleWebhook'])->name('biteship.webhook');
 
 // END : RUTE UTAMA
@@ -194,19 +190,10 @@ Route::prefix('admin')->group(function () {
         // Pemesanan Routes
         Route::get('/pemesanan', [PemesananController::class, 'index'])->name('pemesanan.index');
         Route::post('/pemesanan/{order}/process', [PemesananController::class, 'processShipment'])->name('pemesanan.processShipment');
+        Route::post('/pemesanan/{order}/accept', [PemesananController::class, 'acceptOrder'])->name('pemesanan.accept');
         Route::post('/pemesanan/{order}/cancel', [PemesananController::class, 'cancelOrder'])->name('pemesanan.cancel');
         Route::get('/pemesanan/status/{status}', [OrderController::class, 'getByStatus'])->name('pemesanan.status');
         Route::put('/pemesanan/{order}/status', [OrderController::class, 'updateStatus'])->name('pemesanan.updateStatus');
-
-        // Pengiriman Routes
-        Route::get('/pengiriman', [PengirimanController::class, 'index'])->name('pengiriman.index');
-        Route::get('/pengiriman/menunggu-pembayaran', [PengirimanController::class, 'awaitingPayment'])->name('pengiriman.awaitingPayment');
-        Route::post('/pengiriman/{order}/create-shipment', [PengirimanController::class, 'createShipment'])->name('pengiriman.createShipment');
-        Route::get('/pengiriman/{order}/couriers', [PengirimanController::class, 'getAvailableCouriers'])->name('pengiriman.couriers');
-        Route::post('/pengiriman/{order}/update-courier', [PengirimanController::class, 'updateCourier'])->name('pengiriman.updateCourier');
-        Route::get('/pengiriman/{delivery}/status', [PengirimanController::class, 'getStatus'])->name('pengiriman.status');
-        Route::post('/pengiriman/{order}/process', [PengirimanController::class, 'processShipment'])->name('pengiriman.process');
-
 
         // User Management Routes
 

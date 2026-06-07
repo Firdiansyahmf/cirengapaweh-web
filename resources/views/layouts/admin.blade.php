@@ -8,6 +8,8 @@
     <title>@yield('title', "Admin Dashboard - Cireng A'paweh")</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <link rel="icon" href="{{ asset('assets/img/logo/logoOfficial.svg') }}?v=1" type="image/x-icon" />
+
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin/style.css') }}">
     <link rel="stylesheet"

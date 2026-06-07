@@ -14,11 +14,16 @@
             <div class="flexRow">
                 @forelse ($locations as $location)
                     @if ($location->is_active && (stripos($location->name, 'Pusat') !== false))
-                        <div class="cardM shadow main">
-                            <img class="locationIcon" src="{{ asset('assets/icon/lokasiCMain.svg') }}" alt="Lokasi">
-                            <div class="flexCol">
-                                <h4 class="subH4">{{ $location->name }}</h4>
-                                <p class="bodyMain charcoalGrey">{{ $location->address }}</p>
+                        <div class="cardLokasi shadow main">
+                            <div class="locationThumbnailWrapper">
+                                <img class="locationThumbnail" src="{{ $location->image ? asset('storage/' . $location->image) : asset('assets/img/placeholder.jpg') }}" alt="{{ $location->name }}">
+                            </div>
+                            <div class="locationHeader">
+                                <img class="locationIcon" src="{{ asset('assets/icon/lokasiCMain.svg') }}" alt="Lokasi">
+                                <div class="flexCol">
+                                    <h4 class="subH4">{{ $location->name }}</h4>
+                                    <p class="bodyMain charcoalGrey">{{ $location->address }}</p>
+                                </div>
                             </div>
                             <a class="btnCardM" href={{ $location->link }} target="_blank" rel="noopener">
                                 <img class="btnIcon" src="{{ asset('assets/icon/tautanBlack.svg') }}" alt="Maps">
@@ -32,11 +37,16 @@
                 @endforelse
                 @forelse ($locations as $location)
                     @if ($location->is_active && (stripos($location->name, 'Pusat') === false))
-                        <div class="cardM shadow primaryBrandRed">
-                            <img class="locationIcon" src="{{ asset('assets/icon/lokasiC.svg') }}" alt="Lokasi">
-                            <div class="flexCol">
-                                <h4 class="subH4">{{ $location->name }}</h4>
-                                <p class="bodyMain charcoalGrey">{{ $location->address }}</p>
+                        <div class="cardLokasi shadow primaryBrandRed">
+                            <div class="locationThumbnailWrapper">
+                                <img class="locationThumbnail" src="{{ $location->image ? asset('storage/' . $location->image) : asset('assets/img/placeholder.jpg') }}" alt="{{ $location->name }}">
+                            </div>
+                            <div class="locationHeader">
+                                <img class="locationIcon" src="{{ asset('assets/icon/lokasiC.svg') }}" alt="Lokasi">
+                                <div class="flexCol">
+                                    <h4 class="subH4">{{ $location->name }}</h4>
+                                    <p class="bodyMain charcoalGrey">{{ $location->address }}</p>
+                                </div>
                             </div>
                             <a class="btnCardM primaryBrandRed" href={{ $location->link }} target="_blank" rel="noopener">
                                 <img class="btnIcon" src="{{ asset('assets/icon/tautanRed.svg') }}" alt="Maps">
