@@ -54,12 +54,71 @@ class PaymentController extends Controller
             "customer_email" => "nullable|email|max:100",
             "whatsapp" => 'required|string|regex:/^[0-9]+$/|min:8|max:15',
             "shipping_address" => "required|string|max:200",
-            /* "postal_code" => "required|string|max:5", */
+            "postal_code" => "required|string|regex:/^[0-9]{5}$/",
             "payment_method" => "required|string|in:qris,bca,bni,bri",
         ]);
 
         $subtotal = $price * $quantity;
-        $ongkir = 6000;
+        
+        $shippingService = app(\App\Services\ShippingService::class);
+        
+        $areaResult = $shippingService->searchArea($validated['postal_code']);
+        $isValidPostalCode = false;
+
+        if (isset($areaResult['areas']) && is_array($areaResult['areas'])) {
+            foreach ($areaResult['areas'] as $area) {
+                if (isset($area['postal_code']) && (int)$area['postal_code'] === (int)$validated['postal_code']) {
+                    $isValidPostalCode = true;
+                    break;
+                }
+            }
+            if (!$isValidPostalCode && count($areaResult['areas']) > 0) {
+                $isValidPostalCode = true;
+            }
+        }
+
+        if (!$isValidPostalCode) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Kode pos tidak valid atau tidak ditemukan di sistem Biteship.');
+        }
+
+        $rates = $shippingService->calculateRates(
+            $validated['postal_code'],
+            $productName,
+            $price,
+            $quantity
+        );
+
+        $ongkir = null;
+        if ($rates && isset($rates['pricing']) && is_array($rates['pricing'])) {
+            foreach ($rates['pricing'] as $pricing) {
+                $courierCode = strtolower($pricing['courier_code'] ?? '');
+                $serviceCode = strtolower($pricing['courier_service_code'] ?? $pricing['service_code'] ?? $pricing['service'] ?? '');
+                
+                if ($courierCode === 'jnt' && $serviceCode === 'ez') {
+                    $ongkir = $pricing['price'];
+                    break;
+                }
+            }
+
+            if (is_null($ongkir)) {
+                foreach ($rates['pricing'] as $pricing) {
+                    $courierCode = strtolower($pricing['courier_code'] ?? '');
+                    if ($courierCode === 'jnt') {
+                        $ongkir = $pricing['price'];
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (is_null($ongkir)) {
+            \Log::warning("Biteship rates calculation failed on checkout process. Using fallback flat rate.");
+            $ongkir = 12000;
+        }
+
         $admin = 1000;
         $totalAmount = $subtotal + $ongkir + $admin;
 
@@ -79,7 +138,7 @@ class PaymentController extends Controller
                 "subtotal_amount" => $subtotal,
                 "promo_id" => $promoId,
                 "shipping_cost" => $ongkir,
-                /* "postal_code" => $validated["postal_code"], */
+                "postal_code" => $validated["postal_code"],
                 "total_amount" => $totalAmount,
                 "status" => "unpaid",
             ]);
@@ -386,6 +445,8 @@ class PaymentController extends Controller
                 $newOrderStatus,
                 $notification,
             ) {
+                $oldStatus = $order->status;
+
                 $payment->update([
                     "status" => $newPaymentStatus,
                     "transaction_id" =>
@@ -396,6 +457,12 @@ class PaymentController extends Controller
                 $order->update([
                     "status" => $newOrderStatus,
                 ]);
+
+                if ($newOrderStatus === 'paid' && $oldStatus !== 'paid') {
+                    if ($order->promo_id) {
+                        $order->promo()->increment('used_count');
+                    }
+                }
             });
 
             return response()->json([

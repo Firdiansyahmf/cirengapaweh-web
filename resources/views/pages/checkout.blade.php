@@ -37,18 +37,17 @@
                                 <label class="bodyMain charcoalGrey">Email</label>
                                 <input type="email" name="customer_email" placeholder="contoh@email.com" class="bodyMain"/>
                             </div>
-                            <div class="inputAddress">
-                                <div class="inputGroup">
-                                    <label class="bodyMain charcoalGrey">Alamat Lengkap<span class="primaryBrandRed">*</span></label>
-                                    <div class="withLabel">
-                                        <input type="text" id="inputAddress" name="shipping_address" placeholder="Isian Alamat" required maxlength="200" class="bodyMain"/>
-                                        <span class="caption textRight" id="addressCount">0/200</span>
-                                    </div>
+                            <div class="inputGroup">
+                                <label class="bodyMain charcoalGrey">Alamat Lengkap<span class="primaryBrandRed">*</span></label>
+                                <div class="withLabel">
+                                    <input type="text" id="inputAddress" name="shipping_address" placeholder="Isian Alamat" required maxlength="200" class="bodyMain"/>
+                                    <span class="caption textRight" id="addressCount">0/200</span>
                                 </div>
-                                <div class="inputGroup inputPostal">
-                                    <label class="bodyMain charcoalGrey">Kode Pos<span class="primaryBrandRed">*</span></label>
-                                    <input type="text" id="inputPostal" name="postal_code" inputmode="numeric" pattern="[0-9]*" placeholder="Kode Pos" required maxlength="5" class="bodyMain"/>
-                                </div>
+                            </div>
+                            <div class="inputGroup inputPostal">
+                                <label class="bodyMain charcoalGrey">Kode Pos<span class="primaryBrandRed">*</span></label>
+                                <input type="text" id="inputPostal" name="postal_code" placeholder="Kode Pos / Cari Wilayah..." pattern="[0-9]{5}" title="Masukkan 5 digit kode pos yang valid" required class="bodyMain"/>
+                                <div id="postalDropdown" class="autocompleteDropdown" style="display: none"></div>
                             </div>
                             <div class="inputGroup">
                                 <label class="bodyMain charcoalGrey">Nama Penerima <span class="primaryBrandRed">*</span></label>
@@ -78,9 +77,9 @@
                         <div class="card"> {{-- start couponCard --}}
                             <span class="subH4 charcoalGrey">Kode Promo</span>
                             <div class="inputGroup inputPromo">
-                                @if ($promo)
-                                    <input type="text" name="promo" placeholder="Kode Promo" readonly value="{{ $promo->promo_code }}" class="bodyMain"/>
-                                    <button type="button" class="btnOutline">Gunakan</button>
+                                @if ($promo) 
+                                    <input type="text" name="promo" id="inputPromo" placeholder="Kode Promo" readonly value="{{ $promo->promo_code }}" class="bodyMain disabled"/>
+                                    <a type="button" class="btnOutline disabled">Terpakai</a>
                                 @else
                                     <input type="text" name="promo" placeholder="Kode Promo" class="bodyMain"/>
                                     <button type="button" class="btnOutline">Gunakan</button>
@@ -109,7 +108,7 @@
                                             </div>
                                             <div class="flexRow">
                                                 <span class="caption">Total Ongkos Kirim</span>
-                                                <span class="bodyMain">Rp6.000</span>
+                                                <span class="bodyMain" id="shippingCost">Rp-</span>
                                             </div>
                                             <div class="flexRow">
                                                 <span class="caption">Biaya Admin</span>
@@ -122,9 +121,13 @@
                             <div class="payment">
                                 <div class="flexRow">
                                     <span class="bodyMain charcoalGrey"><b>Total Tagihan</b></span>
-                                    <strong class="bodyMain charcoalGrey"><b>Rp{{ number_format(($price * $quantity) + 6000 + 1000, 0, ',', '.') }}</b></strong>
+                                    <strong class="bodyMain charcoalGrey">
+                                        <b id="totalBill" data-subtotal="{{ $price * $quantity }}" data-admin="1000">
+                                            Rp-
+                                        </b>
+                                    </strong>
                                 </div>
-                                <button type="submit" id="payNow" class="btnPrimary">Bayar Sekarang</button>
+                                <button type="submit" id="payNow" class="btnPrimary" disabled>Bayar Sekarang</button>
                                 <span class="caption">Pembayaran akan diproses setelah kamu menekan tombol di atas.</span>
                             </div>
                         </div> {{-- end paymentCard --}}

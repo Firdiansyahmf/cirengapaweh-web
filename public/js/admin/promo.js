@@ -18,6 +18,9 @@ function openPromoModal(id = null) {
     } else {
         modalTitle.textContent = "Tambah Promo";
         document.getElementById("promoStatus").value = "";
+        document.getElementById("promoDiscount").value = '';
+        document.getElementById("promoMaxUsage").value = '';
+
         promoModal.classList.add("show");
     }
 }

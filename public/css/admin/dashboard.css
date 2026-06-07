@@ -91,6 +91,13 @@
     box-shadow: var(--shadow-lighter);
 }
 
+.chartSection {
+    display: flex;
+    flex-direction: column;
+    align-content: end;
+    justify-content: space-between;
+}
+
 .chartTitle, .activityTitle {
     font-family: var(--font-body);
     font-size: var(--fs-body-main);
