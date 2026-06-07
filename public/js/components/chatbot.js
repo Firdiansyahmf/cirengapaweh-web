@@ -4,6 +4,15 @@ let countdownTimer = null;
 let timeLeft = 300;
 let lastAdminMessageId = 0;
 
+// opsi jawaban cipa
+const botOptionsHTML = `
+    <button class="caption charcoalGrey" onclick="triggerBotResponse('menu')">Mau liat Menu Cireng yang paling laris!</button>
+    <button class="caption charcoalGrey" onclick="triggerBotResponse('stok')">Cek stok cireng hari ini</button>
+    <button class="caption charcoalGrey" onclick="triggerBotResponse('lokasi')">Lokasi Cabang A'paweh</button>
+    <button class="caption charcoalGrey" onclick="triggerBotResponse('mitra')">Cara jadi Mitra A'paweh</button>
+    <button class="caption highlight" onclick="initiateLiveChat()"><img class="imgCs" src="/assets/icon/cipa/cs.png" alt="CS"> Chat dengan Admin</button>
+`;
+
 function enableChatUI() {
     document.getElementById("chatbotFooter").style.display = "flex";
     document.getElementById("botDisclaimer").style.display = "none";
@@ -17,7 +26,6 @@ function enableChatUI() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const timeNow = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
     const savedSessionId = localStorage.getItem('activeChatSessionId');
     if (savedSessionId) {
         liveChatSessionId = savedSessionId;
@@ -86,35 +94,25 @@ function appendBotResponseAndReset(responseText, timeNow) {
 function handleConfirm(choice) {
     document.getElementById("chatConfirmPanel").style.display = "none";
     const timeNow = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    const chatBody = document.getElementById("chatbotBody");
+    const newOptions = document.createElement("div");
+    newOptions.className = "chatbotOptions";
+
     if (choice === 'ya') {
-        const chatBody = document.getElementById("chatbotBody");
-        const newOptions = document.createElement("div");
-        newOptions.className = "chatbotOptions";
         newOptions.id = "initialOptions";
-        newOptions.innerHTML = `
-            <button class="caption charcoalGrey" onclick="triggerBotResponse('menu')">Mau liat Menu Cireng yang paling laris!</button>
-            <button class="caption charcoalGrey" onclick="triggerBotResponse('stok')">Cek stok cireng hari ini</button>
-            <button class="caption charcoalGrey" onclick="triggerBotResponse('lokasi')">Lokasi Cabang A'paweh</button>
-            <button class="caption charcoalGrey" onclick="triggerBotResponse('mitra')">Cara jadi Mitra A'paweh</button>
-            <button class="caption highlight" onclick="initiateLiveChat()"><img class="imgCs" src="/assets/icon/cipa/cs.png" alt="CS"> Chat dengan Admin</button>
-        `;
+        newOptions.innerHTML = botOptionsHTML;
         chatBody.appendChild(newOptions);
         scrollToBottom();
     } else {
         appendChatBubble("Baik, terima kasih. Semoga harimu menyenangkan!", 'bot', timeNow);
         // logic create new session
-        const chatBody = document.getElementById("chatbotBody");
-        const newOptions = document.createElement("div");
-        newOptions.className = "chatbotOptions";
-        newOptions.innerHTML = `
-            <button class="caption highlight" onclick="resetChatToHome()">Mulai Percakapan Baru</button>
-        `;
+        newOptions.innerHTML = `<button class="caption highlight" onclick="resetChatToHome()">Mulai Percakapan Baru</button>`;
         chatBody.appendChild(newOptions);
         scrollToBottom();
     }
 }
 
-// logicreset tampilan awal cipaa
+// logic reset tampilan awal cipa
 function resetChatToHome() {
     const timeNow = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
     const chatBody = document.getElementById("chatbotBody");
@@ -129,12 +127,7 @@ function resetChatToHome() {
             </div>
         </div>
         <div class="chatbotOptions" id="initialOptions">
-            <button class="caption charcoalGrey" onclick="triggerBotResponse('menu')">Mau liat Menu Cireng yang paling laris!</button>
-            <button class="caption charcoalGrey" onclick="triggerBotResponse('stok')">Cek stok cireng hari ini</button>
-            <button class="caption charcoalGrey" onclick="triggerBotResponse('lokasi')">Lokasi Cabang A'paweh</button>
-            <button class="caption charcoalGrey" onclick="triggerBotResponse('mitra')">Cara jadi Mitra A'paweh</button>
-            <button class="caption highlight" onclick="initiateLiveChat()"><img class="imgCs" src="/assets/icon/cipa/cs.png" alt="CS"> Chat dengan Admin</button>
-        </div>
+            ${botOptionsHTML} </div>
     `;
     scrollToBottom();
 }
@@ -148,7 +141,6 @@ function initiateLiveChat() {
     notice.className = "caption primaryBrandRed textCenter fw-semibold my-small";
     notice.innerText = "Anda Terhubung Admin";
     chatBody.appendChild(notice);
-
     fetch('/chat-api/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), 'Accept': 'application/json' }
@@ -169,13 +161,11 @@ function sendUserLiveMessage() {
     const chatInput = document.getElementById("chatInput");
     const messageText = chatInput.value.trim();
     const timeNow = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-
     if (messageText === "") return;
     appendChatBubble(messageText, 'user', timeNow);
     chatInput.value = "";
     resetCountdown();
     updateTimerUIPosition();
-
     fetch(`/chat-api/${liveChatSessionId}/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), 'Accept': 'application/json' },
@@ -248,19 +238,16 @@ function endChatSession(reason) {
     clearInterval(countdownTimer);
     clearInterval(liveChatIntervalCheck);
     const chatBody = document.getElementById("chatbotBody");
-
     document.getElementById("chatbotFooter").style.display = "none";
     document.getElementById("chatConfirmPanel").style.display = "none";
     document.getElementById("btnEndLiveChat").style.display = "none";
     document.getElementById("headerSpacer").style.display = "block";
     const notice = document.createElement("div");
-
     // konek global.css
     notice.className = "caption primaryBrandRed textCenter fw-semibold my-small";
     notice.innerText = reason;
     chatBody.appendChild(notice);
     scrollToBottom();
-
     if (liveChatSessionId) {
         fetch(`/chat-api/${liveChatSessionId}/close`, { method: 'POST', headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') } });
     }
