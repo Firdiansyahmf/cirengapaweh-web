@@ -78,8 +78,13 @@
                         <div class="card"> {{-- start couponCard --}}
                             <span class="subH4 charcoalGrey">Kode Promo</span>
                             <div class="inputGroup inputPromo">
-                                <input type="text" name="promo" placeholder="Kode Promo" class="bodyMain"/>
-                                <button type="button" class="btnOutline">Gunakan</button>
+                                @if ($promo)
+                                    <input type="text" name="promo" placeholder="Kode Promo" readonly value="{{ $promo->promo_code }}" class="bodyMain"/>
+                                    <button type="button" class="btnOutline">Gunakan</button>
+                                @else
+                                    <input type="text" name="promo" placeholder="Kode Promo" class="bodyMain"/>
+                                    <button type="button" class="btnOutline">Gunakan</button>
+                                @endif
                             </div>
                         </div> {{-- end couponCard --}}
                         <div class="card paymentCard"> {{-- start paymentCard --}}

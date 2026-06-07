@@ -62,6 +62,10 @@
                             <input type="hidden" name="product_image" value="{{ $product->image }}">
                             <input type="hidden" name="price" id="rawPrice" value="{{ $finalPrice }}">
 
+                            @if ($activePromo)
+                                <input type="hidden" name="promo_id" value="{{ $activePromo->id }}">
+                            @endif
+
                             <div class="flexCol">
                                 <div class="quantityInput">
                                     <button type="button" id="btnMinus"><img src="{{ asset('assets/icon/minus.svg') }}"

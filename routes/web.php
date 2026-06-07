@@ -58,21 +58,35 @@ Route::get("/tentang-kami", function () {
 // detail produk
 Route::get('/produk', function (Request $request) {
     $id = $request->query('id');
+    $promoId = $request->query('promo_id');
+    
     if (!$id) {
         return redirect('/');
     }
 
     $product = Product::findOrFail($id);
-    $activePromo = Promo::whereHas('products', function ($query) use ($id) {
+    $activePromo = null;
+    if ($promoId) {
+        $activePromo = Promo::where('id', $promoId)
+            ->where('is_active', true)
+            ->whereDate('start_date', '<=', now()->toDateString())
+            ->whereDate('end_date', '>=', now()->toDateString())
+            ->whereRaw('used_count < max_usage')
+            ->first();
+    }
 
-        $query->where('products.id', $id);
-    })
-        ->where('is_active', true)
-        ->whereDate('start_date', '<=', now()->toDateString())
-        ->whereDate('end_date', '>=', now()->toDateString())
-        ->whereRaw('used_count < max_usage')
-        ->orderBy('created_at', 'desc')
-        ->first();
+    if (!$activePromo) {
+        $activePromo = Promo::whereHas('products', function ($query) use ($id) {
+            $query->where('products.id', $id);
+        })
+            ->where('is_active', true)
+            ->whereDate('start_date', '<=', now()->toDateString())
+            ->whereDate('end_date', '>=', now()->toDateString())
+            ->whereRaw('used_count < max_usage')
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
+    
     $finalPrice = $product->price;
     if ($activePromo) {
         $discountAmount = ($product->price * $activePromo->discount_percentage) / 100;
