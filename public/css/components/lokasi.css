@@ -1,6 +1,6 @@
 /* start: lokasi section wrapper */
 .lokasi { background: var(--primary-brand-red); align-items: center; }
-.lokasi .wrapBreakpoint { width: 100%; align-items: center; background: var(--clean-white); border-radius: 130em 130em 0 0 / 120% 120% 0 0; }
+.lokasi .wrapBreakpoint { width: 100%; align-items: center; background: var(--clean-white); border-radius: 130em 130em 0 0 / 120% 120% 0 0; padding-inline: var(--gap-small); }
 /* end: lokasi section wrapper */
 
 /* start: base override global */
@@ -24,7 +24,7 @@
 
 /* start: responsive mobile */
 @media (max-width: 768px) {
-    .lokasi .breakpoint { border-radius: 190em 190em 0 0 / 50% 50% 0 0; }
+    .lokasi .breakpoint { border-radius: 20vh 20vh 0 0 / 40% 40% 0 0; }
     .lokasi .wrapBreakpoint { padding: 0; }
 }
 /* end: responsive mobile */

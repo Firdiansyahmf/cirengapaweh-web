@@ -11,24 +11,24 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Total stats
+        // stats
         $totalProducts = Product::count();
         $totalLocations = PartnerLocation::count();
 
-        // Count only truly active promos (not draft, not expired)
+        // Promo
         $activePromos = Promo::where('is_active', true)
             ->where('start_date', '<=', now()->toDateString())
             ->where('end_date', '>=', now()->toDateString())
             ->whereRaw('used_count < max_usage')
             ->count();
 
-        // Product categories with count
+        // Product categories
         $productCategories = Product::select('category', DB::raw('count(*) as total'))
             ->groupBy('category')
             ->orderByDesc('total')
             ->get();
 
-        // Recent activities (latest product created)
+        // Recent
         $recentActivities = Product::latest()
             ->take(5)
             ->get()
@@ -39,7 +39,7 @@ class DashboardController extends Controller
                 ];
             });
 
-        // Active promos with details
+        // detail promo
         $activePromosList = Promo::where('is_active', true)
             ->where('start_date', '<=', now()->toDateString())
             ->where('end_date', '>=', now()->toDateString())

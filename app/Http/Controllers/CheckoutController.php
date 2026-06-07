@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\PaymentController;
+use App\Models\Promo;
+use App\Models\Product;
+
 class CheckoutController extends Controller
 {
     public function prepare(Request $request)
@@ -35,10 +39,10 @@ class CheckoutController extends Controller
         $total = $price * $quantity;
 
         $productId = session('checkout_product_id');
-        $productModel = $productId ? \App\Models\Product::find($productId) : null;
+        $productModel = $productId ? Product::find($productId) : null;
 
         $promoId = session('checkout_promo_id');
-        $promo = $promoId ? \App\Models\Promo::find($promoId) : null;
+        $promo = $promoId ? Promo::find($promoId) : null;
 
         return view(
             'pages.checkout',
@@ -48,6 +52,6 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
-        return app(\App\Http\Controllers\PaymentController::class)->processPayment($request);
+        return app(PaymentController::class)->processPayment($request);
     }
 }

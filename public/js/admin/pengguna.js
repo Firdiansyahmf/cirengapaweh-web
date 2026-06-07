@@ -27,7 +27,6 @@ function openUserModal(id = null) {
         modalTitle.textContent = "Edit Pengguna";
         loadUserData(id);
         
-        // Hide add password section, show edit password section
         document.getElementById("addPasswordSection").style.display = "none";
         document.getElementById("editPasswordSection").style.display = "block";
 
@@ -36,7 +35,6 @@ function openUserModal(id = null) {
         document.getElementById("userPasswordEdit").disabled = false;
         document.getElementById("userPasswordEditConfirm").disabled = false;
         
-        // If editing self, disable role and is_active
         if (isEditingSelf) {
             document.getElementById("userRole").disabled = true;
             document.getElementById("userIsActive").disabled = true;
@@ -51,11 +49,9 @@ function openUserModal(id = null) {
 
         document.getElementById("userIsActive").checked = true;
         
-        // Show add password section, hide edit password section
         document.getElementById("addPasswordSection").style.display = "block";
         document.getElementById("editPasswordSection").style.display = "none";
         
-        // Clear and require both password fields
         document.getElementById("userPassword").value = "";
         document.getElementById("userPasswordConfirm").value = "";
 
@@ -83,7 +79,6 @@ function closePasswordVerifyModal() {
     passwordVerifyForm.reset();
 }
 
-// Close modals when clicking outside
 userModal.addEventListener("mousedown", function (event) {
     if (event.target === userModal) {
         closeUserModal();
@@ -96,7 +91,6 @@ passwordVerifyModal.addEventListener("mousedown", function (event) {
     }
 });
 
-// Add button to trigger modal
 document.getElementById("btnAddUserModal").addEventListener("click", function () {
     openUserModal();
 });
@@ -145,7 +139,6 @@ function closeErrorModal() {
     document.getElementById("errorModal").classList.remove("active");
 }
 
-// Close modals when clicking outside
 ["confirmSaveModal", "confirmUpdateModal", "confirmDeleteModal", "successModal", "errorModal"].forEach(modalId => {
     const modal = document.getElementById(modalId);
     modal?.addEventListener("click", function (event) {
@@ -260,7 +253,6 @@ userForm.addEventListener("submit", async function (e) {
             return;
         }
     } else {
-        // Edit mode
         if (!isEditingSelf) {
             const role = document.getElementById("userRole").value;
             if (!role) {
@@ -287,7 +279,6 @@ userForm.addEventListener("submit", async function (e) {
 
     pendingFormData = new FormData(this);
     
-    // Ensure we handle password fields correctly in FormData
     if (isEditMode) {
         const password = document.getElementById("userPasswordEdit").value;
         if (!password) {
@@ -343,11 +334,9 @@ passwordVerifyForm.addEventListener("submit", async function (e) {
             return;
         }
 
-        // Password verified - store flag and proceed to edit form
         verifiedPassword = password;
         closePasswordVerifyModal();
         
-        // Load the user data into the form
         openUserModal(targetUserId);
 
     } catch (error) {
@@ -401,7 +390,6 @@ async function submitUserForm(formData, isEdit) {
             closeUserModal();
             showSuccessModal(data.message);
         } else if (response.status === 422 && data.errors) {
-            // Validation errors
             let errorMessage = "Validasi gagal:\n";
             for (const [field, messages] of Object.entries(data.errors)) {
                 errorMessage += `- ${field}: ${messages[0]}\n`;
@@ -480,24 +468,20 @@ function editUser(userId) {
 
     currentEditingUserId = userId;
 
-    // If editing another superadmin, show password verification modal first
     if (isTargetSuperAdmin && !isEditingSelf) {
         document.getElementById("verifyPassword").value = "";
         passwordVerifyModal.classList.add("show");
         return;
     }
 
-    // For other users or self-edit, open edit modal directly
     openUserModal(userId);
 }
 
 function getCurrentUserId() {
-    // Get from the page - you may need to add a hidden input with current user ID to the blade template
     const currentUserIdElement = document.getElementById("currentUserId");
     return currentUserIdElement ? parseInt(currentUserIdElement.value) : null;
 }
 
-//  SEARCH FUNCTIONALITY 
 document.getElementById("searchInput").addEventListener("keyup", function (e) {
     const searchTerm = e.target.value.toLowerCase();
     const rows = document.querySelectorAll("#userTableBody tr");

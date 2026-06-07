@@ -16,13 +16,13 @@ class PaymentController extends Controller
 {
     public function __construct()
     {
-        /* config midtrans */
+        // config midtrans
         \Midtrans\Config::$serverKey = env("MIDTRANS_SERVER_KEY");
         \Midtrans\Config::$isProduction = env("MIDTRANS_IS_PRODUCTION", false);
         \Midtrans\Config::$isSanitized = true;
         \Midtrans\Config::$is3ds = true;
 
-        /* disable verifikasi SSL saat di localhosts (HAPUS KALAU UDAH DEPLOT!!!) */
+        // disable verifikasi SSL saat di localhosts (HAPUS KALAU UDAH DEPLOT!!!)
         if (!env("MIDTRANS_IS_PRODUCTION", false)) {
             \Midtrans\Config::$curlOptions = [
                 CURLOPT_SSL_VERIFYPEER => false,

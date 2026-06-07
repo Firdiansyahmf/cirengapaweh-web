@@ -127,7 +127,7 @@
                                         </b>
                                     </strong>
                                 </div>
-                                <button type="submit" id="payNow" class="btnPrimary" disabled>Bayar Sekarang</button>
+                                <button type="submit" id="payNow" class="btnPrimary disabled" disabled>Bayar Sekarang</button>
                                 <span class="caption">Pembayaran akan diproses setelah kamu menekan tombol di atas.</span>
                             </div>
                         </div> {{-- end paymentCard --}}

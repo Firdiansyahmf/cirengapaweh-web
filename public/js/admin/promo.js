@@ -7,7 +7,6 @@ let pendingFormData = null;
 let pendingIsEdit = false;
 let pendingDeleteId = null;
 
-// MODAL FUNCTIONS
 function openPromoModal(id = null) {
     promoForm.reset();
     promoId.value = "";
@@ -33,12 +32,10 @@ function closePromoModal() {
 }
 
 
-// Add button to trigger modal
 document.getElementById("btnAddPromoModal").addEventListener("click", function () {
     openPromoModal();
 });
 
-// CONFIRM MODAL FUNCTIONS
 function openConfirmModal(type) {
     document.getElementById(`confirm${type.charAt(0).toUpperCase() + type.slice(1)}Modal`).classList.add("active");
 }
@@ -64,7 +61,6 @@ function confirmDeletePromo() {
     submitDeletePromo(pendingDeleteId);
 }
 
-// SUCCESS/ERROR MODALS
 function showSuccessModal(message) {
     document.getElementById("successMessage").textContent = message;
     document.getElementById("successModal").classList.add("active");
@@ -101,8 +97,6 @@ function clearErrors() {
     });
 }
 
-
-// FORM SUBMISSION
 promoForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
@@ -152,7 +146,6 @@ promoForm.addEventListener("submit", async function (e) {
         const startDate = new Date(start_date);
         const endDate = new Date(end_date);
 
-        // Validasi: end_date harus setelah start_date
         if (endDate <= startDate) {
             showErrorModal("Tanggal berakhir harus setelah tanggal mulai");
             return;
@@ -199,7 +192,7 @@ async function submitPromoForm(formData, isEdit) {
         max_usage: parseInt(formData.get("max_usage")),
         start_date: formData.get("start_date"),
         end_date: formData.get("end_date"),
-        is_active: formData.get("is_active") === "1", // Convert to boolean
+        is_active: formData.get("is_active") === "1",
         product_ids: JSON.parse(formData.get("product_ids")),
     };
 
@@ -253,12 +246,10 @@ async function submitPromoForm(formData, isEdit) {
     }
 }
 
-// LOAD PROMO DATA
 function loadPromoData(id) {
     fetch(`/admin/promo/${id}/edit`)
         .then(r => r.json())
         .then(promo => {
-            // Fill all form fields with promo data
             document.getElementById("promoTitle").value = promo.title || '';
             document.getElementById("promoCode").value = promo.promo_code || '';
             document.getElementById("promoDescription").value = promo.description || '';
@@ -266,15 +257,12 @@ function loadPromoData(id) {
             document.getElementById("promoDiscount").value = promo.discount_percentage || 0;
             document.getElementById("promoMaxUsage").value = promo.max_usage || 100;
 
-            // Format date properly for HTML5 date input (YYYY-MM-DD)
             let startDateValue = '';
             let endDateValue = '';
 
             if (promo.start_date) {
-                // If it's a string like "2024-01-15", use it directly
-                // If it's in another format, parse and format it
                 if (typeof promo.start_date === 'string') {
-                    startDateValue = promo.start_date.split(' ')[0]; // Get only date part if datetime
+                    startDateValue = promo.start_date.split(' ')[0];
                 } else {
                     startDateValue = promo.start_date;
                 }
@@ -282,7 +270,7 @@ function loadPromoData(id) {
 
             if (promo.end_date) {
                 if (typeof promo.end_date === 'string') {
-                    endDateValue = promo.end_date.split(' ')[0]; // Get only date part if datetime
+                    endDateValue = promo.end_date.split(' ')[0]; 
                 } else {
                     endDateValue = promo.end_date;
                 }
@@ -299,7 +287,6 @@ function loadPromoData(id) {
                 tomSelectInstance.setValue(productIds);
             }
 
-            // Show modal after all data is filled
             promoModal.classList.add("show");
         })
         .catch(error => {
@@ -312,7 +299,6 @@ function editPromo(id) {
     openPromoModal(id);
 }
 
-// DELETE PROMO
 async function deletePromo(id) {
     pendingDeleteId = id;
     openConfirmModal('delete');
@@ -355,7 +341,6 @@ async function submitDeletePromo(id) {
     }
 }
 
-// SEARCH FUNCTIONALITY
 document.getElementById("searchInput").addEventListener("keyup", function (e) {
     const searchTerm = e.target.value.toLowerCase();
     const rows = document.querySelectorAll("#promoTableBody tr");
@@ -366,7 +351,6 @@ document.getElementById("searchInput").addEventListener("keyup", function (e) {
     });
 });
 
-// Load products to Tom Select
 let tomSelectInstance = null;
 
 function loadProductsToSelect() {
@@ -401,11 +385,9 @@ function initTomSelect() {
     });
 }
 
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     loadProductsToSelect();
 
-    // Real-time validation untuk date inputs
     const startDateInput = document.getElementById("promoStartDate");
     const endDateInput = document.getElementById("promoEndDate");
 

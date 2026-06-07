@@ -26,5 +26,4 @@
     @include("components.ctaWA")
     @include("components.chatbot")
     @include("components.rollback")
-
 @endsection

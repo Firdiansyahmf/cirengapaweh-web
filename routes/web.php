@@ -14,15 +14,11 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PengirimanController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\PaymentController;
-// produk
+
 use App\Models\Product;
-// promo
 use App\Models\Promo;
-// order
 use App\Models\Order;
-// detail produk
 use Illuminate\Http\Request;
-// chatbot
 use App\Models\ChatSession;
 use App\Models\ChatMessage;
 

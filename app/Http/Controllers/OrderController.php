@@ -35,7 +35,6 @@ class OrderController extends Controller
                 'items.*.quantity' => 'required|integer|min:1',
             ]);
 
-            // Calculate totals
             $subtotal = 0;
             $items = [];
 
@@ -49,13 +48,11 @@ class OrderController extends Controller
                 ];
             }
 
-            $shippingCost = 10000; // Fixed shipping cost for now
+            $shippingCost = 10000;
             $totalAmount = $subtotal + $shippingCost;
 
-            // Generate unique invoice number
             $invoiceNumber = 'INV-' . date('Ymd') . '-' . str_pad(Order::count() + 1, 5, '0', STR_PAD_LEFT);
 
-            // Create order
             $order = Order::create([
                 'invoice_number' => $invoiceNumber,
                 'customer_name' => $validated['customer_name'],
@@ -69,16 +66,9 @@ class OrderController extends Controller
                 'status' => 'unpaid',
             ]);
 
-            // Create order items
             foreach ($items as $item) {
                 OrderItem::create(array_merge(['order_id' => $order->id], $item));
             }
-
-            // Create Midtrans snap token inline
-            \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-            \Midtrans\Config::$isProduction = env('MIDTRANS_IS_PRODUCTION', false);
-            \Midtrans\Config::$isSanitized = true;
-            \Midtrans\Config::$is3ds = true;
 
             if (!env('MIDTRANS_IS_PRODUCTION', false)) {
                 \Midtrans\Config::$curlOptions = [
@@ -99,13 +89,10 @@ class OrderController extends Controller
                 ],
             ];
 
-            $snapToken = \Midtrans\Snap::getSnapToken($params);
-
             return response()->json([
                 'success' => true,
                 'message' => 'Order created successfully',
                 'order' => $order,
-                'snap_token' => $snapToken,
             ], 201);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([

@@ -82,8 +82,6 @@ function confirmStatusChange() {
     }
 }
 
-
-//  SUCCESS/ERROR MODALS 
 function showSuccessModal(message) {
     document.getElementById("successMessage").textContent = message;
     document.getElementById("successModal").classList.add("active");
@@ -120,8 +118,6 @@ function clearErrors() {
     });
 }
 
-
-//  FILE INPUT PREVIEW 
 productImage.addEventListener("change", function (e) {
     const file = e.target.files[0];
     if (file) {
@@ -135,21 +131,18 @@ productImage.addEventListener("change", function (e) {
     }
 });
 
-//  FORM SUBMISSION 
 productForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     console.log("form submitted triggered!");
-    clearErrors(); // Clear previous errors before submission
+    clearErrors(); 
 
-        // Get all required fields
     const name = document.getElementById("productName").value;
     const description = document.getElementById("productDescription").value;
     const category = document.getElementById("productCategory").value;
     const price = document.getElementById("productPrice").value;
     const status = document.getElementById("productStatus").value;
 
-        // Client-side validation
     let hasError = false;
     if (!name) {
         showError("productName", "Nama produk wajib diisi");
@@ -173,14 +166,13 @@ productForm.addEventListener("submit", async function (e) {
     }
 
     if (hasError) {
-        return; // Stop submission if there are validation errors
+        return; 
     }
 
     console.log("Client-side validation passed, preparing form data...");
     pendingFormData = new FormData(this);
     pendingIsEdit = productId.value;
 
-    // Get status dropdown value and ensure it's sent as 0 or 1
     const statusValue = document.getElementById("productStatus").value;
     pendingFormData.set("is_active", statusValue);
 
@@ -232,7 +224,6 @@ async function submitProductForm(formData, isEdit) {
             closeProductModal();
             showSuccessModal(data.message);
         } else if (response.status === 422 && data.errors) {
-            // Validation errors
             let errorMessage = "Validasi gagal:\n";
             for (const [field, messages] of Object.entries(data.errors)) {
                 errorMessage += `- ${field}: ${messages[0]}\n`;
@@ -247,32 +238,27 @@ async function submitProductForm(formData, isEdit) {
     }
 }
 
-//  LOAD PRODUCT DATA 
 function loadProductData(id) {
     const row = document.querySelector(`tr[data-id="${id}"]`);
     if (row) {
         const cells = row.querySelectorAll("td");
 
-        // Text fields
         document.getElementById("productName").value = cells[1]?.textContent?.trim() || "";
         document.getElementById("productPrice").value =
         cells[2]?.textContent?.replace(/[^\d]/g, "") || 0;
         document.getElementById("productDescription").value =
             cells[3]?.dataset?.descriptionFull?.trim() || "";
 
-        // Category is rendered as badge text: "Fast Food" / "Frozen Food"
         const categoryText = cells[4]?.querySelector("span")?.textContent?.trim();
         document.getElementById("productCategory").value =
             (categoryText || "")
                 .toLowerCase()
                 .replace(/\s+/g, "_") || "fast_food";
 
-        // Status badge is rendered as "Aktif" / "Draft"
         const statusText = cells[5]?.textContent?.trim().toLowerCase();
         const statusValue = statusText === "aktif" ? "1" : "0";
         document.getElementById("productStatus").value = statusValue;
 
-        // Image preview: use existing thumbnail src from the table row
         const thumbImg = row.querySelector("td.fotoCell img.productThumb");
         imagePreview.innerHTML = "";
         imagePreview.classList.remove("show");
@@ -293,7 +279,6 @@ function editProduct(id) {
     openProductModal(id);
 }
 
-//  DELETE PRODUCT 
 async function deleteProduct(id) {
     pendingDeleteId = id;
     openConfirmModal('delete');
@@ -335,9 +320,6 @@ async function submitDeleteProduct(id) {
         showErrorModal("Terjadi kesalahan saat menghapus produk: " + error.message);
     }
 }
-
-//  STATUS DROPDOWN HANDLER 
-
 
 async function submitStatusChange(data) {
     try {
@@ -387,7 +369,6 @@ async function submitStatusChange(data) {
     }
 }
 
-//  SEARCH FUNCTIONALITY 
 document.getElementById("searchInput").addEventListener("keyup", function (e) {
     const searchTerm = e.target.value.toLowerCase();
     const rows = document.querySelectorAll("#productTableBody tr");
