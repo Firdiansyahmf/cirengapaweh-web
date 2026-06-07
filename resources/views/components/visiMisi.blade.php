@@ -2,7 +2,7 @@
     <div class="wrapBreakpoint flexCol">
         <div class="breakpoint">
 
-            <div class="sectionHeader cleanWhite">
+            <div class="sectionHeader cleanWhite animated">
                 <h1 class="displayH1">
                     <span class="accentCheeseYellow">Visi & Misi</span> Kami
                 </h1>
@@ -13,7 +13,7 @@
             <!-- Konten -->
             <div class="flexRow">
 
-                <div class="cardM shadow">
+                <div class="cardM shadow animated">
                     <img class="locationIcon" src="{{ asset('assets/icon/visiC.svg') }}" alt="Lokasi">
 
                     <div class="flexCol">
@@ -27,7 +27,7 @@
                     </div>
                 </div> <!-- end cardM -->
 
-                <div class="cardM shadow">
+                <div class="cardM shadow animated">
                     <img class="locationIcon" src="{{ asset('assets/icon/misiC.svg') }}" alt="Lokasi">
 
                     <div class="flexCol">

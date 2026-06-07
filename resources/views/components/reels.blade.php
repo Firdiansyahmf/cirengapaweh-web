@@ -10,7 +10,7 @@
                     keseruan di balik layar A'paweh.</h3>
             </div>
 
-            <div class="corouselWrap">
+            <div class="corouselWrap animated">
                 <button id="LButtonReels" class="btnSlider LButtonReels">
                     <img src="{{ asset('assets/icon/LButton.svg') }}" alt="Prev">
                 </button>

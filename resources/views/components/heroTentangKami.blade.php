@@ -2,14 +2,14 @@
     <div class="breakpoint charcoalGrey" id="heroTentangKami">
 
         <div class="box1">
-            <img src="{{  asset('assets/img/dekorasi/banner.svg') }}" alt="Banner A'paweh" fetchpriority="high">
+            <img class="animated" src="{{  asset('assets/img/dekorasi/banner.svg') }}" alt="Banner A'paweh" fetchpriority="high">
         </div>
 
         <div class="box2">
-            <div class="groupIMG">
+            <div class="groupIMG animated">
                 <img src="{{ asset('assets/img/logo/logoBesar.svg') }}" alt="Cireng A'paweh">
             </div>
-            <div class="flexCol">
+            <div class="flexCol animated">
                 <h1 class="displayH1 primaryBrandRed">
                     Tentang Kami
                 </h1>

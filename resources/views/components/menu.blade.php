@@ -15,13 +15,13 @@
                 </h3>
             </div>
 
-            <div class="menuCategory flexRow">
+            <div class="menuCategory flexRow animated">
                 <button class="btnPrimary" data-category="semua">Semua</button>
                 <button class="btnSoft" data-category="fastfood">Fastfood</button>
                 <button class="btnSoft" data-category="frozenfood">Frozen Food</button>
             </div>
 
-            <div class="corouselWrap">
+            <div class="corouselWrap animated">
                 <button id="LButton" class="btnSlider LButton">
                     <img src="{{ asset('assets/icon/LButton.svg') }}" alt="Prev">
                 </button>

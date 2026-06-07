@@ -1,8 +1,8 @@
-@extends("layouts.app")
+@extends('layouts.app')
 
-@section("title", "Beranda - Cireng A'paweh")
+@section('title', "Beranda - Cireng A'paweh")
 
-@push("styles")
+@push('styles')
     <link rel="stylesheet" href="{{ asset('css/page/index.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/hero.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/promo.css') }}">
@@ -15,15 +15,28 @@
     <link rel="stylesheet" href="{{ asset('css/components/rollback.css') }}">
 @endpush
 
-@section("content")
+@section('content')
 
-    @include("components.hero")
-    @include("components.promo")
-    @include("components.menu")
-    @include("components.reels")
-    @include("components.mitra")
-    @include("components.lokasi")
-    @include("components.ctaWA")
-    @include("components.chatbot")
-    @include("components.rollback")
+    @include('components.hero')
+    @include('components.promo')
+    @include('components.menu')
+    @include('components.reels')
+    @include('components.mitra')
+    @include('components.lokasi')
+    @include('components.ctaWA')
+    @include('components.chatbot')
+    @include('components.rollback')
 @endsection
+
+@push('scripts')
+    <script>
+        ScrollReveal().reveal('.sectionHeader, .cardM, .animated', {
+            delay: 200,
+            distance: '30px',
+            duration: 800,
+            easing: 'ease-out',
+            origin: 'bottom',
+            interval: 100
+        });
+    </script>
+@endpush

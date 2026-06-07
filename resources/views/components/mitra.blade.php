@@ -12,7 +12,7 @@
         <!-- Konten -->
         <div class="flexRow">
 
-            <div class="cardM shadow">
+            <div class="cardM shadow ">
                 <h3 class="subH3">
                     Mitra Standar
                 </h3>
@@ -70,7 +70,7 @@
                 </button>
             </div>
 
-            <div class="cardM premium shadow">
+            <div class="cardM premium shadow ">
                 <h3 class="subH3 accentCheeseYellow">
                     Mitra Penuh
                 </h3>

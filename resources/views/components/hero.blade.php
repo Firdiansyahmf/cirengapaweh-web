@@ -1,13 +1,13 @@
 <div  id="hero" class="hero flexCol">
     <div class="breakpoint charcoalGrey">
 
-        <div class="box1">
+        <div class="box1 animated">
             <img id="maskot" src="{{ asset('assets/img/dekorasi/maskot.png') }}" alt="Maskot Cireng A'paweh" fetchpriority="high" />
         </div>
 
         <div class="box2 flexCol">
 
-            <div class="displayHero">
+            <div class="displayHero animated">
                 Lapar? <br class="forMobile">
                 <span class="primaryBrandRed">Cireng A'paweh</span> Siap
                 <span class="primaryBrandRed">Manjain</span> Lidah
@@ -18,11 +18,11 @@
                     </div>
                 </span>
             </div>
-            <div class="bodyLg">
+            <div class="bodyLg animated">
                 Temukan sensasi juara dari Cireng Kuah Keju dan Seblak Spesial racikan kami. Proses cepat, rasa otentik, dan langsung siap santap!
             </div>
-            <div class="flexRow">
-                <div class="searchBarContain">
+            <div class="flexRow animated">
+                <div class="searchBarContain animated">
 
                     <input type="text" id="searchBar" class="searchBar" placeholder="Cari menu favoritmu di sini..." maxlength="56" autocomplete="off">
 
@@ -34,7 +34,7 @@
 
                 </div> <!-- end searchBarContain -->
             </div>
-            <div class="flexRow">
+            <div class="flexRow animated">
                 <button class="btnOutline">Lihat Menu</button>
                 <div class="btnPlayWrap">
                     <div class="flexRow">

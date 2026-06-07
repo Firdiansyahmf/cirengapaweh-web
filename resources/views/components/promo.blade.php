@@ -1,7 +1,7 @@
 <div class="promoContain flexCol">
     <div class="promo">
 
-        <img id="gedungSate" src="{{ asset('assets/img/dekorasi/gedungSate.svg') }}" alt="Gedung Sate">
+        <img id="gedungSate" class="animated" src="{{ asset('assets/img/dekorasi/gedungSate.svg') }}" alt="Gedung Sate">
 
         <div class="breakpoint" id="promo">
 
@@ -14,7 +14,7 @@
                 </h3>
             </div>
 
-            <div class="flexRow">
+            <div class="flexRow animated">
                 @forelse($promos as $promo)
                     @foreach ($promo->products as $product)
                         @if ($product->is_active)

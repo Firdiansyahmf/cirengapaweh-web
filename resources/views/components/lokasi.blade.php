@@ -2,7 +2,7 @@
     <div class="wrapBreakpoint flexCol">
         <div class="breakpoint">
 
-            <div class="sectionHeader">
+            <div class="sectionHeader animated">
                 <h1 class="displayH1">
                     Beda <span class="primaryBrandRed">Lokasi</span>, Satu <span class="accentCheeseYellow">Cita
                         Rasa!</span>
@@ -11,7 +11,7 @@
             </div>
 
             <!-- Konten -->
-            <div class="flexRow">
+            <div class="flexRow animated">
                 @forelse ($locations as $location)
                     @if ($location->is_active && stripos($location->name, 'Pusat') !== false)
                         <div class="cardM shadow main">
@@ -66,7 +66,7 @@
                 @endforelse
             </div> <!-- end konten -->
 
-            <a class="btnPrimary" href="/tentang-kami">Kenali Kami Lebih Dekat</a>
+            <a class="btnPrimary animated" href="/tentang-kami">Kenali Kami Lebih Dekat</a>
 
         </div> <!-- end breakpoint -->
     </div> <!-- end wrapBreakpoint -->

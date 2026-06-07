@@ -1,13 +1,13 @@
 <div class="ctaMedsos flexCol" id="ctaMedsos">
     <div class="breakpoint">
 
-        <div class="sectionHeader cleanWhite">
+        <div class="sectionHeader cleanWhite animated">
             <h1 class="displayH1">Yuk, <span class="accentCheeseYellow">Terhubung</span> dengan Kami!</h1>
             <h3 class="subH3"><i>Follow</i> dan pesan cireng kesukaan kamu</h3>
         </div>
 
         <!-- medsos -->
-        <div class="medsos flexRow cleanWhite">
+        <div class="medsos flexRow cleanWhite animated">
 
             <a href="https://www.instagram.com/cirengapawe/" class="cardM" id="instagram">
                 <img src="{{ asset('assets/icon/instagram.svg') }}" alt="Instagram">

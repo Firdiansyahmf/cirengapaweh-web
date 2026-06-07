@@ -9,7 +9,7 @@
 @section('content')
 
     <div class="detail flexRow">
-        <div class="breakpoint">
+        <div class="breakpoint animated">
             <a href="{{ url('/') }}" class="btnOutline kembali">Kembali</a> <!-- sama anaqi -->
             <div class="box1 flexRow">
                 <div class="productVisual">
@@ -94,6 +94,15 @@
 
 @push('scripts')
     <script>
+        ScrollReveal().reveal('.animated', {
+            delay: 200,
+            distance: '30px',
+            duration: 800,
+            easing: 'ease-out',
+            origin: 'bottom',
+            interval: 100
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             const qtyInput = document.getElementById('qtyInput');
             const btnMinus = document.getElementById('btnMinus');
