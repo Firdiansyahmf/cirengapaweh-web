@@ -133,6 +133,19 @@ class UserController extends Controller
 
             $user->update($updateData);
 
+            // If password changed or deactivated, cycle remember_token and invalidate sessions
+            if (isset($updateData['password']) || (isset($updateData['is_active']) && !$updateData['is_active'])) {
+                $user->remember_token = \Illuminate\Support\Str::random(60);
+                $user->save();
+
+                $query = \Illuminate\Support\Facades\DB::table('sessions')->where('user_id', $user->id);
+                if (auth()->id() === $user->id) {
+                    $currentSessionId = $request->session()->getId();
+                    $query->where('id', '!=', $currentSessionId);
+                }
+                $query->delete();
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Pengguna berhasil diperbarui'
@@ -202,7 +215,11 @@ class UserController extends Controller
                 ], 403);
             }
 
+            $userId = $user->id;
             $user->delete();
+
+            // Clean up all active sessions for this user ID
+            \Illuminate\Support\Facades\DB::table('sessions')->where('user_id', $userId)->delete();
 
             return response()->json([
                 'success' => true,
