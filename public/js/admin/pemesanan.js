@@ -1,7 +1,6 @@
 let currentOrderId = '';
 let currentActionType = '';
 
-// Open confirmation modal
 function openConfirmModal(actionType, orderId, invoiceNumber) {
     currentOrderId = orderId;
     currentActionType = actionType;
@@ -18,7 +17,6 @@ function openConfirmModal(actionType, orderId, invoiceNumber) {
     }
 }
 
-// Close confirmation modal
 function closeConfirmModal(actionType) {
     if (actionType === 'proses') {
         document.getElementById('confirmProsesPesananModal').classList.remove('active');
@@ -29,7 +27,6 @@ function closeConfirmModal(actionType) {
     }
 }
 
-// Confirm Proses Pesanan - Move from paid to shipping with Biteship
 function confirmProsesPesanan() {
     closeConfirmModal('proses');
     
@@ -71,7 +68,6 @@ function confirmProsesPesanan() {
     });
 }
 
-// Confirm Batalkan Pesanan - Cancel order
 function confirmBatalkanPesanan() {
     closeConfirmModal('batalkan');
     
@@ -113,7 +109,6 @@ function confirmBatalkanPesanan() {
     });
 }
 
-// Confirm Kirim Pesanan - Same as proses (move to shipping)
 function confirmKirimPesanan() {
     closeConfirmModal('kirim');
     
@@ -155,7 +150,6 @@ function confirmKirimPesanan() {
     });
 }
 
-// Show notification
 function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
     notification.style.cssText = `
@@ -180,9 +174,7 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
-// Invoice modal functions
 function openInvoiceModal(orderId, invoiceNumber) {
-    // Fetch order data
     fetch(`/orders/${orderId}`)
     .then(response => response.json())
     .then(data => {
@@ -200,7 +192,6 @@ function openInvoiceModal(orderId, invoiceNumber) {
 }
 
 function populateInvoiceModal(order) {
-    // Set basic info
     document.getElementById('invoiceOrderId').textContent = order.invoice_number;
     document.getElementById('invoiceOrderDate').textContent = new Date(order.created_at).toLocaleDateString('id-ID', {
         year: 'numeric',
@@ -210,12 +201,10 @@ function populateInvoiceModal(order) {
         minute: '2-digit'
     });
 
-    // Set customer info
     document.getElementById('invoiceCustomerName').textContent = order.customer_name;
     document.getElementById('invoiceCustomerPhone').textContent = order.customer_phone;
     document.getElementById('invoiceCustomerAddress').textContent = order.shipping_address;
 
-    // Set items
     const itemsHtml = order.items.map(item => `
         <tr style="border-bottom: 1px solid var(--fdn-grey-light-hover);">
             <td style="padding: 12px 0; font-size: var(--fs-caption); color: var(--charcoal-grey);">${item.product.name}</td>
@@ -225,12 +214,10 @@ function populateInvoiceModal(order) {
     `).join('');
     document.getElementById('invoiceItems').innerHTML = itemsHtml;
 
-    // Set amounts
     document.getElementById('invoiceSubtotal').textContent = `Rp ${order.subtotal_amount.toLocaleString('id-ID')}`;
     document.getElementById('invoiceShipping').textContent = `Rp ${order.shipping_cost.toLocaleString('id-ID')}`;
     document.getElementById('invoiceTotal').textContent = `Rp ${order.total_amount.toLocaleString('id-ID')}`;
 
-    // Set status
     const paymentStatus = order.payment?.status === 'settlement' ? 'Lunas' : 'Menunggu Pembayaran';
     const paymentClass = order.payment?.status === 'settlement' ? 'badgePaymentCompleted' : 'badgePaymentPending';
     document.getElementById('invoicePaymentStatus').innerHTML = `<span class="badge badgePaymentStatus ${paymentClass}">${paymentStatus}</span>`;
@@ -249,46 +236,37 @@ function closeInvoiceModal() {
     document.getElementById('invoiceDetailModal').classList.remove('active');
 }
 
-// Tab switching functionality
 document.querySelectorAll('.tabButton').forEach(button => {
     button.addEventListener('click', function() {
         const tabId = this.getAttribute('data-tab');
         
-        // Remove active class from all buttons and contents
         document.querySelectorAll('.tabButton').forEach(btn => btn.classList.remove('tabButton-active'));
         document.querySelectorAll('.tabContent').forEach(content => content.classList.remove('tabContent-active'));
         
-        // Add active class to clicked button and corresponding content
         this.classList.add('tabButton-active');
         const contentEl = document.getElementById(tabId);
         if (contentEl) {
             contentEl.classList.add('tabContent-active');
         }
 
-        // Save active tab to localStorage
         localStorage.setItem('activePemesananTab', tabId);
     });
 });
 
-// Restore tab state and run auto-polling on page load
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. Restore active tab from localStorage
     const savedTabId = localStorage.getItem('activePemesananTab');
     if (savedTabId) {
         const tabButton = document.querySelector(`.tabButton[data-tab="${savedTabId}"]`);
         const tabContent = document.getElementById(savedTabId);
         if (tabButton && tabContent) {
-            // Remove initial active classes
             document.querySelectorAll('.tabButton').forEach(btn => btn.classList.remove('tabButton-active'));
             document.querySelectorAll('.tabContent').forEach(content => content.classList.remove('tabContent-active'));
             
-            // Set saved active classes
             tabButton.classList.add('tabButton-active');
             tabContent.classList.add('tabContent-active');
         }
     }
 
-    // 2. Setup Auto-polling for active deliveries
     const activeDeliveries = [];
     document.querySelectorAll('#tab-sedang-dikirim tbody tr[data-delivery-id]').forEach(tr => {
         const deliveryId = tr.getAttribute('data-delivery-id');
@@ -334,11 +312,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     }, 1500);
                 }
             });
-        }, 30000); // Poll every 30 seconds
+        }, 30000); 
     }
 });
 
-// Close modals on overlay click
 document.querySelectorAll('.modalOverlay').forEach(overlay => {
     overlay.addEventListener('click', function(e) {
         if (e.target === this) {

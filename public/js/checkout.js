@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const form = document.getElementById("checkoutForm");
             if (form && form.checkValidity()) {
                 payBtn.disabled = true;
+                payBtn.classList.add('disabled');
                 payBtn.innerText = "Memproses...";
                 payBtn.style.opacity = "0.7";
                 form.submit();
@@ -106,6 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         if (payBtn) {
             payBtn.disabled = true;
+            payBtn.classList.add('disabled');
             refreshButtonState();
         }
 
@@ -150,6 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 if (payBtn) {
                     payBtn.disabled = false;
+                    payBtn.classList.remove('disabled');
                     refreshButtonState();
                 }
             } else {
@@ -180,6 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         if (payBtn) {
             payBtn.disabled = true;
+            payBtn.classList.add('disabled');
             refreshButtonState();
         }
     }
@@ -205,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const item = document.createElement("div");
             item.className = "autocompleteItem";
 
-            item.innerText = `${postalCode} - ${clearName}` /* 40272 - Bandung, Jawa Barat */
+            item.innerText = `${postalCode} - ${clearName}`
 
             item.addEventListener("click", function () {
                 postalInput.value = postalCode;

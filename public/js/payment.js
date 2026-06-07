@@ -7,7 +7,6 @@ function copyToClipboard(text) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    /* timer */
     const config = window.paymentConfig || {};
     let timeRemaining = Math.floor(config.timeRemaining || 0);
     const countdownElement = document.getElementById('countdownTimer');
@@ -65,7 +64,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     };
 
-    /* cek setiap 5 detik jika pembayaran sudah dilakukan atau belum */
     if (config.isPending && config.statusUrl) {
         const autoPollInterval = setInterval(function() {
             fetch(config.statusUrl)

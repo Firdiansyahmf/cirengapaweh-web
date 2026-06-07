@@ -261,6 +261,11 @@
     border-top: 1px solid rgba(38, 38, 38, 0.08);
 }
 
+.paymentImg {
+    height: auto;
+    width: 40px;
+}
+
 .checkout .summaryDetail {
     display: flex;
     flex-direction: column;
