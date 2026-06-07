@@ -27,7 +27,8 @@
                     <h2 class="displayH2 accentCheeseYellow">Jelajahi</h2>
 
                     <a class="caption" href="{{ Request::is('/') ? '#hero' : '/#hero' }}">Beranda</a>
-                    <a class="caption" href="{{ Request::is('/') ? '#menu' : '/#menu' }}">Daftar Menu</a>
+                    <a class="caption" href="{{ Request::is('/') ? '#promo' : '/#promo' }}">Promo</a>
+                    <a class="caption" href="{{ Request::is('/') ? '#menu' : '/#menu' }}">Menu</a>
                     <a class="caption" href="{{ Request::is('/') ? '#reels' : '/#reels' }}">Video</a>
                     <a class="caption" href="{{ Request::is('/') ? '#mitra' : '/#mitra' }}">Kemitraan</a>
                     <a class="caption" href="/tentang-kami">Tentang Kami</a>

@@ -6,10 +6,7 @@
             <h3 class="subH3">Jangan cuma ditahan! Yuk, langsung pesen Cireng A'paweh sekarang sebelum kehabisan.</h3>
         </div>
 
-        <button class="btnPrimary">
-            <img class="btnIcon" src="{{ asset('assets/icon/whatsApp.svg') }}" alt="WhatsApp">
-            Pesan di WhatsApp
-        </button>
+        <a class="btnPrimary" href="{{ Request::is('/') ? '#menu' : '/#menu' }}">Lihat Menu & Pesan</a>
 
     </div> <!-- end breakpoint -->
 </div> <!-- end ctaWA -->
