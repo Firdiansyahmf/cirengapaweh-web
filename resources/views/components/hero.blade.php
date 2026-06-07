@@ -18,21 +18,22 @@
                     </div>
                 </span>
             </div>
-
             <div class="bodyLg">
                 Temukan sensasi juara dari Cireng Kuah Keju dan Seblak Spesial racikan kami. Proses cepat, rasa otentik, dan langsung siap santap!
             </div>
-
             <div class="flexRow">
                 <div class="searchBarContain">
-                    <input type="text" id="searchBar" class="searchBar" placeholder="Cari menu favoritmu di sini..."
-                        maxlength="56">
-                    <div class="btnSearch">
+
+                    <input type="text" id="searchBar" class="searchBar" placeholder="Cari menu favoritmu di sini..." maxlength="56" autocomplete="off">
+
+                    <div class="btnSearch" id="btnSearchHero">
                         <img src="{{ asset('assets/icon/btnCari.svg') }}" alt="Cari">
                     </div>
-                </div>
-            </div>
 
+                    <div class="searchDropdown shadowLight" id="searchDropdown"></div>
+
+                </div> <!-- end searchBarContain -->
+            </div>
             <div class="flexRow">
                 <button class="btnOutline">Lihat Menu</button>
                 <div class="btnPlayWrap">
@@ -49,3 +50,5 @@
 
     </div> <!-- end breakpoint -->
 </div> <!-- end hero -->
+
+<script src="{{ asset('js/components/hero.js') }}"></script>
