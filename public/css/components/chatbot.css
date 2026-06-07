@@ -10,9 +10,12 @@
 .chatbotBox { position: fixed; bottom: calc(var(--gap-medium) + 112px); right: var(--gap-medium); width: 460px; height: 550px; background: var(--clean-white); border-radius: 24px; border: 1px solid rgba(242, 61, 61, 0.1); display: flex; flex-direction: column; overflow: hidden; z-index: 999; transform: translateY(20px); opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 .chatbotBox.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
 
+/* start: chatbot header */
 .chatbotHeader { background: var(--primary-brand-red); padding: var(--gap-small) var(--gap-medium); display: flex; align-items: center; justify-content: space-between; color: var(--clean-white); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-.chatbotHeader .btnCloseChat, .chatbotHeader .btnMore { background: none; border: none; color: var(--clean-white); cursor: pointer; font-size: 24px; font-weight: bold; }
+.chatbotHeader .btnCloseChat, .chatbotHeader .btnEndLiveChat { background: none; border: none; color: var(--clean-white); cursor: pointer; font-size: 24px; font-weight: bold; }
+.chatbotHeader .btnEndLiveChat { font-size: 14px; text-decoration: underline; }
 .chatbotHeader h3 { font-family: var(--font-display); font-size: 24px; letter-spacing: 1px; flex: 1; text-align: center; margin: 0; }
+/* end: chatbot header */
 
 .chatbotBody { flex: 1; padding: var(--gap-small); overflow-y: auto; display: flex; flex-direction: column; gap: var(--gap-small); scroll-behavior: smooth; position: relative; }
 .chatbotBody::-webkit-scrollbar { width: 6px; }
@@ -39,13 +42,13 @@ body .chatbotOptions .imgCs { aspect-ratio: 1/1; width: 18px; position: relative
 .chatTimerWrap { display: flex; align-items: center; gap: 6px; font-size: 11px; margin-top: 4px; align-self: flex-end; padding-right: 4px; }
 .chatTimerWrap img { width: 14px; opacity: 0.6; }
 
-.chatbotFooter { padding: 12px; border-top: 1px solid var(--fdn-grey-light); display: flex; align-items: center; gap: var(--gap-micro); }
+.chatbotFooter { padding: 12px; border-top: 1px solid var(--fdn-grey-light); display: flex; align-items: center; gap: var(--gap-micro); display: none; }
 .chatbotFooter input { flex: 1; height: 44px; border-radius: 100px; border: 1px solid var(--fdn-grey-normal); padding: 0 var(--gap-small); }
 .chatbotFooter input:disabled { background: var(--fdn-grey-light); cursor: not-allowed; opacity: 0.6; }
 .chatbotFooter .btnSendChat { width: 44px; height: 44px; border-radius: 100%; background: var(--accent-cheese-yellow); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s; }
 .chatbotFooter .btnSendChat:hover { transform: scale(1.05); filter: brightness(0.95); }
 
-.chatConfirmPanel { border-top: 1px solid var(--fdn-grey-light); padding: 16px; width: 100%; }
+.chatConfirmPanel { border-top: 1px solid var(--fdn-grey-light); padding: 16px; width: 100%; display: none; }
 .confirmQuestion { font-weight: 600; margin: 0 0 12px 0; }
 .confirmBtns { display: flex; gap: 8px; margin-bottom: 12px; }
 .confirmBtns button { padding: 6px 20px; border-radius: 100px; border: 1px solid var(--fdn-grey-normal); background: var(--clean-white); cursor: pointer; transition: 0.2s; }

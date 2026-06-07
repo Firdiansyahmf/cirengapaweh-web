@@ -6,11 +6,12 @@
     <div class="chatbotHeader">
         <button class="btnCloseChat" onclick="toggleChatbot()">✕</button>
         <h3>Cipa</h3>
+        <button class="btnEndLiveChat" id="btnEndLiveChat" onclick="customerEndChat()" style="display: none;">Akhiri</button>
+        <div id="headerSpacer" style="width: 24px;"></div>
     </div>
 
     <div class="chatbotBody" id="chatbotBody">
         <div class="chatDate">Hari Ini</div>
-
         <div class="chatRow bot">
             <img src="{{ asset('assets/icon/cipa/chatbotChat.svg') }}" alt="Cipa" class="botAvatar">
             <div class="chatBubble bot caption charcoalGrey">
@@ -32,7 +33,7 @@
         </div>
     </div>
 
-    <div class="chatConfirmPanel" id="chatConfirmPanel" style="display: none;">
+    <div class="chatConfirmPanel" id="chatConfirmPanel">
         <p class="confirmQuestion caption charcoalGrey">Apakah ingin melanjutkan obrolan?</p>
         <div class="confirmBtns">
             <button class="caption charcoalGrey" onclick="handleConfirm('ya')">Ya</button>
@@ -40,7 +41,7 @@
         </div>
     </div>
 
-    <div class="chatbotFooter" id="chatbotFooter" style="display: none;">
+    <div class="chatbotFooter" id="chatbotFooter">
         <input type="text" id="chatInput" placeholder="Ketik Pesan..." onkeypress="handleEnterKey(event)">
         <button class="btnSendChat" id="btnSendChat" onclick="sendUserLiveMessage()">
             <img id="btnBot" src="{{ asset('assets/icon/btnBot.svg') }}" alt="Send">
