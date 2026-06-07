@@ -1,12 +1,11 @@
 /* start: admin chat layout */
 .chatContainer {
     display: flex;
-    height: calc(100vh - 120px);
+    height: calc(100vh - 140px);
     background: var(--clean-white);
-    border-radius: 16px;
+    border-radius: var(--gap-small);
     box-shadow: var(--shadow-main);
     overflow: hidden;
-    margin-top: var(--gap-small);
     border: 1px solid var(--fdn-grey-light);
 }
 .chatSidebar {

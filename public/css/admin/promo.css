@@ -460,6 +460,13 @@ th.info {
     white-space: nowrap;
 }
 
+/* Tooltip in Form */
+.tooltipContainer {
+    position:relative;
+    display:inline-block;
+    margin-left: 6px;
+}
+
 .btnAddPromo:hover {
     background-color: var(--fdn-red-normal-hover);
     transform: translateY(-2px);

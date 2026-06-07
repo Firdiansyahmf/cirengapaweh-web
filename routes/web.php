@@ -44,6 +44,7 @@ Route::get('/', function () {
         ->get();
     return view('pages.index', compact('products', 'promos', 'locations'));
 });
+
 // tentang kami
 Route::get("/tentang-kami", function () {
     $locations = PartnerLocation::query()
@@ -52,6 +53,17 @@ Route::get("/tentang-kami", function () {
         ->get();
     return view("pages.tentangKami", compact('locations'));
 });
+
+// cari produk
+Route::get('/api/search-products', function (Request $request) {
+    $keyword = $request->keyword;
+    $products = Product::query()
+        ->where('name', 'like', "%{$keyword}%")
+        ->limit(5)
+        ->get();
+    return response()->json($products);
+});
+
 // detail produk
 Route::get('/produk', function (Request $request) {
     $id = $request->query('id');
@@ -77,6 +89,7 @@ Route::get('/produk', function (Request $request) {
     }
     return view('pages.produk', compact('product', 'activePromo', 'finalPrice'));
 });
+
 //checkout
 Route::get('/checkout', [CheckoutController::class, 'show']);
 Route::post('/checkout', [CheckoutController::class, 'prepare']);
@@ -86,10 +99,10 @@ Route::post('/payment', [CheckoutController::class, 'store'])->name('checkout.pr
 Route::get('/payment', function () {
     $midtransResponse = session('midtrans_response');
     $invoiceNumber = session('active_invoice');
-    
+
     // mengeluarkan user jika tidak punya memiliki session checkout
     if (!$midtransResponse || !$invoiceNumber) {
-        return redirect('/'); 
+        return redirect('/');
     }
 
     return view('pages.payment', compact('invoiceNumber', 'midtransResponse'));
@@ -97,7 +110,6 @@ Route::get('/payment', function () {
 
 // midtrans webhook
 Route::post('/payment/webhook', [\App\Http\Controllers\PaymentController::class, 'handleWebhook']);
-
 /* temp route buat preview halaman pembayaran berhasil */
 Route::get('/preview-paymentsuccess', function () {
     return view('pages.paymentSuccess');
@@ -235,9 +247,18 @@ Route::get('/chat-api/{sessionId}/messages', function (Request $request, $sessio
         'new_messages' => $newMessages
     ]);
 });
-// api close session
+/**
+ * Catch-all 404 handler (override Laravel default)
+ * Render page custom: resources/views/pages/page404.blade.php
+ */
+Route::any('/{any}', function () {
+    return response()->view('pages.page404', [], 404);
+})->where('any', '.*');
+
+/**
+ * api close session
+ */
 Route::post('/chat-api/{sessionId}/close', function ($sessionId) {
     ChatSession::query()->where('id', $sessionId)->update(['status' => 'closed']);
     return response()->json(['success' => true]);
 });
-// END RUTE ADMIN DASHBOARD (CMS)____________<

@@ -252,23 +252,42 @@ function loadProductData(id) {
     const row = document.querySelector(`tr[data-id="${id}"]`);
     if (row) {
         const cells = row.querySelectorAll("td");
-        document.getElementById("productName").value = cells[1].textContent;
+
+        // Text fields
+        document.getElementById("productName").value = cells[1]?.textContent?.trim() || "";
         document.getElementById("productPrice").value =
-            cells[2].textContent.replace(/[^\d]/g, "");
+            cells[2]?.textContent?.replace(/[^\d]/g, "") || 0;
         document.getElementById("productDescription").value =
-            cells[3].textContent;
-        document.getElementById("productCategory").value = cells[4]
-            .querySelector("span")?.textContent.toLowerCase().replace(/\s+/g, '_') || "fast_food";
-        
-        // Get status from dropdown in table
-        const statusDropdown = row.querySelector(".statusDropdown");
-        const statusValue = statusDropdown?.value === "aktif" ? "1" : "0";
+            cells[3]?.textContent?.trim() || "";
+
+        // Category is rendered as badge text: "Fast Food" / "Frozen Food"
+        const categoryText = cells[4]?.querySelector("span")?.textContent?.trim();
+        document.getElementById("productCategory").value =
+            (categoryText || "")
+                .toLowerCase()
+                .replace(/\s+/g, "_") || "fast_food";
+
+        // Status badge is rendered as "Aktif" / "Draft"
+        const statusText = cells[5]?.textContent?.trim().toLowerCase();
+        const statusValue = statusText === "aktif" ? "1" : "0";
         document.getElementById("productStatus").value = statusValue;
+
+        // Image preview: use existing thumbnail src from the table row
+        const thumbImg = row.querySelector("td.fotoCell img.productThumb");
+        imagePreview.innerHTML = "";
+        imagePreview.classList.remove("show");
+
+        if (thumbImg && thumbImg.getAttribute("src")) {
+            imagePreview.innerHTML = `<img src="${thumbImg.getAttribute("src")}" alt="Preview">`;
+            imagePreview.classList.add("show");
+        } else {
+            imagePreview.innerHTML = "";
+            imagePreview.classList.remove("show");
+        }
 
         productId.value = id;
         productForm.action = `/admin/produk/${id}`;
-    }
-}
+    }}
 
 function editProduct(id) {
     openProductModal(id);
